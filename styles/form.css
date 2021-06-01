@@ -1,0 +1,18 @@
+.form_main
+{
+    margin : 25px 0px;
+    padding : 20px;
+    background-color: var(--header-bg);
+    border : 2px solid var(--black-050);
+    box-shadow: 0 10px 12px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+}
+.form_heading
+{
+    /* font-family: var(--inter-text); */
+    font-size: 1.7rem;
+    word-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 0.010rem;
+    color : var(--black-750);
+    text-align: center;
+}
