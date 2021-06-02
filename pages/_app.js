@@ -1,8 +1,11 @@
 import Head from 'next/head';
-import Header from '../components/Header';
+import dynamic from 'next/dynamic';
 import '../styles/globals.css';
 import '../styles/header.css';
 import '../styles/form.css';
+
+// dynamic import
+const Header = dynamic(() => import('../components/Header'), { loading: () => <div>Loading...</div> })
 
 function MyApp({ Component, pageProps }) {
   return (
