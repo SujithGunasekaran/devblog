@@ -3,11 +3,15 @@ const next = require('next');
 const cors = require('cors');
 const config = require('./config');
 const passport = require('passport');
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
+const session = require('express-session');
 
 // graphql
 const { buildSchema } = require('graphql');
 const { graphqlHTTP } = require('express-graphql');
+
+// graphql types
+const { userTypes } = require('./graphql/types/userTypes');
 
 // grapql resolver
 const { sampleResolver } = require('./graphql/resolver/sample');
@@ -36,12 +40,24 @@ app.prepare().then(() => {
 
     // require('./middleware').initMiddleWare(server);
 
-    server.use(cookieSession({
-        maxAge: 24 * 60 * 60 * 1000,
-        keys: [SESSION_SECRET]
-    }));
+    // server.use(cookieSession({
+    //     maxAge: 24 * 60 * 60 * 1000,
+    //     keys: [SESSION_SECRET]
+    // }));
+
+    const sessionInfo = {
+        secret: SESSION_SECRET,
+        cookie: { maxAge: 2 * 60 * 60 * 1000 },
+        resave: false,
+        saveUninitialized: false,
+    };
+
+    server.use(session(sessionInfo))
+
+    // initialize passport
 
     server.use(passport.session());
+
 
     // passport authentication
 
@@ -51,19 +67,16 @@ app.prepare().then(() => {
         res.redirect('http://localhost:3000/');
     })
 
-    server.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
-
-    server.get('/github/callback', passport.authenticate('github', { failureRedirect: 'http://localhost:3000/login' }), (req, res) => {
-        res.redirect('http://localhost:3000/');
-    });
-
 
     // graphql server
 
     const schema = buildSchema(`
 
+        ${userTypes}
+
         type Query {
             hello : String
+            login : getUser
         }
 
     `);
@@ -72,10 +85,15 @@ app.prepare().then(() => {
         ...sampleResolver
     }
 
-    server.use('/graphql', graphqlHTTP({
-        schema,
-        rootValue: root,
-        graphiql: true
+    server.use('/graphql', graphqlHTTP((req, res, graphQLParams) => {
+        return {
+            schema,
+            rootValue: root,
+            graphiql: true,
+            context: {
+                user: req.user
+            }
+        }
     }));
 
     server.all('*', (req, res) => {
