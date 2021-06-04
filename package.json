@@ -5,6 +5,7 @@
   "scripts": {
     "client": "next dev",
     "server": "nodemon server/app.js",
+    "insertSampleData": "node server/sampleData",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -14,6 +15,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
     "connect-mongodb-session": "^2.4.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
