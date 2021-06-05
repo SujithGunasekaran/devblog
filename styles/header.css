@@ -44,7 +44,6 @@
 {
     padding : 8px 15px;
     border-radius: 6px;
-    margin-right: 15px;
     font-family: var(--inter-text);
     font-size: 1rem;
     letter-spacing: 0.010rem;
@@ -54,11 +53,15 @@
     transition: 0.4s all ease-in-out;
     text-decoration: none;
 }
+.header_auth_signin:hover
+{
+    color : var(--text-blue);
+}
 .header_auth_signin:focus
 {
     text-decoration: none;
 }
-.header_auth_create
+/* .header_auth_create
 {
     padding : 8px 15px;
     font-family: var(--inter-text);
@@ -78,9 +81,103 @@
 .header_auth_create:focus
 {
     color : var(--text-white);
+} */
+
+.header_auth_user
+{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.header_auth_user_info
+{
+    padding-right: 10px;
+    font-family: var(--inter-text);
+    font-size: 1rem;
+    letter-spacing: 0.010rem;
+    font-weight: 600;
+}
+.header_auth_user_profile
+{
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.header_profile_dropdown
+{
+    position: absolute;
+    padding : 9px 10px;
+    width : 200px;
+    border-radius: 8px;
+    background-color: var(--header-bg);
+    top : calc(100% + 3px);
+    right : 15px;
+    box-shadow: 0 10px 12px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+    z-index: 1000;
+    opacity: 0;
+    transition: 0.4s all ease-in-out, opacity 0.4s;
+}
+.header_profile_list_display
+{
+    display: flex;
+    align-items: center;
+    padding : 6px 0px;
+    transition: 0.4s all ease-in-out;
+    cursor: pointer;
+    margin : 6px 0px;
+}
+.header_profile_list_display:hover 
+.header_profile_list_name,
+.header_profile_list_display:hover 
+.header_profile_list_icon
+{
+    color : var(--text-blue) !important;
+}
+.header_profile_list_icon
+{
+    width : 30px !important;
+    font-size: 1.4rem !important;
+    color : var(--black-500) !important;
+    transition: 0.4s all ease-in-out;
+}
+.header_profile_list_name
+{
+    padding-left: 5px;
+    font-size: .920rem;
+    font-family: var(--inter-text);
+    font-weight: 600;
+    letter-spacing: 0.010rem;
+    color : var(--black-700);
+    transition: 0.4s all ease-in-out;
+}
+
+.header_profile_triangle
+{
+    width : 15px;
+    height : 20px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--black-100);
+}
+
+.header_profile_dropdown > .header_profile_triangle
+{
+    position: absolute;
+    bottom: 100%;
+    right : 13px;
+}
+
+.header_profile_dropdown.show
+{
+    opacity: 1;
+}
+
+@media(max-width : 500px) {
+    .header_auth_user_info { opacity: 0; }
 }
 
 @media(max-width : 750px)
 {
     .header_main { padding : 8px 10px;  }
+    .header_profile_dropdown { right : 5px }
 }
