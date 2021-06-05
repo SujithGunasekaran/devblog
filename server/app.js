@@ -3,6 +3,7 @@ const next = require('next');
 const cors = require('cors');
 const config = require('./config');
 const passport = require('passport');
+const mongoose = require('mongoose');
 
 // graphql
 const { buildSchema } = require('graphql');
@@ -12,7 +13,10 @@ const { graphqlHTTP } = require('express-graphql');
 const { userTypes } = require('./graphql/types/userTypes');
 
 // grapql resolver
-const { sampleResolver } = require('./graphql/resolver/sample');
+const { userQuery } = require('./graphql/resolver/Gql_UserQuery');
+
+// graphql model
+const userModel = require('./graphql/model/Gql_UserMode');
 
 require('./passport/GoogleAuth');
 
@@ -57,14 +61,16 @@ app.prepare().then(() => {
         ${userTypes}
 
         type Query {
+
             hello : String
-            login : getUser
+            getUserInfo : userInfo
+            logout : Boolean
         }
 
     `);
 
     const root = {
-        ...sampleResolver
+        ...userQuery
     }
 
     server.use('/graphql', graphqlHTTP((req) => {
@@ -73,9 +79,9 @@ app.prepare().then(() => {
             rootValue: root,
             graphiql: true,
             context: {
-                isAuthenticated: () => req.isAuthenticated(),
-                logout: () => req.logout(),
-                user: req.user
+                model: {
+                    userModel: new userModel(mongoose.model('devBlogUser'), req)
+                }
             }
         }
     }));
