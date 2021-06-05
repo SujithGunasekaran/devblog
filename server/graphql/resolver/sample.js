@@ -5,7 +5,8 @@ exports.sampleResolver = {
     hello: () => {
         return "Welcome to graphql";
     },
-    login: (args, context) => {
+    login: async (args, context) => {
+        const { isAuthenticated, user } = context;
         return {
             userid: 'asdasd',
             username: "asdasd",

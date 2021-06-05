@@ -3,8 +3,6 @@ const next = require('next');
 const cors = require('cors');
 const config = require('./config');
 const passport = require('passport');
-// const cookieSession = require('cookie-session');
-const session = require('express-session');
 
 // graphql
 const { buildSchema } = require('graphql');
@@ -17,9 +15,8 @@ const { userTypes } = require('./graphql/types/userTypes');
 const { sampleResolver } = require('./graphql/resolver/sample');
 
 require('./passport/GoogleAuth');
-require('./passport/GithubAuth');
 
-const { PORT, SESSION_SECRET } = config;
+const { PORT } = config;
 
 const port = PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -36,26 +33,11 @@ app.prepare().then(() => {
     const server = express();
 
     server.use(cors());
-    server.use(passport.initialize());
 
-    // require('./middleware').initMiddleWare(server);
-
-    // server.use(cookieSession({
-    //     maxAge: 24 * 60 * 60 * 1000,
-    //     keys: [SESSION_SECRET]
-    // }));
-
-    const sessionInfo = {
-        secret: SESSION_SECRET,
-        cookie: { maxAge: 2 * 60 * 60 * 1000 },
-        resave: false,
-        saveUninitialized: false,
-    };
-
-    server.use(session(sessionInfo))
+    require('./middleware').initMiddleWare(server);
 
     // initialize passport
-
+    server.use(passport.initialize());
     server.use(passport.session());
 
 
@@ -85,20 +67,24 @@ app.prepare().then(() => {
         ...sampleResolver
     }
 
-    server.use('/graphql', graphqlHTTP((req, res, graphQLParams) => {
+    server.use('/graphql', graphqlHTTP((req) => {
         return {
             schema,
             rootValue: root,
             graphiql: true,
             context: {
+                isAuthenticated: () => req.isAuthenticated(),
+                logout: () => req.logout(),
                 user: req.user
             }
         }
     }));
 
+
     server.all('*', (req, res) => {
         return handle(req, res);
     })
+
 
     server.listen(port, () => {
         console.log(`Server is running on PORT : ${PORT}`);
