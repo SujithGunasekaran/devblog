@@ -1,13 +1,7 @@
 import HeadTag from '../components/HeadTag';
-import { useRouter } from 'next/router';
 import withApollo from '../hoc/withApollo';
-import { useSample } from '../apollo/apolloActions';
 
 const Home = () => {
-
-  const { data, loading, error } = useSample();
-
-  console.log("data", data);
 
   return (
     <div>
