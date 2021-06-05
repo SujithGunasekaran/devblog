@@ -6,13 +6,11 @@ const User = require('../mongodb/model/userModel');
 const { GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET } = config;
 
 passport.serializeUser((user, done) => {
-    console.log("sec", user);
     done(null, user._id);
 })
 
 passport.deserializeUser((id, done) => {
-    console.log("id", id);
-    User.findById({ id }, (err, user) => {
+    User.findById(id, (err, user) => {
         done(err, user);
     })
 })
