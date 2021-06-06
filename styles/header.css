@@ -7,6 +7,7 @@
     position: fixed;
     top: 0px;
     left : 0px;
+    z-index: 20;
 }
 .header_container
 {
@@ -34,6 +35,33 @@
 {
     color: var(--text-white);
 }
+
+/* header info list */
+
+.header_info_list_container
+{
+    display: flex;
+    padding : 0px 25px;
+}
+.header_info_list_name
+{
+    font-size: 1rem;
+    padding : 8px 15px;
+    border-radius: 6px;
+    font-family: var(--inter-text);
+    font-weight: 600;
+    letter-spacing: 0.010rem;
+    text-decoration: none;
+    background-color: var(--header-bg);
+    color : var(--black-800);
+    transition: 0.4s all ease-in-out;
+}
+.header_info_list_name:hover
+{
+    background-color: var(--black-050);
+    color : var(--text-blue);
+}
+
 .header_auth_container
 {
     display: flex;
@@ -61,27 +89,6 @@
 {
     text-decoration: none;
 }
-/* .header_auth_create
-{
-    padding : 8px 15px;
-    font-family: var(--inter-text);
-    font-size: 1rem;
-    border-radius: 6px;
-    color : var(--text-white);
-    letter-spacing: 0.040rem;
-    font-weight: 500;
-    text-decoration: none;
-    background-color: var(--btn-blue);
-}
-.header_auth_create:hover
-{
-    cursor: pointer;
-    color : var(--text-white);
-}
-.header_auth_create:focus
-{
-    color : var(--text-white);
-} */
 
 .header_auth_user
 {

@@ -1,0 +1,127 @@
+.post_main
+{
+    background-color: var(--header-bg);
+}
+.post_header
+{
+    border-bottom: 1px solid var(--black-100);
+}
+.post_header_list
+{
+    display: flex;
+}
+.post_header_info
+{
+    padding : 10px 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: 1px solid var(--black-050);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s all ease-in-out;
+    cursor: pointer;
+}
+.post_header_info:hover .post_header_name,
+.post_header_info:hover .post_header_icon
+{
+    transition: 0.4s all ease-in-out;
+    color : var(--text-blue) !important;
+}
+.post_header_info:hover
+{
+    border-bottom: 1px solid var(--text-blue);
+} 
+.post_header_info.active
+{
+    border-bottom: 1px solid var(--text-blue);
+}
+.post_header_info.active .post_header_name,
+.post_header_info.active .post_header_icon
+{
+    color : var(--text-blue) !important;
+}
+.post_header_icon
+{
+    width: 18px !important;
+    font-size: 1.4rem !important;
+    color : var(--black-500);
+    transition: 0.4s all ease-in-out;
+}
+.post_header_name
+{
+    padding : 0px 10px 0px 9px;
+    font-size: .920rem;
+    font-weight: 500;
+    font-family: var(--inter-text);
+    color : var(--black-700);
+}
+
+/* post form */
+
+.post_form
+{
+    margin : 15px 0px;
+}
+
+.post_form_input
+{
+    width : 100%;
+    border-radius: 6px;
+    padding : 0px 10px;
+    height : 45px;
+    font-family: var(--inter-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.020rem;
+    color : var(--black-800);
+    border : 1px solid var(--black-100);
+    transition: 0.4s all ease-in-out;
+}
+.post_form_input::placeholder
+{
+    font-size: .950rem;
+    font-weight: 500;
+    color : var(--black-300);
+}
+.post_form_input:focus
+{
+    outline: none;
+    border: 1px solid var(--text-blue);
+}
+.post_form_input:hover
+{
+    border: 1px solid var(--text-blue);
+}
+.post_form_textarea
+{
+    margin : 20px 0px;
+    width : 100%;
+    border-radius: 6px;
+    padding : 10px 10px;
+    min-height: 100vh;
+    font-family: var(--inter-text);
+    font-size: .950rem;
+    font-weight: 500;
+    letter-spacing: 0.020rem;
+    color : var(--black-800);
+    border : 1px solid var(--black-100);
+    transition: 0.4s all ease-in-out;
+    resize: none;
+}
+.post_form_textarea::placeholder
+{
+    font-size: .950rem;
+    font-weight: 500;
+    color : var(--black-300);
+}
+.post_form_textarea:focus
+{
+    outline: none;
+    border: 1px solid var(--text-blue);
+}
+.post_form_textarea:hover
+{
+    border: 1px solid var(--text-blue);
+}
+
