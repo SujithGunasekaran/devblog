@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import '../styles/globals.css';
 import '../styles/header.css';
 import '../styles/form.css';
+import '../styles/post.css';
 
 // dynamic import
 const Header = dynamic(() => import('../components/Header'), { loading: () => <div>Loading...</div> })
