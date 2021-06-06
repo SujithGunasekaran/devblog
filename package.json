@@ -24,6 +24,7 @@
     "express-graphql": "^0.12.0",
     "express-session": "^1.17.2",
     "graphql": "^15.5.0",
+    "gray-matter": "^4.0.3",
     "mongoose": "^5.12.12",
     "next": "10.2.3",
     "next-with-apollo": "^5.1.1",
@@ -31,7 +32,8 @@
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-markdown": "^6.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
