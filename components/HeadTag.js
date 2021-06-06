@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import { memo } from 'react';
 
-const HeadTag = (props) => {
+const HeadTag = memo((props) => {
 
     const { title, description, keyword } = props;
 
@@ -11,6 +12,6 @@ const HeadTag = (props) => {
             <meta name="description" content={description} />
         </Head>
     )
-}
+})
 
 export default HeadTag;
