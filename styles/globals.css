@@ -45,6 +45,33 @@
   min-height: 100vh !important;
 }
 
+table {
+  margin : 20px 0px !important;
+}
+
+thead
+{
+  background-color: var(--black-050) !important;
+  border : 1px solid var(--black-100) !important;
+}
+thead > tr > th 
+{
+  padding : 7px 12px !important;
+  text-align: left !important;
+  border-left : 1px solid var(--black-100) !important;
+}
+
+tbody
+{
+  border : 1px solid var(--black-100) !important;
+}
+tbody > tr > td 
+{
+  padding : 12px 12px !important;
+  text-align: left !important;
+  border-left: 1px solid var(--black-100);
+}
+
 @media(max-width:750px)
 {
   .main_body { padding : 20px 0px }
