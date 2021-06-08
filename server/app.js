@@ -11,12 +11,15 @@ const { graphqlHTTP } = require('express-graphql');
 
 // graphql types
 const { userTypes } = require('./graphql/types/userTypes');
+const { postTypes } = require('./graphql/types/postTypes');
 
 // grapql resolver
 const { userQuery } = require('./graphql/resolver/Gql_UserQuery');
+const { postQuery, postMutation } = require('./graphql/resolver/Gql_PostQuery');
 
 // graphql model
 const userModel = require('./graphql/model/Gql_UserMode');
+const postModel = require('./graphql/model/Gql_postModel');
 
 require('./passport/GoogleAuth');
 
@@ -59,18 +62,30 @@ app.prepare().then(() => {
     const schema = buildSchema(`
 
         ${userTypes}
+        ${postTypes}
 
         type Query {
 
             hello : String
             getUserInfo : userInfo
             logout : Boolean
+
+            getAllPost : allPost
+
+        }
+
+        type Mutation {
+
+            createPost(input : createPostInput) : post
+
         }
 
     `);
 
     const root = {
-        ...userQuery
+        ...userQuery,
+        ...postQuery,
+        ...postMutation
     }
 
     server.use('/graphql', graphqlHTTP((req) => {
@@ -80,7 +95,8 @@ app.prepare().then(() => {
             graphiql: true,
             context: {
                 model: {
-                    userModel: new userModel(mongoose.model('devBlogUser'), req)
+                    userModel: new userModel(mongoose.model('devBlogUser'), req),
+                    postModel: new postModel(mongoose.model('devBlogPost'), req)
                 }
             }
         }
