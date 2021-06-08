@@ -29,9 +29,9 @@ const PostForm = (props) => {
         <form>
             <input
                 type="text"
-                className="post_form_input"
+                className={`post_form_input ${showPreview ? 'hide_border' : ''}`}
                 name="title"
-                placeholder="Title"
+                placeholder={showPreview ? '' : 'Title'}
                 value={postForm?.title ?? ''}
                 onChange={handleFormField}
             />
