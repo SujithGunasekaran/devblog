@@ -3,6 +3,9 @@ const config = require('../config');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
+require('./model/userModel');
+require('./model/blogPostModel');
+
 exports.connect = () => {
 
     const { MONGO_URI } = config;
