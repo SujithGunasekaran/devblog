@@ -3,12 +3,16 @@
 
   --header-bg : #fff;
   --body-bg : #eef0f1;
+  --box-bg : #fff;
   --header-shadow : rgba(0, 0, 0, 0.1);
 
   --text-white :#fff;
   --text-blue : #323ebe;
   --btn-blue : #323ebe;
   --border-blue : #323ebe;
+
+  --danger-color : #dc1818;
+  --danger-bg : #fce9e9;
 
   --black-025: #fafafb;
   --black-050: #eff0f1;
@@ -84,15 +88,29 @@ h1, h2, h3, h4, h5, h6
 p 
 {
   padding : 5px 0px 5px 4px !important;
-  line-height: 15px !important;
+  line-height: 15px;
+}
+ol > li
+{
+  padding-top : 10px;
 }
 ul > li
 {
-  padding-top: 8px;
+  padding-top: 10px;
 }
 pre
 {
   margin : 15px 0px;
+}
+
+.highlight 
+{
+  color : var(--text-blue) !important;
+}
+
+.light_text
+{
+  color : var(--black-200);
 }
 
 @media(max-width:750px)
