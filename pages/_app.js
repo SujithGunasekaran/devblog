@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import '../styles/header.css';
 import '../styles/form.css';
 import '../styles/post.css';
+import '../styles/home.css';
 
 // dynamic import
 const Header = dynamic(() => import('../components/Header'), { loading: () => <div>Loading...</div> })

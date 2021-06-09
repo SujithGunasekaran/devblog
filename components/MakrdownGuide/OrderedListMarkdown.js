@@ -15,7 +15,7 @@ const OrderedListMarkdown = () => {
                     <tbody className="post_guide_info_table_body">
                         <tr>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     1. First item<br />
                                     2. Second item<br />
                                     3. Third item<br />
@@ -23,7 +23,7 @@ const OrderedListMarkdown = () => {
                                 </p>
                             </td>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     1. First item<br />
                                     2. Second item<br />
                                     3. Third item<br />
@@ -33,7 +33,7 @@ const OrderedListMarkdown = () => {
                         </tr>
                         <tr>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     1. First item<br />
                                     2. Second item<br />
                                     3. Third item<br />
@@ -43,7 +43,7 @@ const OrderedListMarkdown = () => {
                                 </p>
                             </td>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     1. First item<br />
                                     2. Second item<br />
                                     3. Third item<br />
@@ -59,6 +59,12 @@ const OrderedListMarkdown = () => {
         </>
     )
 
+}
+
+const styles = {
+    p: {
+        lineHeight: '28px'
+    }
 }
 
 export default OrderedListMarkdown;

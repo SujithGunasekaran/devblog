@@ -16,7 +16,7 @@ const UnOrderedListMarkdown = () => {
                     <tbody className="post_guide_info_table_body">
                         <tr>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     - First item<br />
                                     - Second item<br />
                                     - Third item<br />
@@ -36,7 +36,7 @@ const UnOrderedListMarkdown = () => {
                         </tr>
                         <tr>
                             <td className="post_guide_info_table_td">
-                                <p>
+                                <p style={styles.p}>
                                     - First item<br />
                                     - Second item<br />
                                     - Third item<br />
@@ -67,5 +67,12 @@ const UnOrderedListMarkdown = () => {
     )
 
 }
+
+const styles = {
+    p: {
+        lineHeight: '28px'
+    }
+}
+
 
 export default UnOrderedListMarkdown;
