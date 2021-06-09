@@ -34,7 +34,7 @@ class postModel {
             return createdPost;
         }
         catch (err) {
-            return 'something went wrong';
+            throw new Error('something went wrong');
         }
     }
 
