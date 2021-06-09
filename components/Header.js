@@ -42,7 +42,7 @@ const Header = () => {
                         </div>
                     }
                     {
-                        (!user) || (user && !user.getUserInfo) &&
+                        (!user || (user && !user.getUserInfo)) &&
                         <div className="header_auth_container">
                             <PageLink href={'/login'} as={'/login'}>
                                 <a className="header_auth_signin">Login</a>
