@@ -2,7 +2,6 @@ import { gql } from '@apollo/client';
 
 // auth queries start
 
-
 export const GET_USER_INFO = gql`
     query GetUser {
         getUserInfo {
@@ -21,5 +20,27 @@ export const USER_LOGOUT = gql`
 `
 
 
-
 // auth queries end
+
+
+// post queries start
+
+
+export const GET_POST_LIST = gql`
+    query GetPostList {
+        getAllPost {
+            postList {
+              title
+              tags
+              user {
+                username
+                userprofile
+              }
+              _id
+            }
+        }
+    }
+`
+
+
+// post queries end
