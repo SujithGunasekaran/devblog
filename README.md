@@ -1,6 +1,6 @@
 <h1 align="center">devBlog</h1>
 
-<h3 align="center">devblog is an blog website people can publish their blog post</h3>
+<h3 align="center">devblog is an blog website user can publish their blog post</h3>
 
 # Tech Stack 📋
   
@@ -33,10 +33,6 @@
       > npm run server
 
 ## App Info
-
-<h3>Author</h3>
-
-<h4>Sujith Gunasekaran</h3>
 
 <h3>License</h3>
 
