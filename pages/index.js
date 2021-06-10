@@ -5,7 +5,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost } from '../apollo/apolloActions';
 
 const DevLeftPanel = dynamic(() => import('../components/DevInfoLeftPanel.js'), { loading: () => <div>Loading Panel...</div> });
-const PostCard = dynamic(() => import('../components/post/PostCard'), { loading: () => <div>Loading Post...</div> });
+const PostCard = dynamic(() => import('../components/post/PostCard'));
 
 const Home = () => {
 

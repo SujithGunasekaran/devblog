@@ -27,7 +27,7 @@ const PostCard = ({ postInfo }) => {
                             <div className="home_middle_post_like_bg">
                                 <HeartIcon cssClass={'home_middle_post_like_icon'} />
                             </div>
-                            <div className="home_middle_post_like_count">0 Liked</div>
+                            <div className="home_middle_post_like_count">{postInfo?.like ?? 0} Liked</div>
                         </div>
                     </div>
                 </div>

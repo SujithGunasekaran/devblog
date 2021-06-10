@@ -30,13 +30,14 @@ export const GET_POST_LIST = gql`
     query GetPostList {
         getAllPost {
             postList {
-              title
-              tags
-              user {
-                username
-                userprofile
-              }
-              _id
+                _id
+                title
+                like
+                tags
+                user {
+                  username
+                  userprofile
+                }
             }
         }
     }
