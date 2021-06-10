@@ -158,7 +158,7 @@
 {
     width: 17px !important;
     font-size: 1.7rem !important;
-    color : var(--black-700);
+    color : var(--black-400);
     font-weight: 700;
     transition: 0.4s all ease-in-out;
 }

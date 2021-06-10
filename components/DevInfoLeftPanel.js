@@ -1,6 +1,7 @@
 import PageLink from './PageLink';
+import { memo } from 'react';
 
-const DevInfoLeftPanel = () => {
+const DevInfoLeftPanel = memo(() => {
 
     return (
         <div>
@@ -16,7 +17,7 @@ const DevInfoLeftPanel = () => {
         </div>
     )
 
-}
+})
 
 export default DevInfoLeftPanel;
 
