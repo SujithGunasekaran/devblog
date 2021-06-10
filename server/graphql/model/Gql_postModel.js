@@ -75,23 +75,24 @@ class postModel {
 
     async createNewLikeToPost(input) {
 
-        const { likecount, postid, userid } = input;
+        const { likecount, postid, type } = input;
+        const userID = this._getAuthUserID();
+
+        if (!userID) throw new Error('User not authenticated');
 
         try {
             await this.model.findOneAndUpdate({ _id: postid }, { $set: { like: +likecount } }, { new: true, runValidators: true });
-            const createdUserLikedPost = await userLikedPostModel.create({ userid, postid });
+            type === 'add' ? await userLikedPostModel.create({ userid: userID, postid }) : await userLikedPostModel.findOneAndDelete({ userid: userID, postid });
+            const { userLikedPostList } = await this.getUserLikedPost();
             const { postList } = await this.getPostList();
             return {
                 postList: postList,
-                userLikedPostList: [{
-                    postid: createdUserLikedPost.postid
-                }]
+                userLikedPostList: userLikedPostList
             };
         }
         catch (err) {
             throw new Error(err.message);
         }
-
     }
 
 }

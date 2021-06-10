@@ -42,9 +42,9 @@ exports.postTypes = `
     }
 
     input likeToPost {
+        type : String
         likecount : Int
         postid : ID
-        userid : ID
     }
 
 `;
