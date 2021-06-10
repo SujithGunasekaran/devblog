@@ -28,4 +28,23 @@ exports.postTypes = `
         like : Int
     }
 
+    type postIdArray {
+        postid : ID
+    }
+
+    type likePostByUser {
+        userLikedPostList : [postIdArray]
+    }
+
+    type likeToPostResult {
+        postList : [post],
+        userLikedPostList : [postIdArray]
+    }
+
+    input likeToPost {
+        likecount : Int
+        postid : ID
+        userid : ID
+    }
+
 `;
