@@ -18,6 +18,9 @@ const blogPostSchema = new Schema({
     tags: {
         type: String
     },
+    like: {
+        type: Number
+    },
     createAt: {
         type: Date,
         default: Date.now

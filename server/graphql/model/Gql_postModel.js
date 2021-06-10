@@ -13,7 +13,7 @@ class postModel {
     }
 
     async _createPost(post) {
-        return await this.model.create(post).populate('user');
+        return await this.model.create(post);
     }
 
     async publishPost(post) {
@@ -31,10 +31,11 @@ class postModel {
 
         try {
             const createdPost = await this._createPost(post);
-            return createdPost;
+            const getCreatedPost = await this.model.findOne({ _id: createdPost._id }).populate('user');
+            return getCreatedPost;
         }
         catch (err) {
-            throw new Error('something went wrong');
+            throw new Error('Something Went Wrong');
         }
     }
 

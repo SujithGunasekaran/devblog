@@ -12,6 +12,7 @@ exports.postTypes = `
         title : String
         content : String
         user : userData
+        like : Int
         tags : String
         createdAt : String
     }
@@ -24,6 +25,7 @@ exports.postTypes = `
         title : String!
         content : String!
         tags : String
+        like : Int
     }
 
 `;

@@ -1,14 +1,13 @@
 exports.postQuery = {
-    getAllPost: async (args, context) => {
+    getAllPost: async (root, args, context) => {
         const postList = await context.model.postModel.getPostList();
         return postList;
     }
 }
 
 exports.postMutation = {
-    createPost: async ({ input }, context) => {
+    createPost: async (root, { input }, context) => {
         const post = await context.model.postModel.publishPost(input);
-        console.log("post return", post);
         return post;
     }
 }
