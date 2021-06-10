@@ -32,6 +32,8 @@ exports.createApolloServer = () => {
             getUserInfo : userInfo
             logout : Boolean
 
+            userLikedPost : likePostByUser 
+
             getAllPost : allPost
 
         }
@@ -39,6 +41,7 @@ exports.createApolloServer = () => {
         type Mutation {
 
             createPost(input : createPostInput) : post
+            addLikeToPost(input : likeToPost) : likeToPostResult
 
         }
 
