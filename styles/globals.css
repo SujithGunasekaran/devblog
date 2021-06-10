@@ -112,6 +112,10 @@ pre
 {
   color : var(--black-200);
 }
+.active_icon
+{
+  color : var(--danger-color) !important;
+}
 
 @media(max-width:750px)
 {

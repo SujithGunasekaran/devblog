@@ -158,14 +158,13 @@
 {
     width: 17px !important;
     font-size: 1.7rem !important;
-    color : var(--black-400);
+    color : var(--black-300);
     font-weight: 700;
     transition: 0.4s all ease-in-out;
 }
-
 .home_middle_post_like_count
 {
-    padding-left: 11px;
+    padding-left: 7px;
     font-family: var(--inter-text);
     font-size: .820rem;
     font-family: 500;
