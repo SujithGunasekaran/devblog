@@ -3,23 +3,6 @@ const next = require('next');
 const cors = require('cors');
 const config = require('./config');
 const passport = require('passport');
-const mongoose = require('mongoose');
-
-// graphql
-const { buildSchema } = require('graphql');
-const { graphqlHTTP } = require('express-graphql');
-
-// graphql types
-const { userTypes } = require('./graphql/types/userTypes');
-const { postTypes } = require('./graphql/types/postTypes');
-
-// grapql resolver
-const { userQuery } = require('./graphql/resolver/Gql_UserQuery');
-const { postQuery, postMutation } = require('./graphql/resolver/Gql_PostQuery');
-
-// graphql model
-const userModel = require('./graphql/model/Gql_UserMode');
-const postModel = require('./graphql/model/Gql_postModel');
 
 require('./passport/GoogleAuth');
 
@@ -56,57 +39,14 @@ app.prepare().then(() => {
         res.redirect('http://localhost:3000/');
     })
 
-
-    // graphql server
-
-    const schema = buildSchema(`
-
-        ${userTypes}
-        ${postTypes}
-
-        type Query {
-
-            hello : String
-            getUserInfo : userInfo
-            logout : Boolean
-
-            getAllPost : allPost
-
-        }
-
-        type Mutation {
-
-            createPost(input : createPostInput) : post
-
-        }
-
-    `);
-
-    const root = {
-        ...userQuery,
-        ...postQuery,
-        ...postMutation
-    }
-
-    server.use('/graphql', graphqlHTTP((req) => {
-        return {
-            schema,
-            rootValue: root,
-            graphiql: true,
-            context: {
-                model: {
-                    userModel: new userModel(mongoose.model('devBlogUser'), req),
-                    postModel: new postModel(mongoose.model('devBlogPost'), req)
-                }
-            }
-        }
-    }));
-
+    const apolloServer = require('./graphql').createApolloServer();
+    apolloServer.applyMiddleware({
+        app: server
+    })
 
     server.all('*', (req, res) => {
         return handle(req, res);
     })
-
 
     server.listen(port, () => {
         console.log(`Server is running on PORT : ${PORT}`);
