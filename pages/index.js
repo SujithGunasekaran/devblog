@@ -2,14 +2,16 @@ import HeadTag from '../components/HeadTag';
 import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetAllPost } from '../apollo/apolloActions';
+import { useGetAllPost, useGetUserLikedPost } from '../apollo/apolloActions';
 
 const DevLeftPanel = dynamic(() => import('../components/DevInfoLeftPanel.js'), { loading: () => <div>Loading Panel...</div> });
 const PostCard = dynamic(() => import('../components/post/PostCard'));
 
 const Home = () => {
 
-  const { data: post, loading, error } = useGetAllPost();
+  // query and mutation
+  const { data: post, loading: postLoading, error: postError } = useGetAllPost();
+  const { data: useLikedList, error: userLikedError } = useGetUserLikedPost();
 
   return (
     <div>
@@ -32,16 +34,17 @@ const Home = () => {
                 <PostCard
                   key={index}
                   postInfo={postInfo}
+                  userLikedList={useLikedList}
                 />
               ))
             }
             {
-              loading && <div>Loading Posts...</div>
+              postLoading && <div>Loading Posts...</div>
             }
           </div>
         </div>
       </div>
-      { error && <div></div>}
+      {(postError || userLikedError) && <div></div>}
     </div>
   )
 }
