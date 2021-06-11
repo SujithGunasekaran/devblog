@@ -14,6 +14,13 @@
   --danger-color : #dc1818;
   --danger-bg : #fce9e9;
 
+  --error-alert-text : #ff5a4e;
+  --error-alert-bg : rgba(248,81,73,0.1);
+  --error-alert-border : rgba(248,81,73,0.4);
+  --success-alert-text : #4cbb59;
+  --success-alert-bg : rgba(46,160,67,0.1);
+  --success-alert-border : rgb(52, 180, 76);
+
   --black-025: #fafafb;
   --black-050: #eff0f1;
   --black-075: #e4e6e8;
@@ -115,6 +122,49 @@ pre
 .active_icon
 {
   color : var(--danger-color) !important;
+}
+
+.success_alert
+{
+  margin : 10px 0px 10px 0px;
+  padding : 9px 10px;
+  font-size: .9rem;
+  font-family: var(--inter-text);
+  font-weight: 500;
+  background-color: var(--success-alert-bg);
+  color: var(--success-alert-text);
+  border: 1px solid var(--success-alert-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+.success_alert_cancel
+{
+  width : 13px !important;
+  font-size: 1rem !important;
+  margin-left: auto !important;
+  cursor: pointer;
+}
+.failure_alert
+{
+  margin : 10px 0px 10px 0px;
+  padding : 9px 10px;
+  font-size: .9rem;
+  font-family: var(--inter-text);
+  font-weight: 500;
+  background-color: var(--error-alert-bg);
+  color: var(--error-alert-text);
+  border: 1px solid var(--error-alert-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+.failure_alert_cancel
+{
+  width : 13px !important;
+  font-size: 1rem !important;
+  margin-left: auto !important;
+  cursor: pointer;
 }
 
 @media(max-width:750px)

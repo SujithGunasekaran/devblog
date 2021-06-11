@@ -81,8 +81,9 @@
 }
 .post_form_input::placeholder
 {
-    font-size: .950rem;
-    font-weight: 500;
+    font-size: .8rem;
+    font-weight: 400;
+    letter-spacing: 0.010rem;
     color : var(--black-300);
 }
 .post_form_input:focus
@@ -116,8 +117,8 @@
 }
 .post_form_textarea::placeholder
 {
-    font-size: .950rem;
-    font-weight: 500;
+    font-size: .8rem;
+    font-weight: 400;
     color : var(--black-300);
 }
 .post_form_textarea:focus
@@ -143,6 +144,11 @@
     font-weight: 500;
     letter-spacing: 0.010rem;
     font-size: .950rem;
+}
+.post_form_publish_btn:disabled
+{
+    background-color: var(--black-100) !important;
+    color : var(--black-400) !important;
 }
 .post_form_publish_btn:focus
 {
