@@ -41,7 +41,72 @@ export const GET_POST_LIST = gql`
             }
         }
     }
+`;
+
+export const GET_USER_LIKED_POST = gql`
+    query GetUserLikedPost {
+        userLikedPost {
+            userLikedPostList {
+                postid
+            }
+        }
+    }
+`;
+
+export const CREATE_POST = gql`
+    mutation CreatePost(
+        $title : String!
+        $content : String!
+        $tags : String
+        $like : Int
+    ){
+        createPost(input : {
+            title : $title
+            content : $content
+            tags : $tags
+            like : $like
+        })
+        {
+            _id
+            title
+            like
+            tags
+            user {
+                username
+                userprofile
+            }
+        }
+    }
 `
+
+export const SET_POST_LIKE = gql`
+    mutation AddLikeToPost(
+        $likecount : Int
+        $postid : ID
+        $type : String
+    ){
+        addLikeToPost(input : {
+            likecount : $likecount
+            postid : $postid
+            type : $type
+        }) 
+        {
+            postList {
+                _id
+                title
+                like
+                tags
+                user {
+                  username
+                  userprofile
+                }
+            }
+            userLikedPostList {
+                postid
+            }
+        }
+    }
+`;
 
 
 // post queries end
