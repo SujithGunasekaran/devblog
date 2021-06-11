@@ -5,7 +5,7 @@ import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 const PostForm = (props) => {
 
-    const { showPreview, postForm, handleFormField } = props;
+    const { showPreview, postForm, publishLoading, handleFormField, handlePublishPost } = props;
 
     let customRenderers = {}
 
@@ -26,15 +26,32 @@ const PostForm = (props) => {
     };
 
     return (
-        <form>
-            <input
-                type="text"
-                className={`post_form_input ${showPreview ? 'hide_border' : ''}`}
-                name="title"
-                placeholder={showPreview ? '' : 'Title'}
-                value={postForm?.title ?? ''}
-                onChange={handleFormField}
-            />
+        <form onSubmit={handlePublishPost}>
+            <div className="row">
+                <div className="col-md-6">
+                    <input
+                        type="text"
+                        className={`post_form_input ${showPreview ? 'hide_border' : ''}`}
+                        name="title"
+                        placeholder={showPreview ? '' : 'Title'}
+                        value={postForm?.title ?? ''}
+                        onChange={handleFormField}
+                    />
+                </div>
+                {
+                    !showPreview &&
+                    <div className="col-md-6">
+                        <input
+                            type="text"
+                            className="post_form_input"
+                            name="tags"
+                            placeholder={showPreview ? '' : 'Tags with comma seperate'}
+                            value={postForm?.tags ?? ''}
+                            onChange={handleFormField}
+                        />
+                    </div>
+                }
+            </div>
             {
                 showPreview ?
                     <div className={`post_form_textarea hide_border`}>
@@ -48,7 +65,7 @@ const PostForm = (props) => {
                         onChange={handleFormField}
                     />
             }
-
+            <button disabled={publishLoading} className={`post_form_publish_btn ${publishLoading ? 'disabled' : ''}`}>Publish</button>
         </form>
     )
 
