@@ -5,7 +5,8 @@ import {
     GET_POST_LIST,
     GET_USER_LIKED_POST,
     SET_POST_LIKE,
-    CREATE_POST
+    CREATE_POST,
+    GET_POST_BY_ID
 } from './apolloQueries';
 
 
@@ -24,6 +25,8 @@ export const useLogout = () => useQuery(USER_LOGOUT);
 export const useGetAllPost = () => useQuery(GET_POST_LIST);
 
 export const useGetUserLikedPost = () => useQuery(GET_USER_LIKED_POST);
+
+export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid } })
 
 export const useCreatePost = () => useMutation(CREATE_POST, {
     update(cache, { data: { createPost } }) {

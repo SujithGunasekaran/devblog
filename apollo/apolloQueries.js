@@ -44,6 +44,30 @@ export const GET_POST_LIST = gql`
     }
 `;
 
+export const GET_POST_BY_ID = gql`
+    query GetPostById(
+        $postid : ID
+    ){
+        getPostById(input : {
+            postid : $postid
+        }){
+            postInfo {
+                _id
+                title
+                content
+                tags
+                like
+                createdAt
+                user {
+                    username
+                    userprofile
+                }
+            }
+            isUserLikedThePost
+        }
+    }
+`;
+
 export const GET_USER_LIKED_POST = gql`
     query GetUserLikedPost {
         userLikedPost {
