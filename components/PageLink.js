@@ -7,7 +7,7 @@ const PageLink = (props) => {
 
     return (
         <Link href={href} as={as}>
-            { props.children}
+            {props.children}
         </Link>
     )
 
