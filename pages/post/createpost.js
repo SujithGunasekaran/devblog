@@ -32,7 +32,9 @@ const CreatePost = () => {
             setShowSuccess('Post successfully published');
         }
         catch (err) {
-            setShowError('Error while creating post')
+            const parsedError = JSON.parse(JSON.stringify(err));
+            if (parsedError?.message.includes('User') ?? '') setShowError(parsedError.message);
+            if (parsedError?.message.includes('Response') ?? '') setShowError(parsedError.message);
         }
         finally {
             window.scrollTo({ top, behavior: 'smooth' });
@@ -69,13 +71,14 @@ const CreatePost = () => {
                                 showSuccess &&
                                 <div className="success_alert">
                                     {showSuccess}
-                                    <CancelIcon cssClass="success_alert_cancel" handleEvent={() => setShowSuccess(null)} />
+                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
                                 </div>
-                            }{
+                            }
+                            {
                                 showError &&
                                 <div className="failure_alert">
                                     {showError}
-                                    <CancelIcon cssClass="failure_alert_cancel" handleEvent={() => setShowError(null)} />
+                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
                                 </div>
                             }
                             {
