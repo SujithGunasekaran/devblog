@@ -6,6 +6,10 @@ exports.postQuery = {
     userLikedPost: async (root, args, context) => {
         const likedPostList = await context.model.postModel.getUserLikedPost();
         return likedPostList;
+    },
+    getPostById: async (root, { input }, context) => {
+        const postInfo = await context.model.postModel.getPostInfoById(input);
+        return postInfo;
     }
 }
 

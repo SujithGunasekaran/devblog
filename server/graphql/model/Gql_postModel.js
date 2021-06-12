@@ -95,6 +95,27 @@ class postModel {
         }
     }
 
+    // function used to get post info by id
+
+    async getPostInfoById(postData) {
+
+        const { postid } = postData;
+        const userid = this._getAuthUserID();
+        try {
+            const postInfo = await this.model.findOne({ _id: postid }).populate('user');
+            const loggedUserPostAction = userid ? await userLikedPostModel.findOne({ userid, postid }) : false;
+            const postInfoResult = {
+                postInfo,
+                isUserLikedThePost: loggedUserPostAction ? true : false
+            }
+            return postInfoResult;
+        }
+        catch (err) {
+            throw new Error('Something went wrong while getting post');
+        }
+
+    }
+
 }
 
 module.exports = postModel;
