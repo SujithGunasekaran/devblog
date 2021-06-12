@@ -34,6 +34,7 @@ export const GET_POST_LIST = gql`
                 title
                 like
                 tags
+                createdAt
                 user {
                   username
                   userprofile
@@ -71,6 +72,7 @@ export const CREATE_POST = gql`
             title
             like
             tags
+            createdAt
             user {
                 username
                 userprofile
@@ -96,6 +98,7 @@ export const SET_POST_LIKE = gql`
                 title
                 like
                 tags
+                createdAt
                 user {
                   username
                   userprofile

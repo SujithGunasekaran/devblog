@@ -65,7 +65,7 @@ const PostForm = (props) => {
                         onChange={handleFormField}
                     />
             }
-            <button disabled={publishLoading} className={`post_form_publish_btn ${publishLoading ? 'disabled' : ''}`}>Publish</button>
+            <button disabled={publishLoading} className='post_form_publish_btn'>{publishLoading ? 'Publishing...' : 'Publish'}</button>
         </form>
     )
 
