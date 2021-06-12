@@ -35,6 +35,7 @@ exports.createApolloServer = () => {
             userLikedPost : likePostByUser 
 
             getAllPost : allPost
+            getPostById(input : getPostInfo) :  postById
 
         }
 

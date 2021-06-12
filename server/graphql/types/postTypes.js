@@ -41,10 +41,21 @@ exports.postTypes = `
         userLikedPostList : [postIdArray]
     }
 
+    type postById {
+        postInfo : post,
+        isUserLikedThePost : Boolean
+    }
+
     input likeToPost {
         type : String
         likecount : Int
         postid : ID
     }
+
+    input getPostInfo {
+        postid : ID
+    }
+
+
 
 `;
