@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6
 p 
 {
   padding : 5px 0px 5px 4px !important;
-  line-height: 15px;
+  line-height: 20px !important;
 }
 ol > li
 {
@@ -138,12 +138,16 @@ pre
   display: flex;
   align-items: center;
 }
-.success_alert_cancel
+.alert_cancel_container
+{
+  margin-left: auto !important;
+  cursor: pointer !important;
+}
+.alert_cancel
 {
   width : 13px !important;
   font-size: 1rem !important;
   margin-left: auto !important;
-  cursor: pointer;
 }
 .failure_alert
 {
@@ -158,13 +162,6 @@ pre
   border-radius: 8px;
   display: flex;
   align-items: center;
-}
-.failure_alert_cancel
-{
-  width : 13px !important;
-  font-size: 1rem !important;
-  margin-left: auto !important;
-  cursor: pointer;
 }
 
 @media(max-width:750px)
