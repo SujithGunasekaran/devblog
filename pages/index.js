@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost, useGetUserLikedPost } from '../apollo/apolloActions';
 
-const DevLeftPanel = dynamic(() => import('../components/DevInfoLeftPanel.js'), { loading: () => <div>Loading Panel...</div> });
+const DevLeftPanel = dynamic(() => import('../components/DevInfoLeftPanel.js'));
 const PostCard = dynamic(() => import('../components/post/PostCard'));
 
 const Home = () => {
