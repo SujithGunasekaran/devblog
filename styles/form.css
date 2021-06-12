@@ -4,7 +4,7 @@
     padding : 20px;
     background-color: var(--header-bg);
     border-radius: 5px;
-    box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);;
+    box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
 }
 .form_heading
 {

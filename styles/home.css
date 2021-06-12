@@ -5,7 +5,7 @@
     padding : 20px 15px;
     border-radius: 6px;
     background-color: var(--box-bg);
-    box-shadow: 0 10px 30px -10px rgb(0 64 128 / 20%);;
+    box-shadow: 0 10px 30px -10px rgb(0 64 128 / 20%);
 }
 .home_left_dev_heading
 {
@@ -67,6 +67,16 @@
     font-weight: 700;
     color : var(--black-900);
 }
+.home_middle_post_link
+{
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.4s all ease-in-out;
+}
+.home_middle_post_link:hover .home_middle_post_title
+{
+    color : var(--text-blue);
+}
 .home_middle_post_container
 {
     width: 100%;
@@ -75,6 +85,7 @@
     border : 1px solid var(--black-100);
     background-color: var(--box-bg);
     border-radius: 6px;
+    transition: 0.4s all ease-in-out;
 }
 .home_middle_post_user_container
 {
@@ -85,7 +96,6 @@
     width : 35px;
     height : 35px;
     border-radius: 50%;
-    background-color: blue;
 }
 .home_middle_post_user_info_display
 {
@@ -115,6 +125,7 @@
     font-weight: 700;
     font-size: 1.760rem;
     color : var(--black-900);
+    transition: 0.4s all ease-in-out;
 }
 .home_middle_post_tag_display
 {
@@ -144,15 +155,6 @@
     height : 35px;
     border-radius: 50%;
     transition: 0.4s all ease-in-out;
-}
-.home_middle_post_like_bg:hover
-{
-    cursor: pointer;
-    background-color: var(--danger-bg);
-}
-.home_middle_post_like_bg:hover .home_middle_post_like_icon
-{
-    color : var(--danger-color);
 }
 .home_middle_post_like_icon
 {
