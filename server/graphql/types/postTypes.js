@@ -13,6 +13,7 @@ exports.postTypes = `
         content : String
         user : userData
         like : Int
+        saved : Int
         tags : String
         createdAt : String
     }
@@ -26,6 +27,7 @@ exports.postTypes = `
         content : String!
         tags : String
         like : Int
+        saved : Int
     }
 
     type postIdArray {
@@ -36,19 +38,35 @@ exports.postTypes = `
         userLikedPostList : [postIdArray]
     }
 
+    type savedPostByUser {
+        userSavedPostList : [postIdArray]
+    }
+
     type likeToPostResult {
         postList : [post],
         userLikedPostList : [postIdArray]
     }
 
+    type saveToPostResult {
+        postList : [post],
+        userSavedPostList : [postIdArray]
+    }
+
     type postById {
         postInfo : post,
         isUserLikedThePost : Boolean
+        isUserSavedThePost : Boolean
     }
 
     input likeToPost {
         type : String
         likecount : Int
+        postid : ID
+    }
+
+    input saveToPost {
+        type : String
+        saveCount : Int
         postid : ID
     }
 

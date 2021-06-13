@@ -33,6 +33,7 @@ exports.createApolloServer = () => {
             logout : Boolean
 
             userLikedPost : likePostByUser 
+            userSavedPost : savedPostByUser
 
             getAllPost : allPost
             getPostById(input : getPostInfo) :  postById
@@ -43,6 +44,7 @@ exports.createApolloServer = () => {
 
             createPost(input : createPostInput) : post
             addLikeToPost(input : likeToPost) : likeToPostResult
+            addSaveToPost(input : saveToPost) : saveToPostResult
 
         }
 

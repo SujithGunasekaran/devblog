@@ -21,6 +21,9 @@ const blogPostSchema = new Schema({
     like: {
         type: Number
     },
+    saved: {
+        type: Number
+    },
     createdAt: {
         type: Date,
         default: Date.now

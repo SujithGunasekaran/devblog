@@ -1,4 +1,5 @@
 const userLikedPostModel = require('../../mongodb/model/userLikedPostModel');
+const userSavedPostModel = require('../../mongodb/model/userSavedPostModel');
 
 class postModel {
 
@@ -71,6 +72,19 @@ class postModel {
 
     }
 
+    // function used to get user saved post id
+
+    async getUserSavedPost() {
+
+        const userID = this._getAuthUserID();
+
+        if (!userID) return { userSavedPostList: [] };
+
+        const userSavedPostData = await userSavedPostModel.find({ userid: userID });
+        return { userSavedPostList: userSavedPostData };
+
+    }
+
     // function used to create new like to post
 
     async createNewLikeToPost(input) {
@@ -95,6 +109,31 @@ class postModel {
         }
     }
 
+    // function userd to create new save to post
+
+    async createNewSaveToPost(input) {
+
+        const { saveCount, postid, type } = input;
+        const userID = this._getAuthUserID();
+
+        if (!userID) throw new Error('User not authenticated');
+
+        try {
+            await this.model.findOneAndUpdate({ _id: postid }, { $set: { saved: +saveCount } }, { new: true, runValidators: true });
+            type === 'add' ? await userSavedPostModel.create({ userid: userID, postid }) : await userSavedPostModel.findOneAndDelete({ userid: userID, postid });
+            const { userSavedPostList } = await this.getUserSavedPost();
+            const { postList } = await this.getPostList();
+            return {
+                postList: postList,
+                userSavedPostList: userSavedPostList
+            };
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
     // function used to get post info by id
 
     async getPostInfoById(postData) {
@@ -104,9 +143,11 @@ class postModel {
         try {
             const postInfo = await this.model.findOne({ _id: postid }).populate('user');
             const loggedUserPostAction = userid ? await userLikedPostModel.findOne({ userid, postid }) : false;
+            const loggedUserSaveAction = userid ? await userSavedPostModel.findOne({ userid, postid }) : false;
             const postInfoResult = {
                 postInfo,
-                isUserLikedThePost: loggedUserPostAction ? true : false
+                isUserLikedThePost: loggedUserPostAction ? true : false,
+                isUserSavedThePost: loggedUserSaveAction ? true : false
             }
             return postInfoResult;
         }
