@@ -5,7 +5,7 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost, useGetUserLikedPost } from '../apollo/apolloActions';
 import PageLink from '../components/PageLink';
 
-const DevLeftPanel = dynamic(() => import('../components/DevInfoLeftPanel.js'));
+const DevLeftPanel = dynamic(() => import('../components/panel/leftPanel/HomeLeftPanel'));
 const PostCard = dynamic(() => import('../components/post/PostCard'));
 
 const Home = () => {
@@ -44,9 +44,6 @@ const Home = () => {
                   </a>
                 </PageLink>
               ))
-            }
-            {
-              postLoading && <div>Loading Posts...</div>
             }
           </div>
         </div>

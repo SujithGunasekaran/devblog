@@ -6,8 +6,8 @@ import withApollo from '../../hoc/withApollo';
 import { useCreatePost } from '../../apollo/apolloActions';
 import { EditSquareIcon, EyeIcon, InfoCircleIcon, CancelIcon } from '../../components/icons';
 
-const PostForm = dynamic(() => import('../../components/form/postForm'), { loading: () => <div>Loading...</div> });
-const MarkdownGuide = dynamic(() => import('../../components/MakrdownGuide'), { loading: () => <div>Loading...</div> });
+const PostForm = dynamic(() => import('../../components/form/postForm'));
+const MarkdownGuide = dynamic(() => import('../../components/markdowns/MakrdownGuide'));
 
 
 const CreatePost = () => {
