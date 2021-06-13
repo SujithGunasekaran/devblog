@@ -32,6 +32,10 @@
    6. To run both Client and Server run below command
       > npm run server
 
+## Information
+
+   Application design will look as dev.to with some little changes in styles.
+
 ## App Info
 
 <h3>License</h3>
