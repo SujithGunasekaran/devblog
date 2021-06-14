@@ -2,7 +2,7 @@ import HeadTag from '../components/HeadTag';
 import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetAllPost, useGetUserLikedPost } from '../apollo/apolloActions';
+import { useGetAllPost } from '../apollo/apolloActions';
 import PageLink from '../components/PageLink';
 
 const DevLeftPanel = dynamic(() => import('../components/panel/leftPanel/HomeLeftPanel'));
@@ -12,7 +12,6 @@ const Home = () => {
 
   // query and mutation
   const { data: post, loading: postLoading, error: postError } = useGetAllPost();
-  const { data: useLikedList, error: userLikedError } = useGetUserLikedPost();
 
   return (
     <div>
@@ -34,12 +33,12 @@ const Home = () => {
               post.getAllPost.postList.map((postInfo, index) => (
                 <PageLink
                   key={index}
-                  href={'/post/[postID]'} as={`/post/${postInfo._id}`}
+                  href={'/post/[...postID]'} as={`/post/${postInfo._id}/${postInfo.title}`}
                 >
                   <a className="home_middle_post_link">
                     <PostCard
                       postInfo={postInfo}
-                      userLikedList={useLikedList}
+                      loggedUserInfo={post.getAllPost.loggedUserInfo}
                     />
                   </a>
                 </PageLink>
@@ -48,7 +47,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {(postError || userLikedError) && <div></div>}
+      {(postError) && <div></div>}
     </div>
   )
 }

@@ -24,8 +24,7 @@ const CreatePost = () => {
     const handlePublishPost = async (e) => {
         e.preventDefault();
         let publishData = {
-            ...postForm,
-            like: 0
+            ...postForm
         };
         try {
             await publishPost({ variables: publishData });
