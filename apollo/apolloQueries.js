@@ -9,6 +9,9 @@ export const GET_USER_INFO = gql`
             userid
             username
             userprofile
+            usersavedpost {
+                postid
+            }
        }
     }
 `;
@@ -32,13 +35,20 @@ export const GET_POST_LIST = gql`
             postList {
                 _id
                 title
-                like
                 tags
                 createdAt
+                userliked
+                usersaved
                 user {
-                  username
-                  userprofile
+                    _id
+                    username
+                    userprofile
                 }
+            }
+            loggedUserInfo {
+                _id
+                username
+                userprofile
             }
         }
     }
@@ -56,24 +66,17 @@ export const GET_POST_BY_ID = gql`
                 title
                 content
                 tags
-                like
+                userliked
+                usersaved
                 createdAt
                 user {
+                    _id
                     username
                     userprofile
                 }
             }
             isUserLikedThePost
-        }
-    }
-`;
-
-export const GET_USER_LIKED_POST = gql`
-    query GetUserLikedPost {
-        userLikedPost {
-            userLikedPostList {
-                postid
-            }
+            isUserSavedThePost
         }
     }
 `;
@@ -83,21 +86,21 @@ export const CREATE_POST = gql`
         $title : String!
         $content : String!
         $tags : String
-        $like : Int
     ){
         createPost(input : {
             title : $title
             content : $content
             tags : $tags
-            like : $like
         })
         {
             _id
             title
-            like
+            userliked
+            usersaved
             tags
             createdAt
             user {
+                _id
                 username
                 userprofile
             }
@@ -117,18 +120,7 @@ export const SET_POST_LIKE = gql`
             type : $type
         }) 
         {
-            postList {
-                _id
-                title
-                like
-                tags
-                createdAt
-                user {
-                  username
-                  userprofile
-                }
-            }
-            userLikedPostList {
+            userliked {
                 postid
             }
         }
