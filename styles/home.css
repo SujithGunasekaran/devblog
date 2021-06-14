@@ -164,6 +164,14 @@
     font-weight: 700;
     transition: 0.4s all ease-in-out;
 }
+.home_middle_post_like_icon_active
+{
+    width: 17px !important;
+    font-size: 1.7rem !important;
+    color : var(--danger-color);
+    font-weight: 700;
+    transition: 0.4s all ease-in-out;
+}
 .home_middle_post_like_count
 {
     padding-left: 7px;
