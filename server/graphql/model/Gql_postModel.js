@@ -1,5 +1,3 @@
-const userLikedPostModel = require('../../mongodb/model/userLikedPostModel');
-const userSavedPostModel = require('../../mongodb/model/userSavedPostModel');
 
 class postModel {
 
