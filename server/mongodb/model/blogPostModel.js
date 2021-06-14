@@ -18,11 +18,13 @@ const blogPostSchema = new Schema({
     tags: {
         type: String
     },
-    like: {
-        type: Number
+    userliked: {
+        type: Array,
+        default: []
     },
-    saved: {
-        type: Number
+    usersaved: {
+        type: Array,
+        default: []
     },
     createdAt: {
         type: Date,
