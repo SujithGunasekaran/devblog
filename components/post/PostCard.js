@@ -1,15 +1,10 @@
-import dynamic from 'next/dynamic';
-import { checkIsUserLikedPost, convertFullDateToShort } from '../../utils';
-
-const { HeartIcon } = {
-    HeartIcon: dynamic(() => import('../icons').then(component => component.HeartIcon))
-}
+import { HeartIcon, HeartLightIcon } from '../icons';
+import { convertFullDateToShort } from '../../utils';
 
 
 const PostCard = (props) => {
 
-    const { postInfo, userLikedList } = props;
-    const isUserLikedPost = checkIsUserLikedPost(postInfo._id, userLikedList);
+    const { postInfo, loggedUserInfo } = props;
     let createdPostDate = convertFullDateToShort(postInfo.createdAt);
 
     return (
@@ -30,9 +25,9 @@ const PostCard = (props) => {
                         </div>
                         <div className="home_middle_post_reaction_container">
                             <div className="home_middle_post_like_bg">
-                                <HeartIcon cssClass={isUserLikedPost ? 'home_middle_post_like_icon active_icon' : 'home_middle_post_like_icon'} />
+                                <HeartLightIcon cssClass={postInfo && postInfo.userliked && loggedUserInfo && postInfo.userliked.includes(loggedUserInfo._id) ? "home_middle_post_like_icon_active" : "home_middle_post_like_icon"} />
                             </div>
-                            <div className="home_middle_post_like_count">{postInfo?.like ?? 0} Liked</div>
+                            <div className="home_middle_post_like_count">{postInfo?.userliked.length ?? 0} Liked</div>
                         </div>
                     </div>
                 </div>
