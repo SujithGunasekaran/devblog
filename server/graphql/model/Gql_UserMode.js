@@ -7,9 +7,10 @@ class userModel {
         this.request = req;
     }
 
-    getUser() {
+    async getUser() {
         if (this.request.isAuthenticated()) {
-            return this.request.user;
+            const userInfo = await this.model.findOne({ _id: this.request.user._id }).populate('usersavedpost');
+            return userInfo;
         }
         return null;
     }
@@ -22,6 +23,16 @@ class userModel {
         catch (err) {
             throw new Error('user not loggedin');
         }
+    }
+
+    async updateUserSavedPost(userid, postid, type) {
+
+        const updatedResult = type === 'add' ? await this.model.findOneAndUpdate({ _id: userid }, { $set: { usersavedpost: { postid } } }, { new: true, runValidators: true }) :
+            await this.model.findOneAndUpdate({ _id: userid }, { $pull: { usersavedpost: { postid } } }, { new: true, runValidators: true });
+        if (!updatedResult) return new Error("Error while updating the saved post");
+
+        return updatedResult;
+
     }
 
 }
