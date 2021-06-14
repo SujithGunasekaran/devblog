@@ -1,10 +1,15 @@
 
 exports.postTypes = `
 
+    type postIdArray {
+        title : String
+    }
+
     type userData {
         _id : ID
         username : String
         userprofile : String
+        usersavedpost : [postIdArray]
     }
 
     type post {
@@ -12,44 +17,29 @@ exports.postTypes = `
         title : String
         content : String
         user : userData
-        like : Int
-        saved : Int
         tags : String
         createdAt : String
+        userliked : [String],
+        usersaved : [String]
     }
 
     type allPost {
         postList : [post]
+        loggedUserInfo : userData
     }
 
     input createPostInput {
         title : String!
         content : String!
         tags : String
-        like : Int
-        saved : Int
-    }
-
-    type postIdArray {
-        postid : ID
-    }
-
-    type likePostByUser {
-        userLikedPostList : [postIdArray]
-    }
-
-    type savedPostByUser {
-        userSavedPostList : [postIdArray]
     }
 
     type likeToPostResult {
-        postList : [post],
-        userLikedPostList : [postIdArray]
+        userliked : [String]
     }
 
     type saveToPostResult {
-        postList : [post],
-        userSavedPostList : [postIdArray]
+        usersaved : [String]
     }
 
     type postById {
@@ -60,13 +50,11 @@ exports.postTypes = `
 
     input likeToPost {
         type : String
-        likecount : Int
         postid : ID
     }
 
     input saveToPost {
         type : String
-        saveCount : Int
         postid : ID
     }
 
