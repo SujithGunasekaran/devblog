@@ -23,6 +23,21 @@ class postModel {
 
     }
 
+    _getAuthUserInfo() {
+
+        let userInfo;
+
+        if (!this.request.isAuthenticated()) {
+            return null;
+        }
+        else {
+            userInfo = this.request.user;
+        }
+
+        return userInfo;
+
+    }
+
     async _createPost(post) {
 
         return await this.model.create(post);
@@ -34,7 +49,8 @@ class postModel {
     async getPostList() {
 
         const postList = await this.model.find({}).populate('user');
-        return { postList };
+        const loggedUserInfo = this._getAuthUserInfo();
+        return { postList, loggedUserInfo: loggedUserInfo ? loggedUserInfo : null };
 
     }
 
@@ -59,74 +75,44 @@ class postModel {
 
     }
 
-    // function used to get user liked post id
-
-    async getUserLikedPost() {
-
-        const userID = this._getAuthUserID();
-
-        if (!userID) return { userLikedPostList: [] }
-
-        const userLikedPostData = await userLikedPostModel.find({ userid: userID });
-        return { userLikedPostList: userLikedPostData };
-
-    }
-
-    // function used to get user saved post id
-
-    async getUserSavedPost() {
-
-        const userID = this._getAuthUserID();
-
-        if (!userID) return { userSavedPostList: [] };
-
-        const userSavedPostData = await userSavedPostModel.find({ userid: userID });
-        return { userSavedPostList: userSavedPostData };
-
-    }
-
     // function used to create new like to post
 
     async createNewLikeToPost(input) {
 
-        const { likecount, postid, type } = input;
+        const { postid, type } = input;
         const userID = this._getAuthUserID();
 
         if (!userID) throw new Error('User not authenticated');
 
         try {
-            await this.model.findOneAndUpdate({ _id: postid }, { $set: { like: +likecount } }, { new: true, runValidators: true });
-            type === 'add' ? await userLikedPostModel.create({ userid: userID, postid }) : await userLikedPostModel.findOneAndDelete({ userid: userID, postid });
-            const { userLikedPostList } = await this.getUserLikedPost();
-            const { postList } = await this.getPostList();
+            type === 'add' ? await this.model.findOneAndUpdate({ _id: postid }, { $addToSet: { userliked: userID } }, { new: true, runValidators: true }) : await this.model.findOneAndUpdate({ _id: postid }, { $pull: { userliked: userID } }, { new: true, runValidators: true })
+            const postResult = await this.model.findOne({ _id: postid });
             return {
-                postList: postList,
-                userLikedPostList: userLikedPostList
-            };
+                userliked: postResult.userliked,
+            }
         }
         catch (err) {
             throw new Error(err.message);
         }
+
     }
 
     // function userd to create new save to post
 
-    async createNewSaveToPost(input) {
+    async createNewSaveToPost(input, context) {
 
-        const { saveCount, postid, type } = input;
+        const { postid, type } = input;
         const userID = this._getAuthUserID();
 
         if (!userID) throw new Error('User not authenticated');
 
         try {
-            await this.model.findOneAndUpdate({ _id: postid }, { $set: { saved: +saveCount } }, { new: true, runValidators: true });
-            type === 'add' ? await userSavedPostModel.create({ userid: userID, postid }) : await userSavedPostModel.findOneAndDelete({ userid: userID, postid });
-            const { userSavedPostList } = await this.getUserSavedPost();
-            const { postList } = await this.getPostList();
+            type === 'add' ? await this.model.findOneAndUpdate({ _id: postid }, { $addToSet: { usersaved: userID } }, { new: true, runValidators: true }) : await this.model.findOneAndUpdate({ _id: postid }, { $pull: { usersaved: userID } }, { new: true, runValidators: true })
+            await context.model.userModel.updateUserSavedPost(userID, postid, type);
+            const postResult = await this.model.findOne({ _id: postid });
             return {
-                postList: postList,
-                userSavedPostList: userSavedPostList
-            };
+                usersaved: postResult.usersaved
+            }
         }
         catch (err) {
             throw new Error(err.message);
@@ -142,11 +128,11 @@ class postModel {
         const userid = this._getAuthUserID();
         try {
             const postInfo = await this.model.findOne({ _id: postid }).populate('user');
-            const loggedUserPostAction = userid ? await userLikedPostModel.findOne({ userid, postid }) : false;
-            const loggedUserSaveAction = userid ? await userSavedPostModel.findOne({ userid, postid }) : false;
+            const loggedUserLikeAction = userid ? postInfo.userliked.includes(userid) : false;
+            const loggedUserSaveAction = userid ? postInfo.usersaved.includes(userid) : false;
             const postInfoResult = {
                 postInfo,
-                isUserLikedThePost: loggedUserPostAction ? true : false,
+                isUserLikedThePost: loggedUserLikeAction ? true : false,
                 isUserSavedThePost: loggedUserSaveAction ? true : false
             }
             return postInfoResult;

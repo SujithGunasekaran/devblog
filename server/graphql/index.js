@@ -28,12 +28,8 @@ exports.createApolloServer = () => {
 
         type Query {
 
-            hello : String
             getUserInfo : userInfo
             logout : Boolean
-
-            userLikedPost : likePostByUser 
-            userSavedPost : savedPostByUser
 
             getAllPost : allPost
             getPostById(input : getPostInfo) :  postById
