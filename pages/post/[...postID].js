@@ -11,7 +11,9 @@ const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeft
 const PostInfo = () => {
 
     const router = useRouter();
-    const { postID } = router.query;
+
+    const [postID, postTitle] = router.query.postID;
+
 
     const { data, loading, error } = useGetPostById(postID);
 
@@ -21,7 +23,7 @@ const PostInfo = () => {
         <div>
             <HeaderTag
                 isLogoNameNeeded={false}
-                title={"Post Info"}
+                title={postTitle}
                 description={"Get knowledge from the amazing developer posts"}
                 keyword={"React.js, Javascript, devBlog, devBlog Heroku"}
             />
@@ -30,7 +32,9 @@ const PostInfo = () => {
                     <div className="row">
                         <div className="col-md-1">
                             <div className="post_id_left_container">
-                                <Reaction />
+                                <Reaction
+                                    postData={data}
+                                />
                             </div>
                         </div>
                         <div className="col-md-8">
