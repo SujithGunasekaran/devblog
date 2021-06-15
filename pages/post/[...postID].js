@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import HeaderTag from '../../components/HeadTag';
 import withApollo from '../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetPostById } from '../../apollo/apolloActions';
+import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo/apolloActions';
 
 const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
@@ -14,17 +14,49 @@ const PostInfo = () => {
 
     const [postID, postTitle] = router.query.postID;
 
+    // query and mutation
+    const { data, loading, error: postError } = useGetPostById(postID);
+    const [setLikeToPost, { error: likeError }] = useSetLikeToPost();
+    const [setSaveToPost, { error: saveError }] = useSetSaveToPost();
 
-    const { data, loading, error } = useGetPostById(postID);
+    const handleLikeReaction = async (userLiked, isUserLoggedIn) => {
+        if (data.getPostById && isUserLoggedIn) {
+            try {
+                await setLikeToPost({
+                    variables: {
+                        postid: postID,
+                        type: userLiked ? 'remove' : 'add'
+                    }
+                })
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    }
 
-    // data.getPostById.postInfo
+    const handleSaveReaction = async (userSaved, isUserLoggedIn) => {
+        if (data.getPostById && isUserLoggedIn) {
+            try {
+                await setSaveToPost({
+                    variables: {
+                        postid: postID,
+                        type: userSaved ? 'remove' : 'add'
+                    }
+                })
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    }
 
     return (
         <div>
             <HeaderTag
                 isLogoNameNeeded={false}
                 title={postTitle}
-                description={"Get knowledge from the amazing developer posts"}
+                description={postTitle}
                 keyword={"React.js, Javascript, devBlog, devBlog Heroku"}
             />
             <div className="post_id_main">
@@ -34,6 +66,8 @@ const PostInfo = () => {
                             <div className="post_id_left_container">
                                 <Reaction
                                     postData={data}
+                                    handleLikeReaction={handleLikeReaction}
+                                    handleSaveReaction={handleSaveReaction}
                                 />
                             </div>
                         </div>
@@ -54,7 +88,7 @@ const PostInfo = () => {
                 </div>
             </div>
             {
-                error && <div></div>
+                (postError || likeError || saveError) && <div></div>
             }
         </div>
     )
