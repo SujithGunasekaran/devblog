@@ -75,8 +75,7 @@ export const GET_POST_BY_ID = gql`
                     userprofile
                 }
             }
-            isUserLikedThePost
-            isUserSavedThePost
+            loggedUserid
         }
     }
 `;
@@ -110,22 +109,35 @@ export const CREATE_POST = gql`
 
 export const SET_POST_LIKE = gql`
     mutation AddLikeToPost(
-        $likecount : Int
         $postid : ID
         $type : String
     ){
         addLikeToPost(input : {
-            likecount : $likecount
             postid : $postid
             type : $type
         }) 
         {
-            userliked {
-                postid
-            }
+            userliked
+            postid
         }
     }
 `;
+
+export const SET_POST_SAVE = gql`
+    mutation AddSaveToPost(
+        $postid : ID
+        $type : String
+    ){
+        addSaveToPost(input : {
+            postid : $postid
+            type : $type
+        })
+        {
+            usersaved
+            postid
+        }
+    }   
+`
 
 
 // post queries end

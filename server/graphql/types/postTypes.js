@@ -36,16 +36,17 @@ exports.postTypes = `
 
     type likeToPostResult {
         userliked : [String]
+        postid : ID
     }
 
     type saveToPostResult {
         usersaved : [String]
+        postid : ID
     }
 
     type postById {
         postInfo : post,
-        isUserLikedThePost : Boolean
-        isUserSavedThePost : Boolean
+        loggedUserid : ID
     }
 
     input likeToPost {

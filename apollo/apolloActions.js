@@ -4,6 +4,7 @@ import {
     USER_LOGOUT,
     GET_POST_LIST,
     SET_POST_LIKE,
+    SET_POST_SAVE,
     CREATE_POST,
     GET_POST_BY_ID
 } from './apolloQueries';
@@ -54,21 +55,45 @@ export const useCreatePost = () => useMutation(CREATE_POST, {
 
 export const useSetLikeToPost = () => useMutation(SET_POST_LIKE, {
     update(cache, { data: { addLikeToPost } }) {
-        const userLikedData = cache.readQuery({
-            query: GET_USER_LIKED_POST
-        });
-        if (userLikedData) {
-            try {
-                const { userLikedPost } = userLikedData;
-                cache.writeQuery({
-                    query: GET_USER_LIKED_POST,
-                    data: { userLikedPost: { ...userLikedPost, userLikedPostList: addLikeToPost.userLikedPostList } }
-                })
-            }
-            catch (err) { }
+        const postInfo = cache.readQuery({ query: GET_POST_BY_ID, variables: { postid: addLikeToPost.postid } });
+        if (postInfo) {
+            const { getPostById } = postInfo;
+            cache.writeQuery({
+                query: GET_POST_BY_ID,
+                data: {
+                    getPostById: {
+                        ...getPostById,
+                        postInfo: {
+                            ...getPostById.postInfo,
+                            userliked: addLikeToPost.userliked
+                        }
+                    }
+                }
+            })
         }
     }
 });
+
+export const useSetSaveToPost = () => useMutation(SET_POST_SAVE, {
+    update(cache, { data: { addSaveToPost } }) {
+        const postInfo = cache.readQuery({ query: GET_POST_BY_ID, variables: { postid: addSaveToPost.postid } });
+        if (postInfo) {
+            const { getPostById } = postInfo;
+            cache.writeQuery({
+                query: GET_POST_BY_ID,
+                data: {
+                    getPostById: {
+                        ...getPostById,
+                        postInfo: {
+                            ...getPostById.postInfo,
+                            usersaved: addSaveToPost.usersaved
+                        }
+                    }
+                }
+            })
+        }
+    }
+})
 
 // post actions end
 
