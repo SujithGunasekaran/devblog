@@ -87,6 +87,7 @@ class postModel {
             const postResult = await this.model.findOne({ _id: postid });
             return {
                 userliked: postResult.userliked,
+                postid
             }
         }
         catch (err) {
@@ -109,7 +110,8 @@ class postModel {
             await context.model.userModel.updateUserSavedPost(userID, postid, type);
             const postResult = await this.model.findOne({ _id: postid });
             return {
-                usersaved: postResult.usersaved
+                usersaved: postResult.usersaved,
+                postid
             }
         }
         catch (err) {
@@ -126,12 +128,9 @@ class postModel {
         const userid = this._getAuthUserID();
         try {
             const postInfo = await this.model.findOne({ _id: postid }).populate('user');
-            const loggedUserLikeAction = userid ? postInfo.userliked.includes(userid) : false;
-            const loggedUserSaveAction = userid ? postInfo.usersaved.includes(userid) : false;
             const postInfoResult = {
                 postInfo,
-                isUserLikedThePost: loggedUserLikeAction ? true : false,
-                isUserSavedThePost: loggedUserSaveAction ? true : false
+                loggedUserid: userid ? userid : null
             }
             return postInfoResult;
         }
