@@ -1,5 +1,11 @@
 /* home left panel */
 
+.home_left_dev_main
+{
+    display: flex;
+    flex-direction: column;
+}
+
 .home_left_dev_container
 {
     padding : 20px 15px;
@@ -20,10 +26,10 @@
 {
     padding : 15px 0px;
     color : var(--black-700);
-    font-family: var(--inter-text);
+    font-family: var(--ff-san);
     font-weight: 400;
     font-size: 0.9rem;
-    line-height: 26px;
+    line-height: 25px;
 }
 .home_left_dev_login
 {
@@ -50,6 +56,38 @@
 .home_left_dev_login:hover
 {
     background-color: var(--black-050);
+}
+
+.home_left_dev_popular_container
+{
+    margin : 25px 0px;
+    height : 300px;
+    overflow-y: scroll;
+}
+.home_left_dev_popular_heading
+{
+    position: sticky;
+    position: -webkit-sticky;
+    top : 0px;
+    bottom: 0px;
+    padding : 5px 2px;
+    font-family: var(--ff-san);
+    font-weight: 700;
+    background-color: var(--body-bg);
+    font-size: 1.1rem;
+    letter-spacing: 0.020rem;
+    z-index: 20;
+    color : var(--black-800);
+}
+
+.home_left_dev_popular_container .home_left_dev_popular_list
+{
+    margin : 15px 0px;
+    padding : 0px 3px;
+    list-style: none;
+    font-family: var(--ff-san);
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 /* home middle panel */

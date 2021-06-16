@@ -104,9 +104,9 @@ p
   font-weight: 400;
   font-family: var(--ff-san);
   font-size: 1.25rem;
-  word-spacing: 3px;
+  word-spacing: 2px;
   padding : 5px 0px 5px 4px !important;
-  line-height: 23px;
+  line-height: 31px;
 }
 ol > li
 {
