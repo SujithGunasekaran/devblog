@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import HeaderTag from '../../components/HeadTag';
@@ -7,8 +8,12 @@ import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo
 
 const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
+const LoginModel = dynamic(() => import('../../components/models/ShowLoginModel'));
 
 const PostInfo = () => {
+
+    // state
+    const [showLoginModel, setShowLoginModel] = useState(false);
 
     const router = useRouter();
 
@@ -16,8 +21,8 @@ const PostInfo = () => {
 
     // query and mutation
     const { data, loading, error: postError } = useGetPostById(postID);
-    const [setLikeToPost, { error: likeError }] = useSetLikeToPost();
-    const [setSaveToPost, { error: saveError }] = useSetSaveToPost();
+    const [setLikeToPost, { error: likeError, loading: likeLoading }] = useSetLikeToPost();
+    const [setSaveToPost, { error: saveError, loading: saveLoading }] = useSetSaveToPost();
 
     const handleLikeReaction = async (userLiked, isUserLoggedIn) => {
         if (data.getPostById && isUserLoggedIn) {
@@ -32,6 +37,9 @@ const PostInfo = () => {
             catch (err) {
                 console.log(err);
             }
+        }
+        else {
+            setShowLoginModel(true);
         }
     }
 
@@ -49,7 +57,14 @@ const PostInfo = () => {
                 console.log(err);
             }
         }
+        else {
+            setShowLoginModel(true);
+        }
     }
+
+    const closeModel = useCallback(() => {
+        setShowLoginModel(false);
+    }, [showLoginModel])
 
     return (
         <div>
@@ -66,6 +81,8 @@ const PostInfo = () => {
                             <div className="post_id_left_container">
                                 <Reaction
                                     postData={data}
+                                    likeLoading={likeLoading}
+                                    saveLoading={saveLoading}
                                     handleLikeReaction={handleLikeReaction}
                                     handleSaveReaction={handleSaveReaction}
                                 />
@@ -87,6 +104,20 @@ const PostInfo = () => {
                     </div>
                 </div>
             </div>
+            {
+                showLoginModel &&
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="model_overlay">
+                                <LoginModel
+                                    closeModel={closeModel}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             {
                 (postError || likeError || saveError) && <div></div>
             }
