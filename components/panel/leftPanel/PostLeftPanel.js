@@ -4,7 +4,7 @@ import Zoom from '@material-ui/core/Zoom';
 
 const PostLeftPanel = (props) => {
 
-    const { postData, handleLikeReaction, handleSaveReaction } = props;
+    const { postData, likeLoading, saveLoading, handleLikeReaction, handleSaveReaction } = props;
 
     const isUserLikedThePost = postData && postData.getPostById && postData.getPostById.loggedUserid ? postData.getPostById.postInfo.userliked.includes(postData.getPostById.loggedUserid) : false
     const isUserSavedThePost = postData && postData.getPostById && postData.getPostById.loggedUserid ? postData.getPostById.postInfo.usersaved.includes(postData.getPostById.loggedUserid) : false
@@ -14,7 +14,7 @@ const PostLeftPanel = (props) => {
         <>
             <div className="post_id_left_icon_container">
                 <Tooltip TransitionComponent={Zoom} title={postData && postData.getPostById && postData.getPostById.isUserLikedThePost ? 'Dislike' : 'Like'} arrow>
-                    <div className="post_id_left_heart_icon_bg" onClick={() => handleLikeReaction(isUserLikedThePost, postData.getPostById.loggedUserid)}>
+                    <div className="post_id_left_heart_icon_bg" onClick={() => !likeLoading && handleLikeReaction(isUserLikedThePost, postData.getPostById.loggedUserid)}>
                         <HeartLightIcon cssClass={isUserLikedThePost ? "post_id_left_heart_icon_active" : "post_id_left_heart_icon"} />
                     </div>
                 </Tooltip>
@@ -22,7 +22,7 @@ const PostLeftPanel = (props) => {
             </div>
             <div className="post_id_left_icon_container">
                 <Tooltip TransitionComponent={Zoom} title={postData && postData.getPostById && postData.getPostById.isUserSavedThePost ? 'unSave' : 'Save'} arrow>
-                    <div className="post_id_left_save_icon_bg" onClick={() => handleSaveReaction(isUserSavedThePost, postData.getPostById.loggedUserid)}>
+                    <div className="post_id_left_save_icon_bg" onClick={() => !saveLoading && handleSaveReaction(isUserSavedThePost, postData.getPostById.loggedUserid)}>
                         <BookmarkLightIcon cssClass={isUserSavedThePost ? "post_id_left_save_icon_active" : "post_id_left_save_icon"} />
                     </div>
                 </Tooltip>
