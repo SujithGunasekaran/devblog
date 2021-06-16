@@ -1,12 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import withApollo from '../hoc/withApollo';
 import PageLink from '../components/PageLink';
 import { useGetUserInfo } from '../apollo/apolloActions';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+const LogoutModel = dynamic(() => import('../components/models/ShowLogoutConfirm'));
+
 const Header = () => {
+
+    // state
+    const [showLogoutModel, setShowLogoutModel] = useState(false);
 
     const profileDropdown = useRef();
     const router = useRouter();
@@ -23,7 +29,16 @@ const Header = () => {
 
     const logoutUser = () => {
         profileDropdown.current.classList.remove('show');
+        setShowLogoutModel(true);
+    }
+
+    const confirmLogout = () => {
+        setShowLogoutModel(false);
         router.push('/logout');
+    }
+
+    const cancelLogout = () => {
+        setShowLogoutModel(false);
     }
 
     return (
@@ -74,6 +89,21 @@ const Header = () => {
                     }
                 </div>
             </div>
+            {
+                showLogoutModel &&
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="model_overlay">
+                                <LogoutModel
+                                    confirmLogout={confirmLogout}
+                                    cancelLogout={cancelLogout}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             {
                 error && <div></div>
             }
