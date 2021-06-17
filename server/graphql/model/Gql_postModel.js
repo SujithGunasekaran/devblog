@@ -1,4 +1,4 @@
-
+const tagsModel = require('../../mongodb/model/tagsModel');
 class postModel {
 
     constructor(model, req) {
@@ -138,6 +138,19 @@ class postModel {
             throw new Error('Something went wrong while getting post');
         }
 
+    }
+
+    // function use to get tag list
+
+    async getPopularTags() {
+        try {
+            const tagList = await tagsModel.find({});
+            if (tagList.length === 0) throw new Error('Error while getting tagList');
+            return tagList[0];
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
     }
 
 }

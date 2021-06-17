@@ -31,6 +31,8 @@ exports.createApolloServer = () => {
             getUserInfo : userInfo
             logout : Boolean
 
+            getTagList : tagList
+
             getAllPost : allPost
             getPostById(input : getPostInfo) :  postById
 
