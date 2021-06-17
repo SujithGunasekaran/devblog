@@ -1,5 +1,8 @@
 import PageLink from '../../PageLink';
+import dynamic from 'next/dynamic';
 import { memo } from 'react';
+
+const TagList = dynamic(() => import('../../TagList.js'));
 
 const HomeLeftPanel = memo(() => {
 
@@ -14,20 +17,7 @@ const HomeLeftPanel = memo(() => {
                     </PageLink>
                 </button>
             </div>
-            <div className="home_left_dev_popular_container">
-                <div className="home_left_dev_popular_heading">Popular Tags</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-                <div className="home_left_dev_popular_list"># React</div>
-            </div>
+            <TagList />
         </div>
     )
 
