@@ -9,6 +9,8 @@ export const GET_USER_INFO = gql`
             userid
             username
             userprofile
+            userdescription
+            joined
             usersavedpost {
                 postid
             }
@@ -81,6 +83,8 @@ export const GET_POST_BY_ID = gql`
                     _id
                     username
                     userprofile
+                    userdescription
+                    joined
                 }
             }
             loggedUserid
