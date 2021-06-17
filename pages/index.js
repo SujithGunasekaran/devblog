@@ -33,7 +33,7 @@ const Home = () => {
               post.getAllPost.postList.map((postInfo, index) => (
                 <PageLink
                   key={index}
-                  href={'/post/[...postID]'} as={`/post/${postInfo._id}/${postInfo.title}`}
+                  href={'/post/[postID]'} as={`/post/${postInfo._id}`}
                 >
                   <a className="home_middle_post_link">
                     <PostCard

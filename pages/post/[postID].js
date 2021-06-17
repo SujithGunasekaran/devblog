@@ -9,6 +9,7 @@ import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo
 const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
 const LoginModel = dynamic(() => import('../../components/models/ShowLoginModel'));
+const UserCard = dynamic(() => import('../../components/panel/rightPanel/PostRightPanel'));
 
 const PostInfo = () => {
 
@@ -17,7 +18,7 @@ const PostInfo = () => {
 
     const router = useRouter();
 
-    const [postID, postTitle] = router.query.postID;
+    const { postID } = router.query;
 
     // query and mutation
     const { data, loading, error: postError } = useGetPostById(postID);
@@ -105,7 +106,15 @@ const PostInfo = () => {
                             </div>
                         </div>
                         <div className="col-md-3">
-                            Post created user detail
+                            <div className="post_id_right_container">
+                                {
+                                    data && data.getPostById && data.getPostById.postInfo &&
+                                    <UserCard
+                                        userInfo={data.getPostById.postInfo.user}
+                                    />
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
