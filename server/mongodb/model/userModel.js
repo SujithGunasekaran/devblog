@@ -26,6 +26,10 @@ const userSchema = new Schema({
     userdescription: {
         type: String
     },
+    joined: {
+        type: Date,
+        default: Date.now
+    },
     usersavedpost: [userSavedPostSchema]
 })
 

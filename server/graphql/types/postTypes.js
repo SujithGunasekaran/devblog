@@ -9,6 +9,8 @@ exports.postTypes = `
         _id : ID
         username : String
         userprofile : String
+        userdescription : String
+        joined : String
         usersavedpost : [postIdArray]
     }
 
