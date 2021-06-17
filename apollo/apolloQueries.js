@@ -54,6 +54,14 @@ export const GET_POST_LIST = gql`
     }
 `;
 
+export const GET_TAG_LIST = gql`
+    query GetTagList {
+        getTagList {
+            taglist
+        }
+    }
+`
+
 export const GET_POST_BY_ID = gql`
     query GetPostById(
         $postid : ID

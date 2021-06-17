@@ -6,7 +6,8 @@ import {
     SET_POST_LIKE,
     SET_POST_SAVE,
     CREATE_POST,
-    GET_POST_BY_ID
+    GET_POST_BY_ID,
+    GET_TAG_LIST
 } from './apolloQueries';
 
 
@@ -23,6 +24,8 @@ export const useLogout = () => useQuery(USER_LOGOUT);
 // post actions start
 
 export const useGetAllPost = () => useQuery(GET_POST_LIST);
+
+export const useGetTagList = () => useQuery(GET_TAG_LIST);
 
 export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid } })
 
