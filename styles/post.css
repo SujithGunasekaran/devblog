@@ -401,3 +401,110 @@
 {
     padding : 15px 0px;
 }
+
+/* post right content */
+
+.post_id_right_container
+{
+    position: sticky;
+    position: -webkit-sticky;
+    top : 78px;
+    bottom: 0;
+}
+.post_id_right_user_card_container
+{
+    border-radius: 8px;
+    background-color: var(--header-bg);
+    border: 1px solid var(--black-100);
+}
+.post_id_right_user_card_header
+{
+    height : 25px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: var(--black-800);
+}
+.post_id_right_user_card_subhead_container
+{
+    position: relative;
+    padding : 25px 20px;
+}
+.post_id_right_user_card_info
+{
+    position: absolute;
+    top: -15px;
+    display: flex;
+}
+.post_id_right_user_card_profile
+{
+    border-radius: 50%;
+    width: 49px;
+    height : 49px;
+}
+.post_id_right_user_card_name
+{
+    margin: 20px 0px 0px 10px;
+    font-family: var(--ff-san);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--black-800);
+    letter-spacing: 0.010rem;
+}
+.post_id_right_body_container
+{
+    padding : 0px 15px;
+}
+.post_id_right_body_content
+{
+    padding : 5px 0px;
+    font-size: .930rem;
+    line-height: 25px;
+    font-weight: 400;
+    letter-spacing: 0.013rem;
+    font-family: var(--ff-san);
+    color : var(--black-800);
+}
+.post_id_right_body_btn
+{
+    margin: 15px 0px 15px 0px;
+    padding : 8px 0px;
+    width : 100%;
+    background-color: var(--btn-blue);
+    border-radius: 8px;
+    border : none;
+    color: var(--text-white);
+    font-family: var(--inter-text);
+    font-size: .940rem;
+}
+.post_id_right_body_info_container
+{
+    padding: 10px 0px 25px 0px;
+    display: flex;
+    flex-direction: column;
+}
+.post_id_right_body_info_heading
+{
+    font-size: .860rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.010rem;
+    font-family: var(--ff-san);
+    color : var(--black-600);
+}
+.post_id_right_body_info_content
+{
+    padding : 4px 0px 0px 0px;
+    font-size: .950rem;
+    font-weight: 400;
+    font-family: var(--ff-san);
+    color : var(--black-800);
+}
+
+@media(max-width: 500px) {
+    .post_id_right_container{ margin-top : 30px; }
+}
+
+@media(max-width: 800px) {
+    .post_id_left_container{display: none;}
+    .post_id_middle_container{padding : 10px 9px}
+}
