@@ -40,6 +40,7 @@
     border-radius: 6px;
     padding : 8px 10px;
     font-family: var(--inter-text);
+    background-color: var(--black-100);
     font-size: 0.950rem;
     transition: 0.5s all ease-in-out;
 }
@@ -55,7 +56,7 @@
 }
 .home_left_dev_login:hover
 {
-    background-color: var(--black-050);
+    background-color: var(--black-100);
 }
 
 .home_left_dev_popular_container
@@ -86,7 +87,7 @@
     padding : 0px 3px;
     list-style: none;
     font-family: var(--ff-san);
-    font-size: 1rem;
+    font-size: .960rem;
     font-weight: 400;
 }
 
