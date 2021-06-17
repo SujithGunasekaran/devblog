@@ -68,12 +68,18 @@ const PostInfo = () => {
 
     return (
         <div>
-            <HeaderTag
-                isLogoNameNeeded={false}
-                title={postTitle}
-                description={postTitle}
-                keyword={"React.js, Javascript, devBlog, devBlog Heroku"}
-            />
+            {
+                data && data.getPostById && data.getPostById.postInfo ?
+                    <HeaderTag
+                        isLogoNameNeeded={false}
+                        title={data.getPostById.postInfo.title}
+                        description={data.getPostById.postInfo.title}
+                        keyword={data.getPostById.postInfo.tags}
+                    />
+                    :
+                    <HeaderTag />
+            }
+
             <div className="post_id_main">
                 <div className="container-fluid">
                     <div className="row">
