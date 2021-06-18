@@ -9,7 +9,7 @@ import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo
 const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
 const LoginModel = dynamic(() => import('../../components/models/ShowLoginModel'));
-const UserCard = dynamic(() => import('../../components/panel/rightPanel/PostRightPanel'));
+const UserInfo = dynamic(() => import('../../components/panel/rightPanel/PostRightPanel'));
 
 const PostInfo = () => {
 
@@ -109,8 +109,9 @@ const PostInfo = () => {
                             <div className="post_id_right_container">
                                 {
                                     data && data.getPostById && data.getPostById.postInfo &&
-                                    <UserCard
+                                    <UserInfo
                                         userInfo={data.getPostById.postInfo.user}
+                                        postid={data.getPostById.postInfo._id}
                                     />
                                 }
 
