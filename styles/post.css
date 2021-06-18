@@ -413,15 +413,15 @@
 }
 .post_id_right_user_card_container
 {
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: var(--header-bg);
     border: 1px solid var(--black-100);
 }
 .post_id_right_user_card_header
 {
     height : 25px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     background-color: var(--black-800);
 }
 .post_id_right_user_card_subhead_container
@@ -499,6 +499,65 @@
     font-family: var(--ff-san);
     color : var(--black-800);
 }
+.post_id_right_user_post_container
+{
+    margin : 25px 0px;
+    padding : 20px 15px;
+    border-radius: 6px;
+    background-color:var(--header-bg);
+    border : 1px solid var(--black-100);
+}
+.post_id_right_user_post_heading
+{
+    padding-bottom: 15px;
+    font-family: var(--ff-san);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.010rem;
+    border-bottom: 1px solid var(--black-100);
+}
+.post_id_right_user_post_list_container
+{
+    margin : 10px 0px;
+}
+.post_id_right_user_post_list_container > .user_post_list
+{
+    padding : 10px 0px;
+    border-radius: 6px;
+}
+.post_id_right_user_post_list_container > .user_post_list:hover
+{
+    cursor: pointer;
+}
+.post_id_right_user_post_list_container > .user_post_list:hover  .post_heading
+{
+    color : var(--text-blue);
+}
+
+.post_id_right_user_post_list_container > .user_post_list > .post_heading
+{
+    font-family: var(--ff-san);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.010rem;
+    color : var(--black-900);
+}
+.post_id_right_user_post_list_container > .user_post_list > .tag_container
+{
+    padding : 8px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.post_id_right_user_post_list_container > .user_post_list > .tag_container > .tagName
+{
+    padding-right: 8px;
+    font-family: var(--ff-san);
+    font-size: .9rem;
+    font-weight: 400;
+    color : var(--black-600);
+}
+
 
 @media(max-width: 500px) {
     .post_id_right_container{ margin-top : 30px; }

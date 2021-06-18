@@ -40,7 +40,7 @@
     border-radius: 6px;
     padding : 8px 10px;
     font-family: var(--inter-text);
-    background-color: var(--black-100);
+    background-color: var(--black-050);
     font-size: 0.950rem;
     transition: 0.5s all ease-in-out;
 }
