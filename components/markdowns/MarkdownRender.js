@@ -24,7 +24,7 @@ const MarkdownRender = (props) => {
     }
 
     return (
-        <ReactMarkdown remarkPlugins={[gfm, { singleTilde: false }]} skipHtml={false} components={customRenderers} children={content} />
+        <ReactMarkdown plugins={[gfm]} components={customRenderers} children={content} />
     )
 
 }
