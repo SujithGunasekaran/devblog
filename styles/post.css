@@ -333,6 +333,7 @@
 .post_id_middle_head_tag_name
 {
     margin-top: 4px;
+    margin-right : 9px;
     padding : 3px 9px;
     border-radius: 6px;
     font-family: var(--inter-text);
@@ -340,10 +341,6 @@
     font-weight: 500;
     background-color: var(--black-600);
     color: var(--text-white);
-}
-.post_id_middle_head_tag_container .post_id_middle_head_tag_name:nth-child(n + 2)
-{
-    margin-left: 9px;
 }
 .post_id_middle_head_profile_container
 {
@@ -419,7 +416,7 @@
 }
 .post_id_right_user_card_header
 {
-    height : 25px;
+    height : 20px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     background-color: var(--black-800);
@@ -432,7 +429,7 @@
 .post_id_right_user_card_info
 {
     position: absolute;
-    top: -15px;
+    top: -13px;
     display: flex;
 }
 .post_id_right_user_card_profile
@@ -443,7 +440,7 @@
 }
 .post_id_right_user_card_name
 {
-    margin: 20px 0px 0px 10px;
+    margin: 18px 0px 0px 10px;
     font-family: var(--ff-san);
     font-size: 1.2rem;
     font-weight: 500;
@@ -524,6 +521,7 @@
 {
     padding : 10px 0px;
     border-radius: 6px;
+    border-bottom: 1px solid var(--black-050);
 }
 .post_id_right_user_post_list_container > .user_post_list:hover
 {

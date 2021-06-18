@@ -97,14 +97,47 @@
 {
     display: flex;
     align-items: center;
-    padding : 0px 5px 10px 5px;
+    justify-content: space-between;
 }
 .home_middle_head_info
 {
-    font-family: var(--inter-text);
-    font-size: 1.050rem;
+    font-family: var(--ff-san);
+    font-size: 1.180rem;
     font-weight: 700;
     color : var(--black-900);
+}
+
+.home_middle_head_date_conatiner
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.home_middle_head_date_conatiner > .home_middle_head_date_name
+{
+    margin-right: 10px;
+    padding : 7px;
+    border-radius: 6px;
+    font-family: var(--ff-san);
+    font-size: .970rem;
+    font-weight: 500;
+    border-bottom: 3px solid var(--body-bg);
+    color : var(--black-900);
+    cursor: pointer;
+    transition: 0.4s all ease-in-out;
+}
+.home_middle_head_date_conatiner > .home_middle_head_date_name.active
+{
+    color : var(--text-blue);
+    border-bottom: 3px solid var(--border-blue);
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    transition: 0.4s all ease-in-out;
+}
+.home_middle_head_date_conatiner > .home_middle_head_date_name:hover
+{
+    background-color: var(--hover-blue);
+    color : var(--text-blue);
 }
 .home_middle_post_link
 {
