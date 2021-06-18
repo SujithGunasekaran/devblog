@@ -55,6 +55,10 @@ exports.postTypes = `
         taglist : [String]
     }
 
+    type postByUser {
+        postList : [post]
+    }
+
     input likeToPost {
         type : String
         postid : ID
