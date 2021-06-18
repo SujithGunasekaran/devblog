@@ -7,6 +7,7 @@ import {
     SET_POST_SAVE,
     CREATE_POST,
     GET_POST_BY_ID,
+    GET_POST_BY_USER,
     GET_TAG_LIST
 } from './apolloQueries';
 
@@ -27,7 +28,9 @@ export const useGetAllPost = () => useQuery(GET_POST_LIST);
 
 export const useGetTagList = () => useQuery(GET_TAG_LIST);
 
-export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid } })
+export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid } });
+
+export const useGetPostByUser = (postid) => useQuery(GET_POST_BY_USER, { variables: { postid } });
 
 export const useCreatePost = () => useMutation(CREATE_POST, {
     update(cache, { data: { createPost } }) {

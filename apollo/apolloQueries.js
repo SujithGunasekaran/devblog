@@ -92,6 +92,18 @@ export const GET_POST_BY_ID = gql`
     }
 `;
 
+export const GET_POST_BY_USER = gql`
+    query GetPostByUser($postid : ID) {
+        getPostByUser(postid : $postid){
+            postList {
+                _id
+                title
+                tags
+            }
+        }
+    }
+`
+
 export const CREATE_POST = gql`
     mutation CreatePost(
         $title : String!
