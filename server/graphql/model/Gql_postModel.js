@@ -47,6 +47,7 @@ class postModel {
     async getPostList() {
 
         const postList = await this.model.find({}).populate('user');
+        if (!postList) throw new Error('Error while getting post list');
         const loggedUserInfo = this._getAuthUserInfo();
         return { postList, loggedUserInfo: loggedUserInfo ? loggedUserInfo : null };
 
@@ -64,6 +65,7 @@ class postModel {
 
         try {
             const createdPost = await this._createPost(post);
+            if (!createdPost) throw new Error('Error while creating post');
             const getCreatedPost = await this.model.findOne({ _id: createdPost._id }).populate('user');
             return getCreatedPost;
         }
@@ -128,6 +130,7 @@ class postModel {
         const userid = this._getAuthUserID();
         try {
             const postInfo = await this.model.findOne({ _id: postid }).populate('user');
+            if (!postInfo) throw new Error('Error while getting post info');
             const postInfoResult = {
                 postInfo,
                 loggedUserid: userid ? userid : null
@@ -136,6 +139,25 @@ class postModel {
         }
         catch (err) {
             throw new Error('Something went wrong while getting post');
+        }
+
+    }
+
+    // function used to get post list by user
+
+    async getPostListByUser(postid) {
+
+        try {
+            const postInfo = await this.model.findOne({ _id: postid });
+            if (!postInfo) throw new Error('Error while getting postInfo');
+            const userPostList = await this.model.find({ user: postInfo.user }).limit(5);
+            if (!userPostList) throw new Error('Error while getting user post list');
+            return {
+                postList: userPostList
+            }
+        }
+        catch (err) {
+            throw new Error(err.message);
         }
 
     }

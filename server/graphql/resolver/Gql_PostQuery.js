@@ -7,6 +7,10 @@ exports.postQuery = {
         const postInfo = await context.model.postModel.getPostInfoById(input);
         return postInfo;
     },
+    getPostByUser: async (root, { postid }, context) => {
+        const postList = await context.model.postModel.getPostListByUser(postid);
+        return postList;
+    },
     getTagList: async (root, args, context) => {
         const tagList = await context.model.postModel.getPopularTags();
         return tagList;
