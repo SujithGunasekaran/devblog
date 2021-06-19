@@ -1,5 +1,6 @@
 import { convertFullDateToLong } from '../../../utils';
 import UserPostList from '../../post/UserPostList';
+import PageLink from '../../PageLink';
 
 const PostRightPanel = (props) => {
 
@@ -12,7 +13,9 @@ const PostRightPanel = (props) => {
                 <div className="post_id_right_user_card_subhead_container">
                     <div className="post_id_right_user_card_info">
                         <img src={userInfo.userprofile} loading="lazy" className="post_id_right_user_card_profile" />
-                        <div className="post_id_right_user_card_name">{userInfo.username ? `${userInfo.username[0].toUpperCase()}${userInfo.username.slice(1).toLowerCase()}` : ''}</div>
+                        <PageLink href="/user/[userID]" as={`/user/${userInfo._id}`}>
+                            <div className="post_id_right_user_card_name">{userInfo.username ? `${userInfo.username[0].toUpperCase()}${userInfo.username.slice(1).toLowerCase()}` : ''}</div>
+                        </PageLink>
                     </div>
                 </div>
                 <div className="post_id_right_body_container">
@@ -27,6 +30,7 @@ const PostRightPanel = (props) => {
             <div className="post_id_right_user_post_container">
                 <UserPostList
                     postid={postid}
+                    userid={userInfo?._id ?? ''}
                     userName={userInfo?.username ?? ''}
                 />
             </div>

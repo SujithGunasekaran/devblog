@@ -1,14 +1,19 @@
 import withApollo from '../../hoc/withApollo';
 import { useGetPostByUser } from '../../apollo/apolloActions';
 import PageLink from '../../components/PageLink';
+import { prettyUserName } from '../../utils';
 
-const UserPostList = ({ postid, userName }) => {
+const UserPostList = ({ postid, userName, userid }) => {
 
     const { data, loading, error } = useGetPostByUser(postid);
 
     return (
         <div>
-            <div className="post_id_right_user_post_heading">More from <span className="highlight">{userName ? `${userName[0].toUpperCase()}${userName.slice(1).toLowerCase()}` : ''}</span></div>
+            <div className="post_id_right_user_post_heading">More from
+                <PageLink href={'/user/[userID]'} as={`/user/${userid}`}>
+                    <span className="highlight">{prettyUserName(userName)}</span>
+                </PageLink>
+            </div>
             <div className="post_id_right_user_post_list_container">
                 {
                     data && data.getPostByUser && data.getPostByUser.postList &&

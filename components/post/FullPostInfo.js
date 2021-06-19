@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
-import { convertFullDateToShort } from '../../utils';
+import { convertFullDateToShort, prettyUserName } from '../../utils';
+import PageLink from '../PageLink';
 
 const Markdown = dynamic(() => import('../markdowns/MarkdownRender'));
 
@@ -21,7 +22,9 @@ const FullPostInfo = (props) => {
             <div className="post_id_middle_head_profile_container">
                 <div className="post_id_middle_head_profile_subhead">
                     <img src={postData?.user?.userprofile ?? ''} className="post_id_middle_head_profile_image" alt={postData?.user?.username ?? ''} />
-                    <div className="post_id_middle_head_profile_name">{postData.user && `${postData.user?.username[0].toUpperCase() ?? ''}${postData.user?.username.slice(1).toLowerCase() ?? ''}`}</div>
+                    <PageLink href={'/user/[userID]'} as={`/user/${postData.user._id}`}>
+                        <div className="post_id_middle_head_profile_name">{prettyUserName(postData.user.username)}</div>
+                    </PageLink>
                 </div>
                 <div className="post_id_middle_head_profile_date">{postData.createdAt ? convertFullDateToShort(postData.createdAt) : ''}</div>
             </div>
