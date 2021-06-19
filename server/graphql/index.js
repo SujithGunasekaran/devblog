@@ -29,6 +29,7 @@ exports.createApolloServer = () => {
         type Query {
 
             getUserInfo : userInfo
+            getUserById(userid : ID) : userDataInfo 
             logout : Boolean
 
             getTagList : tagList

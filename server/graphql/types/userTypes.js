@@ -14,4 +14,9 @@ exports.userTypes = `
         usersavedpost : [postArray] 
     }
 
+    type userDataInfo {
+        userData : userInfo
+        postcount : Int
+    }
+
 `;
