@@ -25,6 +25,23 @@ class userModel {
         }
     }
 
+    async getUserInfoById(userid, context) {
+
+        try {
+            const userData = await this.model.findOne({ _id: userid });
+            const userPostCount = await context.model.postModel.getPostCountByUser(userid);
+            if (!userData) throw new Error('Error while getting user info');
+            return {
+                userData,
+                postcount: userPostCount
+            };
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
     async updateUserSavedPost(userid, postid, type) {
 
         const updatedResult = type === 'add' ? await this.model.findOneAndUpdate({ _id: userid }, { $set: { usersavedpost: { postid } } }, { new: true, runValidators: true }) :

@@ -175,6 +175,21 @@ class postModel {
         }
     }
 
+    // function used to get post count by user id
+
+    async getPostCountByUser(userid) {
+
+        try {
+            const postCount = await this.model.countDocuments({ user: userid });
+            if (!postCount) throw new Error('Error while getting post count');
+            return postCount;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
 }
 
 module.exports = postModel;
