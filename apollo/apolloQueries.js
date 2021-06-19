@@ -18,6 +18,24 @@ export const GET_USER_INFO = gql`
     }
 `;
 
+export const GET_USER_INFO_BY_ID = gql`
+    query GetUserInfoById($userid : ID) {
+        getUserById(userid : $userid) {
+            userData {
+                _id
+                username
+                userprofile
+                userdescription
+                joined
+                usersavedpost {
+                    postid
+                }
+            }
+            postcount
+        }
+    }
+`
+
 export const USER_LOGOUT = gql`
     query Logout {
         logout

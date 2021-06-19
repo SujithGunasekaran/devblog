@@ -1,6 +1,7 @@
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import {
     GET_USER_INFO,
+    GET_USER_INFO_BY_ID,
     USER_LOGOUT,
     GET_POST_LIST,
     SET_POST_LIKE,
@@ -15,6 +16,8 @@ import {
 // auth actions start
 
 export const useGetUserInfo = () => useLazyQuery(GET_USER_INFO);
+
+export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid } });
 
 export const useLogout = () => useQuery(USER_LOGOUT);
 
