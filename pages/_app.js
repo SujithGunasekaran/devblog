@@ -6,6 +6,7 @@ import '../styles/form.css';
 import '../styles/post.css';
 import '../styles/home.css';
 import '../styles/model.css';
+import '../styles/user.css';
 
 // dynamic import
 const Header = dynamic(() => import('../components/Header'), { loading: () => <div>Loading...</div> })

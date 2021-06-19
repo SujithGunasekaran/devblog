@@ -19,3 +19,17 @@ export const convertFullDateToShort = (date) => {
 export const convertFullDateToLong = (date) => {
     return date ? moment(+date).format('ll') : ''
 }
+
+/**
+ * Function converts normal name to camel case with space Eg. james h to => James H
+ * @param username 
+ * @returns 
+ */
+
+export const prettyUserName = (username) => {
+    let prettyName = '';
+    if (username) {
+        prettyName = username.split(' ').map(user => `${user[0].toUpperCase()}${user.slice(1).toLowerCase()}`).join(' ');
+    }
+    return prettyName;
+}
