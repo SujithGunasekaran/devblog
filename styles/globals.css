@@ -11,6 +11,8 @@
   --btn-blue : #323ebe;
   --border-blue : #323ebe;
   --hover-blue : #dedff5;
+  --light-blue-bg : #dedff5;
+
 
   --danger-color : #dc1818;
   --danger-bg : #fde0e0;
@@ -134,7 +136,11 @@ pre
 {
   color : var(--text-blue) !important;
 }
-
+.anchor 
+{
+  cursor: pointer;
+  text-decoration: none;
+}
 .light_text
 {
   color : var(--black-200);
@@ -183,6 +189,17 @@ pre
   border-radius: 8px;
   display: flex;
   align-items: center;
+}
+.zero_post_message
+{
+  padding : 8px 8px;
+  font-family: var(--inter-text);
+  font-size: .9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: var(--light-blue-bg);
+  letter-spacing: 0.005rem;
+  color : var(--black-700);
 }
 
 @media(max-width:750px)

@@ -115,8 +115,8 @@
 }
 .home_middle_head_date_conatiner > .home_middle_head_date_name
 {
-    margin-right: 10px;
-    padding : 7px;
+    margin-right: 5px;
+    padding : 7px 10px;
     border-radius: 6px;
     font-family: var(--ff-san);
     font-size: .970rem;
