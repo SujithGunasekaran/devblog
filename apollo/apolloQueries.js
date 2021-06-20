@@ -9,11 +9,6 @@ export const GET_USER_INFO = gql`
             userid
             username
             userprofile
-            userdescription
-            joined
-            usersavedpost {
-                postid
-            }
        }
     }
 `;
@@ -28,8 +23,25 @@ export const GET_USER_INFO_BY_ID = gql`
                 userdescription
                 joined
                 usersavedpost {
-                    postid
+                    postid {
+                        _id
+                        title
+                        tags
+                        createdAt
+                        userliked
+                        usersaved
+                        user {
+                            _id
+                            username
+                            userprofile
+                        }
+                    }
                 }
+            }
+            loggedUserInfo {
+                _id
+                username
+                userprofile
             }
             postcount
         }

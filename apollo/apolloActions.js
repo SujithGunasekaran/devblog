@@ -18,9 +18,9 @@ import {
 
 export const useGetUserInfo = () => useLazyQuery(GET_USER_INFO);
 
-export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid } });
+export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid }, fetchPolicy: 'network-only' });
 
-export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid } });
+export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid }, fetchPolicy: 'network-only' });
 
 export const useLogout = () => useQuery(USER_LOGOUT);
 
