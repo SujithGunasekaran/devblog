@@ -34,6 +34,31 @@ export const GET_USER_INFO_BY_ID = gql`
             postcount
         }
     }
+`;
+
+export const GET_USER_POST_LIST = gql`
+    query GetUserPostList($userid : ID) {
+        getUserPosts(userid : $userid) {
+            postInfo {
+                _id
+                title
+                tags
+                createdAt
+                userliked
+                usersaved
+                user {
+                    _id
+                    username
+                    userprofile
+                }
+            }
+            loggedUserInfo {
+                _id
+                username
+                userprofile
+            }
+        }
+    }
 `
 
 export const USER_LOGOUT = gql`
