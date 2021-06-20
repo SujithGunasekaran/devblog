@@ -1,5 +1,5 @@
-import { HeartIcon, HeartLightIcon } from '../icons';
-import { convertFullDateToShort } from '../../utils';
+import { HeartLightIcon } from '../icons';
+import { convertFullDateToShort, prettyUserName } from '../../utils';
 
 
 const PostCard = (props) => {
@@ -13,7 +13,7 @@ const PostCard = (props) => {
                 <div className="home_middle_post_user_container">
                     <img src={`${postInfo?.user.userprofile}` ?? ''} alt={postInfo?.user?.username ?? ''} loading="lazy" className="home_middle_post_user_profile" />
                     <div className="home_middle_post_user_info_display">
-                        <div className="home_middle_post_user_name">{postInfo?.user ? `${postInfo.user.username[0].toUpperCase()}${postInfo.user.username.slice(1).toLowerCase()}` : ''}</div>
+                        <div className="home_middle_post_user_name">{prettyUserName(postInfo.user.username)}</div>
                         <div className="home_middle_post_date">{createdPostDate ? createdPostDate : ''}</div>
                         <div className="home_middle_post_title">{postInfo?.title ?? ''}</div>
                         <div className="home_middle_post_tag_display">

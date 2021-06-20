@@ -1,4 +1,4 @@
-import { convertFullDateToLong } from '../../../utils';
+import { convertFullDateToLong, prettyUserName } from '../../../utils';
 import UserPostList from '../../post/UserPostList';
 import PageLink from '../../PageLink';
 
@@ -14,7 +14,7 @@ const PostRightPanel = (props) => {
                     <div className="post_id_right_user_card_info">
                         <img src={userInfo.userprofile} loading="lazy" className="post_id_right_user_card_profile" />
                         <PageLink href="/user/[userID]" as={`/user/${userInfo._id}`}>
-                            <div className="post_id_right_user_card_name">{userInfo.username ? `${userInfo.username[0].toUpperCase()}${userInfo.username.slice(1).toLowerCase()}` : ''}</div>
+                            <div className="post_id_right_user_card_name">{prettyUserName(userInfo.username)}</div>
                         </PageLink>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ const UserPostList = ({ postid, userName, userid }) => {
         <div>
             <div className="post_id_right_user_post_heading">More from
                 <PageLink href={'/user/[userID]'} as={`/user/${userid}`}>
-                    <span className="highlight">{prettyUserName(userName)}</span>
+                    <span className="highlight" style={{ paddingLeft: '6px' }}>{prettyUserName(userName)}</span>
                 </PageLink>
             </div>
             <div className="post_id_right_user_post_list_container">

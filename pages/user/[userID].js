@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import { useGetUserInfoById } from '../../apollo/apolloActions';
+import { useGetUserInfoById, useGetUserPostList } from '../../apollo/apolloActions';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -16,7 +16,22 @@ const UserPage = () => {
     const router = useRouter();
     const { userID } = router.query;
 
-    const { data, loading, error } = useGetUserInfoById(userID);
+    const { data: userInfo, loading: userInfoLoading, error: userInfoError } = useGetUserInfoById(userID);
+    const [getUserPostList, { data: userPost, loading: userPostLoading, error: userPostError }] = useGetUserPostList(userID);
+
+    // to get user post list 
+    useEffect(() => {
+        invokeUserPostList()
+    }, [])
+
+    const invokeUserPostList = () => {
+        try {
+            getUserPostList();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
     const handleChangeView = (viewName) => {
         setCurrentView(viewName);
@@ -28,7 +43,7 @@ const UserPage = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="user_top_banner">
-                            <img src={data?.getUserById?.userData?.userprofile ?? ''} loading="lazy" alt={data?.getUserById?.userData?.userprofile} className="user_top_info_profile" />
+                            <img src={userInfo?.getUserById?.userData?.userprofile ?? ''} loading="lazy" alt={userInfo?.getUserById?.userData?.userprofile} className="user_top_info_profile" />
                         </div>
                     </div>
                 </div>
@@ -38,9 +53,9 @@ const UserPage = () => {
                     <div className="col-md-10 mx-auto">
                         <div className="user_top_info_container">
                             {
-                                data && data.getUserById &&
+                                userInfo && userInfo.getUserById &&
                                 <UserInfoBanner
-                                    userData={data.getUserById.userData}
+                                    userData={userInfo.getUserById.userData}
                                 />
                             }
                         </div>
@@ -48,19 +63,24 @@ const UserPage = () => {
                             <div className="col-md-3">
                                 <div className="user_left_info_container">
                                     {
-                                        data && data.getUserById &&
+                                        userInfo && userInfo.getUserById &&
                                         <UserProfileLeftPanel
                                             currentView={currentView}
                                             handleChangeView={handleChangeView}
-                                            userInfo={data.getUserById}
+                                            userInfo={userInfo.getUserById}
                                         />
                                     }
                                 </div>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-9">
                                 {
                                     currentView === 'publish' &&
-                                    <UserCreatedPost />
+                                    userPost && userPost.getUserPosts &&
+                                    <div className="user_middle_post_list_container">
+                                        <UserCreatedPost
+                                            posts={userPost.getUserPosts}
+                                        />
+                                    </div>
                                 }
                                 {
                                     currentView === 'save' &&
@@ -71,7 +91,7 @@ const UserPage = () => {
                     </div>
                 </div>
             </div>
-            {error && <div></div>}
+            {(userInfoError || userPostError) && <div></div>}
         </div>
     )
 
