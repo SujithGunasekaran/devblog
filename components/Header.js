@@ -6,13 +6,14 @@ import PageLink from '../components/PageLink';
 import { useGetUserInfo } from '../apollo/apolloActions';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import useModelControl from '../hooks/useModelControl';
 
 const LogoutModel = dynamic(() => import('../components/models/ShowLogoutConfirm'));
 
 const Header = () => {
 
-    // state
-    const [showLogoutModel, setShowLogoutModel] = useState(false);
+    // hooks
+    const { showModel, handleShowModel } = useModelControl(false);
 
     const profileDropdown = useRef();
     const router = useRouter();
@@ -29,16 +30,16 @@ const Header = () => {
 
     const logoutUser = () => {
         profileDropdown.current.classList.remove('show');
-        setShowLogoutModel(true);
+        handleShowModel(true);
     }
 
     const confirmLogout = () => {
-        setShowLogoutModel(false);
+        handleShowModel(false);
         router.push('/logout');
     }
 
     const cancelLogout = () => {
-        setShowLogoutModel(false);
+        handleShowModel(false);
     }
 
     return (
@@ -76,10 +77,12 @@ const Header = () => {
                             </div>
                             <div className="header_profile_dropdown" ref={profileDropdown}>
                                 <div className="header_profile_triangle"></div>
-                                <div className="header_profile_list_display">
-                                    <PersonIcon className="header_profile_list_icon" />
-                                    <div className="header_profile_list_name">Profile</div>
-                                </div>
+                                <PageLink href={'/user/[userID]'} as={`/user/${user.getUserInfo._id}`}>
+                                    <div className="header_profile_list_display">
+                                        <PersonIcon className="header_profile_list_icon" />
+                                        <div className="header_profile_list_name">Profile</div>
+                                    </div>
+                                </PageLink>
                                 <div className="header_profile_list_display" onClick={() => logoutUser()}>
                                     <ExitToAppIcon className="header_profile_list_icon" />
                                     <div className="header_profile_list_name">Logout</div>
@@ -90,7 +93,7 @@ const Header = () => {
                 </div>
             </div>
             {
-                showLogoutModel &&
+                showModel &&
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">

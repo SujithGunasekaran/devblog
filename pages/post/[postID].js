@@ -5,6 +5,7 @@ import HeaderTag from '../../components/HeadTag';
 import withApollo from '../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo/apolloActions';
+import useModelControl from '../../hooks/useModelControl';
 
 const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
@@ -13,8 +14,8 @@ const UserInfo = dynamic(() => import('../../components/panel/rightPanel/PostRig
 
 const PostInfo = () => {
 
-    // state
-    const [showLoginModel, setShowLoginModel] = useState(false);
+    // hooks
+    const { showModel, handleShowModel } = useModelControl(false);
 
     const router = useRouter();
 
@@ -40,7 +41,7 @@ const PostInfo = () => {
             }
         }
         else {
-            setShowLoginModel(true);
+            handleShowModel(true);
         }
     }
 
@@ -59,13 +60,13 @@ const PostInfo = () => {
             }
         }
         else {
-            setShowLoginModel(true);
+            handleShowModel(true);
         }
     }
 
     const closeModel = useCallback(() => {
-        setShowLoginModel(false);
-    }, [showLoginModel])
+        handleShowModel(false);
+    }, [showModel])
 
     return (
         <div>
@@ -121,7 +122,7 @@ const PostInfo = () => {
                 </div>
             </div>
             {
-                showLoginModel &&
+                showModel &&
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
