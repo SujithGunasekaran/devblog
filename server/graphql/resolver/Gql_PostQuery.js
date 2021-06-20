@@ -8,7 +8,7 @@ exports.postQuery = {
         return postInfo;
     },
     getPostByUser: async (root, { postid }, context) => {
-        const postList = await context.model.postModel.getPostListByUser(postid);
+        const postList = await context.model.postModel.getPostInfoListByUser(postid);
         return postList;
     },
     getTagList: async (root, args, context) => {

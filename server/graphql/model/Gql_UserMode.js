@@ -7,6 +7,32 @@ class userModel {
         this.request = req;
     }
 
+    _getAuthUserID() {
+        let userID;
+
+        if (!this.request.isAuthenticated()) {
+            return null;
+        }
+        else {
+            userID = this.request.user._id;
+        }
+
+        return userID;
+    }
+
+    _getAuthUserInfo() {
+        let userInfo;
+
+        if (!this.request.isAuthenticated()) {
+            return null;
+        }
+        else {
+            userInfo = this.request.user;
+        }
+
+        return userInfo;
+    }
+
     async getUser() {
         if (this.request.isAuthenticated()) {
             const userInfo = await this.model.findOne({ _id: this.request.user._id }).populate('usersavedpost');
@@ -34,6 +60,23 @@ class userModel {
             return {
                 userData,
                 postcount: userPostCount
+            };
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
+    async getUserPostList(userid, context) {
+
+        try {
+            const postList = await context.model.postModel.getPostByUser(userid);
+            const loggedUserInfo = this._getAuthUserInfo();
+            if (!postList) throw new Error('Error while getting post list');
+            return {
+                postInfo: postList,
+                loggedUserInfo: loggedUserInfo ? loggedUserInfo : null
             };
         }
         catch (err) {

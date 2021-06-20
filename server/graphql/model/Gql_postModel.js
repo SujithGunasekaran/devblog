@@ -143,9 +143,9 @@ class postModel {
 
     }
 
-    // function used to get post list by user
+    // function used to get post list by user in postInfo page
 
-    async getPostListByUser(postid) {
+    async getPostInfoListByUser(postid) {
 
         try {
             const postInfo = await this.model.findOne({ _id: postid });
@@ -183,6 +183,20 @@ class postModel {
             const postCount = await this.model.countDocuments({ user: userid });
             if (!postCount) throw new Error('Error while getting post count');
             return postCount;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
+    // function used to get post by user for user porfile page
+
+    async getPostByUser(userid) {
+        try {
+            const postList = await this.model.find({ user: userid }).populate('user');
+            if (!postList) throw new Error('Error while getting user post list');
+            return postList;
         }
         catch (err) {
             throw new Error(err.message);
