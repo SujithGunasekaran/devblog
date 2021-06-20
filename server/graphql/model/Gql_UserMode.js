@@ -54,12 +54,14 @@ class userModel {
     async getUserInfoById(userid, context) {
 
         try {
-            const userData = await this.model.findOne({ _id: userid });
+            const userData = await this.model.findOne({ _id: userid }).populate('usersavedpost.postid').populate({ path: 'usersavedpost.postid', populate: 'user' });
             const userPostCount = await context.model.postModel.getPostCountByUser(userid);
+            const loggedUserInfo = this._getAuthUserInfo();
             if (!userData) throw new Error('Error while getting user info');
             return {
                 userData,
-                postcount: userPostCount
+                postcount: userPostCount,
+                loggedUserInfo: loggedUserInfo ? loggedUserInfo : null
             };
         }
         catch (err) {

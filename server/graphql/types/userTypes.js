@@ -1,7 +1,17 @@
 exports.userTypes = `
 
+    type postid {
+        _id : ID,
+        title : String
+        user : userData
+        tags : String
+        createdAt : String
+        userliked : [String],
+        usersaved : [String]
+    }
+
     type postArray {
-        postid : ID
+        postid : postid
     }
 
     type userInfo {
@@ -11,12 +21,13 @@ exports.userTypes = `
         userprofile : String
         userdescription : String
         joined : String
-        usersavedpost : [postArray] 
+        usersavedpost : [postArray]
     }
 
     type userDataInfo {
         userData : userInfo
         postcount : Int
+        loggedUserInfo : userInfo
     }
 
     type userPostList {
