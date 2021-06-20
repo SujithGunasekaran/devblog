@@ -19,4 +19,9 @@ exports.userTypes = `
         postcount : Int
     }
 
+    type userPostList {
+        postInfo : [post]
+        loggedUserInfo : userInfo
+    }
+
 `;
