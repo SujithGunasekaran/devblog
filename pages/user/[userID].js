@@ -3,6 +3,7 @@ import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { useGetUserInfoById, useGetUserPostList } from '../../apollo/apolloActions';
+import useChangeView from '../../hooks/useChangeView';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -11,7 +12,8 @@ const UserSavePost = dynamic(() => import('../../components/user/UserSavedPost')
 
 const UserPage = () => {
 
-    const [currentView, setCurrentView] = useState('publish');
+    // hooks
+    const { currentView, handleChangeView } = useChangeView('publish');
 
     const router = useRouter();
     const { userID } = router.query;
@@ -31,10 +33,6 @@ const UserPage = () => {
         catch (err) {
             console.log(err);
         }
-    }
-
-    const handleChangeView = (viewName) => {
-        setCurrentView(viewName);
     }
 
     return (
@@ -84,7 +82,12 @@ const UserPage = () => {
                                 }
                                 {
                                     currentView === 'save' &&
-                                    <UserSavePost />
+                                    userInfo && userInfo.getUserById &&
+                                    <div className="user_middle_post_list_container">
+                                        <UserSavePost
+                                            userInfo={userInfo.getUserById}
+                                        />
+                                    </div>
                                 }
                             </div>
                         </div>
