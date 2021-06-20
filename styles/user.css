@@ -10,6 +10,7 @@
     padding : 10px 15px 20px 15px;
     background-color: var(--header-bg);
     border-radius: 6px;
+    border : 1px solid var(--black-100);
     box-shadow: 0 10px 10px -10px rgb(0 64 128 / 20%);
 }
 .user_top_info_profile
@@ -144,4 +145,11 @@
     font-weight: 500;
     color : var(--black-800);
     transition: 0.4s all ease-in-out;
+}
+
+/* user middle panel */
+
+.user_middle_post_list_container
+{
+    margin: 25px 0px;
 }
