@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import withApollo from '../hoc/withApollo';
@@ -26,6 +26,14 @@ const Header = () => {
 
     const showProfileDropDown = () => {
         profileDropdown.current.classList.toggle('show');
+    }
+
+    const redirectToProfilePage = () => {
+        profileDropdown.current.classList.remove('show');
+        router.push({
+            href: '/user/[userID]',
+            pathname: `/user/${user.getUserInfo._id}`
+        })
     }
 
     const logoutUser = () => {
@@ -77,12 +85,10 @@ const Header = () => {
                             </div>
                             <div className="header_profile_dropdown" ref={profileDropdown}>
                                 <div className="header_profile_triangle"></div>
-                                <PageLink href={'/user/[userID]'} as={`/user/${user.getUserInfo._id}`}>
-                                    <div className="header_profile_list_display">
-                                        <PersonIcon className="header_profile_list_icon" />
-                                        <div className="header_profile_list_name">Profile</div>
-                                    </div>
-                                </PageLink>
+                                <div className="header_profile_list_display" onClick={() => redirectToProfilePage()}>
+                                    <PersonIcon className="header_profile_list_icon" />
+                                    <div className="header_profile_list_name">Profile</div>
+                                </div>
                                 <div className="header_profile_list_display" onClick={() => logoutUser()}>
                                     <ExitToAppIcon className="header_profile_list_icon" />
                                     <div className="header_profile_list_name">Logout</div>

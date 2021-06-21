@@ -7,11 +7,11 @@ const UserSavePost = (props) => {
 
     const { userInfo } = props;
 
-    const handleEdit = (postid) => {
+    const handleEdit = (postid, userid) => {
         console.log("Edit", postid);
     }
 
-    const handleDelete = (postid) => {
+    const handleDelete = (postid, userid) => {
         console.log("Delete", postid);
     }
 
@@ -25,6 +25,7 @@ const UserSavePost = (props) => {
                         return (
                             <PostCard
                                 key={index}
+                                postCreatedUser={postData?.postid?.user?._id ?? ''}
                                 postInfo={postData.postid}
                                 handleDelete={handleDelete}
                                 handleEdit={handleEdit}

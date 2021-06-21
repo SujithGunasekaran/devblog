@@ -7,12 +7,12 @@ const UserCreatedPost = (props) => {
 
     const { posts } = props;
 
-    const handleEdit = (postid) => {
-        console.log("Edit", postid);
+    const handleEdit = (postid, userid) => {
+        console.log("Edit", postid, userid);
     }
 
-    const handleDelete = (postid) => {
-        console.log("Delete", postid);
+    const handleDelete = (postid, userid) => {
+        console.log("Delete", postid, userid);
     }
 
     return (
@@ -24,6 +24,7 @@ const UserCreatedPost = (props) => {
                     return (
                         <PostCard
                             key={index}
+                            postCreatedUser={postData?.user ?? ''}
                             postInfo={postData}
                             handleDelete={handleDelete}
                             handleEdit={handleEdit}

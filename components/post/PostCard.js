@@ -4,7 +4,7 @@ import PageLink from '../PageLink';
 
 const PostCard = (props) => {
 
-    const { postInfo, loggedUserInfo, isUserCanEdit = false, handleEdit, handleDelete } = props;
+    const { postInfo, loggedUserInfo, isUserCanEdit = false, handleEdit, handleDelete, postCreatedUser } = props;
     let createdPostDate = convertFullDateToShort(postInfo.createdAt);
 
     return (
@@ -23,7 +23,7 @@ const PostCard = (props) => {
                                     isUserCanEdit &&
                                     <div className="home_middle_post_reaction_container">
                                         <div className="home_middle_post_like_bg">
-                                            <EditSquareIcon postid={postInfo._id} cssClass={"home_middle_post_edit_icon"} handleEvent={handleEdit} />
+                                            <EditSquareIcon postid={postInfo._id} userid={postCreatedUser} cssClass={"home_middle_post_edit_icon"} handleEvent={handleEdit} />
                                         </div>
                                     </div>
                                 }
@@ -31,7 +31,7 @@ const PostCard = (props) => {
                                     isUserCanEdit &&
                                     <div className="home_middle_post_reaction_container">
                                         <div className="home_middle_post_like_bg">
-                                            <DeleteIcon postid={postInfo._id} cssClass={"home_middle_post_delete_icon"} handleEvent={handleDelete} />
+                                            <DeleteIcon postid={postInfo._id} userid={postCreatedUser} cssClass={"home_middle_post_delete_icon"} handleEvent={handleDelete} />
                                         </div>
                                     </div>
                                 }
