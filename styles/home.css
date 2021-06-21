@@ -143,6 +143,7 @@
 {
     cursor: pointer;
     text-decoration: none;
+    margin-top: 3px;
     transition: 0.4s all ease-in-out;
 }
 .home_middle_post_link:hover .home_middle_post_title
@@ -175,6 +176,21 @@
     padding-left: 8px;
     display: flex;
     flex-direction: column;
+}
+.home_middle_post_user_header_main_container
+{
+    display: flex;
+    margin-left: 5px;
+}
+.home_middle_post_user_subheader
+{
+    display: flex;
+    flex-direction: column;
+}
+.home_middle_post_header_icon_container
+{
+    display: flex;
+    margin-left: auto;
 }
 .home_middle_post_user_name
 {
@@ -235,6 +251,33 @@
     color : var(--black-300);
     font-weight: 700;
     transition: 0.4s all ease-in-out;
+}
+
+.home_middle_post_edit_icon
+{
+    width: 17px !important;
+    font-size: 1.7rem !important;
+    color : var(--black-600);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s all ease-in-out;
+}
+.home_middle_post_edit_icon:hover
+{
+    color : var(--text-blue) !important;
+}
+.home_middle_post_delete_icon
+{
+    width: 17px !important;
+    font-size: 1.7rem !important;
+    color : var(--black-600);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s all ease-in-out;
+}
+.home_middle_post_delete_icon:hover
+{
+    color : var(--danger-color);
 }
 .home_middle_post_like_icon_active
 {
