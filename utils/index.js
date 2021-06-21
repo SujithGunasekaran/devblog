@@ -33,3 +33,23 @@ export const prettyUserName = (username) => {
     }
     return prettyName;
 }
+
+/**
+ *  Function used to check if loggedUser and current user is same
+ *  @param loggedUser
+ *  @param createdPostUser
+ *  @returns 
+*/
+
+export const isUserCanEditOrDelete = (loggedUser, createdPostUser) => {
+
+    let isUserCanEdit = false;
+
+    if (!loggedUser) return isUserCanEdit;
+    if (loggedUser && createdPostUser) {
+        isUserCanEdit = (loggedUser._id === createdPostUser._id) ? true : false;
+    }
+
+    return isUserCanEdit;
+
+}
