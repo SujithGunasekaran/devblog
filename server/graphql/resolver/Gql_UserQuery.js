@@ -1,4 +1,3 @@
-const passport = require('passport');
 
 exports.userQuery = {
 
@@ -19,4 +18,11 @@ exports.userQuery = {
         return message;
     }
 
+}
+
+exports.userMutation = {
+    deleteUserPosts: async (root, { input }, context) => {
+        const postList = await context.model.userModel.deleteUserCreatedPost(input, context);
+        return postList;
+    }
 }

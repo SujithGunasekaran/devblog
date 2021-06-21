@@ -204,6 +204,21 @@ class postModel {
 
     }
 
+    // function used to delete post by user
+
+    async deletePost(postid) {
+
+        try {
+            const deletedPost = await this.model.findOneAndDelete({ _id: postid });
+            if (!deletedPost) throw new Error('Errow while deleting the post');
+            return deletedPost;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
 }
 
 module.exports = postModel;

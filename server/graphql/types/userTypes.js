@@ -35,4 +35,9 @@ exports.userTypes = `
         loggedUserInfo : userInfo
     }
 
+    input deletePost {
+        postid : ID
+        userid : ID
+    }
+
 `;

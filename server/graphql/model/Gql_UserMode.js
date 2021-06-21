@@ -51,6 +51,8 @@ class userModel {
         }
     }
 
+    // function used to get user info by user id
+
     async getUserInfoById(userid, context) {
 
         try {
@@ -70,6 +72,8 @@ class userModel {
 
     }
 
+    // function used to get user created post list
+
     async getUserPostList(userid, context) {
 
         try {
@@ -86,6 +90,32 @@ class userModel {
         }
 
     }
+
+    // function used to delete user created post
+
+    async deleteUserCreatedPost(input, context) {
+
+        const { postid, userid } = input;
+        const userID = this._getAuthUserID();
+
+        if (!userID) throw new Error('User not authenticated');
+
+        try {
+            const deletedPostID = await context.model.postModel.deletePost(postid);
+            const postList = await context.model.postModel.getPostByUser(userid);
+            const loggedUserInfo = this._getAuthUserInfo();
+            return {
+                postInfo: postList,
+                loggedUserInfo: loggedUserInfo ? loggedUserInfo : null
+            }
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
+    // function used to update the user saved post list
 
     async updateUserSavedPost(userid, postid, type) {
 

@@ -9,7 +9,7 @@ const { userTypes } = require('./types/userTypes');
 const { postTypes } = require('./types/postTypes');
 
 // grapql resolver
-const { userQuery } = require('./resolver/Gql_UserQuery');
+const { userQuery, userMutation } = require('./resolver/Gql_UserQuery');
 const { postQuery, postMutation } = require('./resolver/Gql_PostQuery');
 
 // graphql model
@@ -47,6 +47,8 @@ exports.createApolloServer = () => {
             addLikeToPost(input : likeToPost) : likeToPostResult
             addSaveToPost(input : saveToPost) : saveToPostResult
 
+            deleteUserPosts(input : deletePost) : userPostList
+
         }
 
     `);
@@ -57,7 +59,8 @@ exports.createApolloServer = () => {
             ...postQuery
         },
         Mutation: {
-            ...postMutation
+            ...postMutation,
+            ...userMutation
         }
     }
 
