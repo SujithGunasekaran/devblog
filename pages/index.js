@@ -4,7 +4,6 @@ import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost } from '../apollo/apolloActions';
-import PageLink from '../components/PageLink';
 
 const DevLeftPanel = dynamic(() => import('../components/panel/leftPanel/HomeLeftPanel'));
 const PostCard = dynamic(() => import('../components/post/PostCard'));
@@ -39,17 +38,11 @@ const Home = () => {
             {
               post && post.getAllPost &&
               post.getAllPost.postList.map((postInfo, index) => (
-                <PageLink
+                <PostCard
                   key={index}
-                  href={'/post/[postID]'} as={`/post/${postInfo._id}`}
-                >
-                  <a className="home_middle_post_link">
-                    <PostCard
-                      postInfo={postInfo}
-                      loggedUserInfo={post.getAllPost.loggedUserInfo}
-                    />
-                  </a>
-                </PageLink>
+                  postInfo={postInfo}
+                  loggedUserInfo={post.getAllPost.loggedUserInfo}
+                />
               ))
             }
           </div>
