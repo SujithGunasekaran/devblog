@@ -106,7 +106,8 @@ class userModel {
             const loggedUserInfo = this._getAuthUserInfo();
             return {
                 postInfo: postList,
-                loggedUserInfo: loggedUserInfo ? loggedUserInfo : null
+                loggedUserInfo: loggedUserInfo ? loggedUserInfo : null,
+                message: 'Post deleted successfully'
             }
         }
         catch (err) {

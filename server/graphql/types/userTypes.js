@@ -33,6 +33,7 @@ exports.userTypes = `
     type userPostList {
         postInfo : [post]
         loggedUserInfo : userInfo
+        message : String
     }
 
     input deletePost {
