@@ -8,7 +8,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import useModelControl from '../hooks/useModelControl';
 
-const LogoutModel = dynamic(() => import('../components/models/ShowLogoutConfirm'));
+const LogoutModel = dynamic(() => import('./models/ShowConfirmModel'));
 
 const Header = () => {
 
@@ -31,8 +31,8 @@ const Header = () => {
     const redirectToProfilePage = () => {
         profileDropdown.current.classList.remove('show');
         router.push({
-            href: '/user/[userID]',
-            pathname: `/user/${user.getUserInfo._id}`
+            pathname: '/user/[userID]',
+            query: { userID: user.getUserInfo._id }
         })
     }
 
@@ -105,8 +105,10 @@ const Header = () => {
                         <div className="col-md-12">
                             <div className="model_overlay">
                                 <LogoutModel
-                                    confirmLogout={confirmLogout}
-                                    cancelLogout={cancelLogout}
+                                    info="Are you sure you want Logout ?"
+                                    confirmBtnText="Logout"
+                                    confirm={confirmLogout}
+                                    cancel={cancelLogout}
                                 />
                             </div>
                         </div>

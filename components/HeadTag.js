@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 const HeadTag = memo((props) => {
 
-    const { title, description, keyword, isLogoNameNeeded = true } = props;
+    const { title, description, keyword = "", isLogoNameNeeded = true } = props;
 
     return (
         <Head>
