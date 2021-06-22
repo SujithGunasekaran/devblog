@@ -71,13 +71,45 @@ export const GET_USER_POST_LIST = gql`
             }
         }
     }
+`;
+
+export const DELETE_USER_CREATED_POST = gql`
+    mutation DeleteUserCreatePost(
+        $postid : ID
+        $userid : ID
+    ){
+        deleteUserPosts(input : {
+            postid : $postid
+            userid : $userid
+        }){
+            postInfo {
+                _id
+                title
+                tags
+                createdAt
+                userliked
+                usersaved
+                user {
+                    _id
+                    username
+                    userprofile
+                }
+            }
+            loggedUserInfo {
+                _id
+                username
+                userprofile
+            }
+            message
+        }
+    }
 `
 
 export const USER_LOGOUT = gql`
     query Logout {
         logout
     }
-`
+`;
 
 
 // auth queries end

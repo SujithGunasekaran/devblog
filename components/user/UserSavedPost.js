@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import { isUserCanEditOrDelete } from '../../utils';
 
 const PostCard = dynamic(() => import('../post/PostCard'));
 
@@ -21,7 +20,7 @@ const UserSavePost = (props) => {
                 userInfo && userInfo.userData && userInfo.userData.usersavedpost &&
                     userInfo.userData.usersavedpost.length > 0 ?
                     userInfo.userData.usersavedpost.map((postData, index) => {
-                        const isUserCanEdit = isUserCanEditOrDelete(userInfo.loggedUserInfo, postData.postid.user);
+                        const isUserCanEdit = userInfo.loggedUserInfo ? userInfo.loggedUserInfo._id === postData.postid.user._id ? true : false : false;
                         return (
                             <PostCard
                                 key={index}
