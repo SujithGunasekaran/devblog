@@ -8,6 +8,7 @@ import useModelControl from '../../hooks/useModelControl';
 import ConfirmModel from '../../components/models/ShowConfirmModel';
 import HeadTag from '../../components/HeadTag';
 import { prettyUserName } from '../../utils';
+import { CancelIcon } from '../../components/icons';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -18,6 +19,7 @@ const UserPage = () => {
 
     // state
     const [postActionInfo, setPostActionInfo] = useState({});
+    const [showSuccess, setShowSuccess] = useState(null);
 
     // hooks
     const { currentView, handleChangeView } = useChangeView('publish');
@@ -74,10 +76,11 @@ const UserPage = () => {
     }
 
     // function delete user created post
-    const handleCreatePostDelete = async () => {
+    const handleDeletePost = async () => {
         const { userid = "", postid = "" } = postActionInfo;
         try {
-            await deleteCreatePost({ variables: { postid, userid } });
+            const { data } = await deleteCreatePost({ variables: { postid, userid } });
+            setShowSuccess(data?.deleteUserPosts?.message ?? '');
         }
         catch (err) {
             console.log(err);
@@ -89,8 +92,11 @@ const UserPage = () => {
     }
 
     // function edit user created post
-    const handleCreatePostEdit = (postid, userid) => {
-        console.log("edit", postid, userid);
+    const handleEditPost = (postid) => {
+        router.push({
+            pathname: '/post/[postID]/editpost',
+            query: { postID: postid }
+        });
     }
 
     return (
@@ -137,12 +143,19 @@ const UserPage = () => {
                             </div>
                             <div className="col-md-9">
                                 {
+                                    showSuccess &&
+                                    <div className="success_alert user_middle_post_success">
+                                        {showSuccess}
+                                        <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
+                                    </div>
+                                }
+                                {
                                     currentView === 'publish' &&
                                     userPost && userPost.getUserPosts &&
                                     <div className="user_middle_post_list_container">
                                         <UserCreatedPost
-                                            handleCreatePostDelete={showConfirmModel}
-                                            handleCreatePostEdit={showConfirmModel}
+                                            handleDeletePost={showConfirmModel}
+                                            handleEditPost={handleEditPost}
                                             posts={userPost.getUserPosts}
                                         />
                                     </div>
@@ -152,6 +165,8 @@ const UserPage = () => {
                                     userInfo && userInfo.getUserById &&
                                     <div className="user_middle_post_list_container">
                                         <UserSavePost
+                                            handleDeletePost={showConfirmModel}
+                                            handleEditPost={handleEditPost}
                                             userInfo={userInfo.getUserById}
                                         />
                                     </div>
@@ -170,7 +185,7 @@ const UserPage = () => {
                                 <ConfirmModel
                                     info="Are you sure you want to Delete the post."
                                     confirmBtnText="Delete Post"
-                                    confirm={handleCreatePostDelete}
+                                    confirm={handleDeletePost}
                                     cancel={hideConfirmModel}
                                 />
                             </div>

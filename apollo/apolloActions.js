@@ -21,10 +21,14 @@ export const useGetUserInfo = () => useLazyQuery(GET_USER_INFO);
 
 export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid }, fetchPolicy: 'network-only' });
 
-export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid } });
+export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid }, fetchPolicy: 'network-only' });
 
 export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_POST, {
     update(cache, { data: { deleteUserPosts } }) {
+        const userInfoById = cache.readQuery({
+            query: GET_USER_INFO_BY_ID,
+            variables: { userid: deleteUserPosts.loggedUserInfo._id }
+        })
         const userPostList = cache.readQuery({
             query: GET_USER_POST_LIST,
             variables: { userid: deleteUserPosts.loggedUserInfo._id }
@@ -32,6 +36,26 @@ export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_PO
         const allPost = cache.readQuery({
             query: GET_POST_LIST
         });
+        if (userInfoById) {
+            try {
+                const { getUserById } = userInfoById;
+                cache.writeQuery({
+                    query: GET_USER_INFO_BY_ID,
+                    variables: { userid: deleteUserPosts.loggedUserInfo._id },
+                    data: {
+                        getUserById: {
+                            ...getUserById,
+                            userData: {
+                                ...getUserById.userData,
+                                usersavedpost: deleteUserPosts.userData.usersavedpost
+                            },
+                            postcount: deleteUserPosts.postcount
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
         if (userPostList) {
             try {
                 const { getUserPosts } = userPostList;
@@ -46,9 +70,7 @@ export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_PO
                     }
                 })
             }
-            catch (err) {
-                console.log(err);
-            }
+            catch (err) { }
         }
         if (allPost) {
             try {
@@ -63,9 +85,7 @@ export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_PO
                     }
                 })
             }
-            catch (err) {
-                console.log(err);
-            }
+            catch (err) { }
         }
     }
 });

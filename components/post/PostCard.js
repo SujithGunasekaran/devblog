@@ -1,6 +1,8 @@
 import { HeartLightIcon, EditSquareIcon, DeleteIcon } from '../icons';
 import { convertFullDateToShort, prettyUserName } from '../../utils';
 import PageLink from '../PageLink';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const PostCard = (props) => {
 
@@ -21,19 +23,22 @@ const PostCard = (props) => {
                             <div className="home_middle_post_header_icon_container">
                                 {
                                     isUserCanEdit &&
-                                    <div className="home_middle_post_reaction_container">
-                                        <div className="home_middle_post_like_bg">
-                                            <EditSquareIcon postid={postInfo._id} userid={postCreatedUser} cssClass={"home_middle_post_edit_icon"} handleEvent={handleEdit} />
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    isUserCanEdit &&
-                                    <div className="home_middle_post_reaction_container">
-                                        <div className="home_middle_post_like_bg">
-                                            <DeleteIcon postid={postInfo._id} userid={postCreatedUser} cssClass={"home_middle_post_delete_icon"} handleEvent={handleDelete} />
-                                        </div>
-                                    </div>
+                                    <>
+                                        <Tooltip TransitionComponent={Zoom} title={'Edit Post'} arrow>
+                                            <div className="home_middle_post_reaction_container">
+                                                <div className="home_middle_post_like_bg" onClick={() => handleEdit(postInfo._id, postCreatedUser)}>
+                                                    <EditSquareIcon cssClass={"home_middle_post_edit_icon"} />
+                                                </div>
+                                            </div>
+                                        </Tooltip>
+                                        <Tooltip TransitionComponent={Zoom} title={'Delete Post'} arrow>
+                                            <div className="home_middle_post_reaction_container">
+                                                <div className="home_middle_post_like_bg" onClick={() => handleDelete(postInfo._id, postCreatedUser)}>
+                                                    <DeleteIcon cssClass={"home_middle_post_delete_icon"} />
+                                                </div>
+                                            </div>
+                                        </Tooltip>
+                                    </>
                                 }
                             </div>
                         </div>

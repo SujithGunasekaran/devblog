@@ -5,7 +5,7 @@ const PostCard = dynamic(() => import('../post/PostCard'));
 
 const UserCreatedPost = (props) => {
 
-    const { posts, handleCreatePostEdit, handleCreatePostDelete } = props;
+    const { posts, handleEditPost, handleDeletePost } = props;
 
     return (
         <div>
@@ -18,8 +18,8 @@ const UserCreatedPost = (props) => {
                             key={index}
                             postCreatedUser={postData?.user?._id ?? ''}
                             postInfo={postData}
-                            handleDelete={handleCreatePostDelete}
-                            handleEdit={handleCreatePostEdit}
+                            handleDelete={handleDeletePost}
+                            handleEdit={handleEditPost}
                             loggedUserInfo={posts.loggedUserInfo}
                             isUserCanEdit={isUserCanEdit ? true : false}
                         />

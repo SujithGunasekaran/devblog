@@ -1,16 +1,16 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import HeaderTag from '../../components/HeadTag';
-import withApollo from '../../hoc/withApollo';
+import HeaderTag from '../../../components/HeadTag';
+import withApollo from '../../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../apollo/apolloActions';
-import useModelControl from '../../hooks/useModelControl';
+import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../../apollo/apolloActions';
+import useModelControl from '../../../hooks/useModelControl';
 
-const PostDisplay = dynamic(() => import('../../components/post/FullPostInfo'));
-const Reaction = dynamic(() => import('../../components/panel/leftPanel/PostLeftPanel'));
-const LoginModel = dynamic(() => import('../../components/models/ShowLoginModel'));
-const UserInfo = dynamic(() => import('../../components/panel/rightPanel/PostRightPanel'));
+const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'));
+const Reaction = dynamic(() => import('../../../components/panel/leftPanel/PostLeftPanel'));
+const LoginModel = dynamic(() => import('../../../components/models/ShowLoginModel'));
+const UserInfo = dynamic(() => import('../../../components/panel/rightPanel/PostRightPanel'));
 
 const PostInfo = () => {
 

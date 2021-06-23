@@ -23,18 +23,16 @@ export const GET_USER_INFO_BY_ID = gql`
                 userdescription
                 joined
                 usersavedpost {
-                    postid {
+                    _id
+                    title
+                    tags
+                    createdAt
+                    userliked
+                    usersaved
+                    user {
                         _id
-                        title
-                        tags
-                        createdAt
-                        userliked
-                        usersaved
-                        user {
-                            _id
-                            username
-                            userprofile
-                        }
+                        username
+                        userprofile
                     }
                 }
             }
@@ -82,6 +80,21 @@ export const DELETE_USER_CREATED_POST = gql`
             postid : $postid
             userid : $userid
         }){
+            userData {
+                _id
+                username
+                userprofile
+                userdescription
+                joined
+                usersavedpost {
+                    _id
+                    title
+                    tags
+                    createdAt
+                    userliked
+                    usersaved
+                }
+            }
             postInfo {
                 _id
                 title
@@ -101,6 +114,7 @@ export const DELETE_USER_CREATED_POST = gql`
                 userprofile
             }
             message
+            postcount
         }
     }
 `
