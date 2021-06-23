@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSavedPostSchema = new Schema({
-    postid: {
-        type: Schema.Types.ObjectId,
-        ref: 'devBlogPost'
-    }
-});
 
 const userSchema = new Schema({
     userid: {
@@ -30,7 +24,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    usersavedpost: [userSavedPostSchema]
+    usersavedpost: {
+        type: [Schema.Types.ObjectId],
+        ref: 'devBlogPost'
+    }
 })
 
 module.exports = mongoose.model('devBlogUser', userSchema);

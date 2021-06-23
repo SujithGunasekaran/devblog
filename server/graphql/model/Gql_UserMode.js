@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 class userModel {
 
@@ -56,7 +56,7 @@ class userModel {
     async getUserInfoById(userid, context) {
 
         try {
-            const userData = await this.model.findOne({ _id: userid }).populate('usersavedpost.postid').populate({ path: 'usersavedpost.postid', populate: 'user' });
+            const userData = await this.model.findOne({ _id: userid }).populate('usersavedpost').populate({ path: 'usersavedpost', populate: 'user' });
             const userPostCount = await context.model.postModel.getPostCountByUser(userid);
             const loggedUserInfo = this._getAuthUserInfo();
             if (!userData) throw new Error('Error while getting user info');
@@ -104,7 +104,20 @@ class userModel {
             const deletedPostID = await context.model.postModel.deletePost(postid);
             const postList = await context.model.postModel.getPostByUser(userid);
             const loggedUserInfo = this._getAuthUserInfo();
+            await this.model.findOneAndUpdate(
+                { _id: userid },
+                {
+                    $pull: {
+                        usersavedpost: mongoose.Types.ObjectId(postid)
+                    }
+                },
+                { runValidators: true, new: true }
+            );
+            const userData = await this.model.findOne({ _id: userid }).populate('usersavedpost').populate({ path: 'usersavedpost', populate: 'user' });
+            const userPostCount = await context.model.postModel.getPostCountByUser(userid);
             return {
+                userData,
+                postcount: userPostCount,
                 postInfo: postList,
                 loggedUserInfo: loggedUserInfo ? loggedUserInfo : null,
                 message: 'Post deleted successfully'
@@ -120,8 +133,24 @@ class userModel {
 
     async updateUserSavedPost(userid, postid, type) {
 
-        const updatedResult = type === 'add' ? await this.model.findOneAndUpdate({ _id: userid }, { $set: { usersavedpost: { postid } } }, { new: true, runValidators: true }) :
-            await this.model.findOneAndUpdate({ _id: userid }, { $pull: { usersavedpost: { postid } } }, { new: true, runValidators: true });
+        const updatedResult = type === 'add' ? await this.model.findOneAndUpdate(
+            { _id: userid },
+            {
+                $push: {
+                    usersavedpost: mongoose.Types.ObjectId(postid)
+                }
+            },
+            { new: true, runValidators: true }
+        )
+            : await this.model.findOneAndUpdate(
+                { _id: userid },
+                {
+                    $pull: {
+                        usersavedpost: mongoose.Types.ObjectId(postid)
+                    }
+                },
+                { new: true, runValidators: true }
+            );
         if (!updatedResult) return new Error("Error while updating the saved post");
 
         return updatedResult;

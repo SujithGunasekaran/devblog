@@ -10,10 +10,6 @@ exports.userTypes = `
         usersaved : [String]
     }
 
-    type postArray {
-        postid : postid
-    }
-
     type userInfo {
         _id : ID
         userid : String
@@ -21,7 +17,7 @@ exports.userTypes = `
         userprofile : String
         userdescription : String
         joined : String
-        usersavedpost : [postArray]
+        usersavedpost : [postid]
     }
 
     type userDataInfo {
@@ -31,6 +27,8 @@ exports.userTypes = `
     }
 
     type userPostList {
+        userData : userInfo
+        postcount : Int
         postInfo : [post]
         loggedUserInfo : userInfo
         message : String

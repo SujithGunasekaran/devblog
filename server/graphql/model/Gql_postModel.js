@@ -85,7 +85,24 @@ class postModel {
         if (!userID) throw new Error('User not authenticated');
 
         try {
-            type === 'add' ? await this.model.findOneAndUpdate({ _id: postid }, { $addToSet: { userliked: userID } }, { new: true, runValidators: true }) : await this.model.findOneAndUpdate({ _id: postid }, { $pull: { userliked: userID } }, { new: true, runValidators: true })
+            type === 'add' ? await this.model.findOneAndUpdate(
+                { _id: postid },
+                {
+                    $addToSet: {
+                        userliked: userID
+                    }
+                },
+                { new: true, runValidators: true }
+            )
+                : await this.model.findOneAndUpdate(
+                    { _id: postid },
+                    {
+                        $pull: {
+                            userliked: userID
+                        }
+                    },
+                    { new: true, runValidators: true }
+                )
             const postResult = await this.model.findOne({ _id: postid });
             return {
                 userliked: postResult.userliked,
@@ -108,7 +125,24 @@ class postModel {
         if (!userID) throw new Error('User not authenticated');
 
         try {
-            type === 'add' ? await this.model.findOneAndUpdate({ _id: postid }, { $addToSet: { usersaved: userID } }, { new: true, runValidators: true }) : await this.model.findOneAndUpdate({ _id: postid }, { $pull: { usersaved: userID } }, { new: true, runValidators: true })
+            type === 'add' ? await this.model.findOneAndUpdate(
+                { _id: postid },
+                {
+                    $addToSet: {
+                        usersaved: userID
+                    }
+                },
+                { new: true, runValidators: true }
+            )
+                : await this.model.findOneAndUpdate(
+                    { _id: postid },
+                    {
+                        $pull: {
+                            usersaved: userID
+                        }
+                    },
+                    { new: true, runValidators: true }
+                )
             await context.model.userModel.updateUserSavedPost(userID, postid, type);
             const postResult = await this.model.findOne({ _id: postid });
             return {
@@ -190,7 +224,7 @@ class postModel {
 
     }
 
-    // function used to get post by user for user porfile page
+    // function used to get post by user for user porfile page and function called from userModel
 
     async getPostByUser(userid) {
         try {
@@ -204,7 +238,7 @@ class postModel {
 
     }
 
-    // function used to delete post by user
+    // function used to delete post by user and function called from userModel
 
     async deletePost(postid) {
 
