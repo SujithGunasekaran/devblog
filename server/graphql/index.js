@@ -44,6 +44,7 @@ exports.createApolloServer = () => {
         type Mutation {
 
             createPost(input : createPostInput) : post
+            editPost(input : editPostInfo) : post
             addLikeToPost(input : likeToPost) : likeToPostResult
             addSaveToPost(input : saveToPost) : saveToPostResult
 

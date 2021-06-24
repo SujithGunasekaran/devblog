@@ -22,6 +22,10 @@ exports.postMutation = {
         const post = await context.model.postModel.publishPost(input);
         return post;
     },
+    editPost: async (root, { input }, context) => {
+        const post = await context.model.postModel.editPostInfo(input);
+        return post;
+    },
     addLikeToPost: async (root, { input }, context) => {
         const postList = await context.model.postModel.createNewLikeToPost(input);
         return postList;

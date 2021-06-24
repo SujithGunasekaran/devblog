@@ -75,6 +75,41 @@ class postModel {
 
     }
 
+    // function used to edit post 
+
+    async editPostInfo(input) {
+        const { postid, title, content, tags } = input;
+        const userID = this._getAuthUserID();
+
+        if (!userID) throw new Error('User not authenticated');
+
+        try {
+            const editedPost = await this.model.findOneAndUpdate(
+                {
+                    _id: postid, user: userID
+                },
+                {
+                    $set: {
+                        title,
+                        content,
+                        tags
+                    }
+                },
+                {
+                    new: true, runValidators: true
+                }
+            );
+            if (!editedPost) throw new Error('Error while editing post');
+            const getEditedPost = await this.model.findOne({ _id: editedPost._id }).populate('user');
+            if (!getEditedPost) throw new Error('Post Edited Successfully, But failed to get');
+            return getEditedPost;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
     // function used to create new like to post
 
     async createNewLikeToPost(input) {

@@ -73,6 +73,13 @@ exports.postTypes = `
         postid : ID
     }
 
+    input editPostInfo {
+        postid : ID
+        title : String!
+        content : String!
+        tags : String
+    }
+
 
 
 `;
