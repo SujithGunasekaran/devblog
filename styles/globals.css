@@ -6,6 +6,8 @@
   --box-bg : #fff;
   --header-shadow : rgba(0, 0, 0, 0.1);
 
+  --text-hover-bg : #eff0f1;
+
   --text-white :#fff;
   --text-blue : #323ebe;
   --btn-blue : #323ebe;
@@ -42,6 +44,35 @@
   --black-800: #151a21;
   --black-900: #191b1d;
 
+
+  /* dark theme */
+
+  --header-bg : #161616;
+  --box-bg : #161616;
+  --body-bg : black;
+  --header-shadow : rgba(0, 0, 0, 0.1);
+  
+  --header-logo-bg : #136ea7;
+  --header-logo-color : #fff;
+
+  --text-hover-bg : #3d3d3d;
+  --text-hover-color : #fff;
+
+  --text-color-light : #fff;
+  --text-color-dark : #191b1d;
+  --text-blue : #1DA1F2;
+  --text-border : #1DA1F2;
+
+  --btn-blue-bg : #136ea7;
+  --btn-light-bg : #3d3d3d;
+
+  --like-color : #F35F5F;
+
+  --medium-font-size : 500;
+  --light-font-size : 400;
+  --dark-font-size : 600;
+  --strong-font-size : 700;
+  --strongest-font-size : 800;
   
   --inter-text : 'Inter', sans-serif;
   --ff-san : -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -60,7 +91,7 @@
 .main_body
 {
   padding : 20px 10px;
-  margin-top: 57px;
+  margin-top: 55px;
   background-color: var(--body-bg);
   min-height: 100vh !important;
 }
@@ -73,26 +104,28 @@ table {
 
 thead
 {
-  background-color: var(--black-050) !important;
-  border : 1px solid var(--black-100) !important;
+  background-color: var(--body-bg) !important;
+  border : 1px solid var(--black-700) !important;
 }
 thead > tr > th 
 {
   padding : 7px 12px !important;
+  color : var(--black-100);
   /* text-align: left !important; */
-  border-left : 1px solid var(--black-100) !important;
+  border-left : 1px solid var(--black-700) !important;
 }
 
 tbody
 {
-  border : 1px solid var(--black-100) !important;
+  border : 1px solid var(--black-700) !important;
 }
 tbody > tr > td 
 {
   padding : 12px 12px !important;
   text-align: left !important;
-  border-left: 1px solid var(--black-100);
-  border-bottom: 1px solid var(--black-100);
+  color : var(--black-100);
+  border-left: 1px solid var(--black-700);
+  border-bottom: 1px solid var(--black-700);
 }
 
 h1, h2, h3, h4, h5, h6 
@@ -100,10 +133,11 @@ h1, h2, h3, h4, h5, h6
   font-weight: 700;
   font-family: var(--inter-text);
   padding : 14px 0px 5px 0px !important;
+  color : var(--black-025);
 }
 p 
 {
-  color : var(--black-800);
+  color : var(--text-color-light);
   font-weight: 400;
   font-family: var(--ff-san);
   font-size: 1.25rem;
@@ -118,6 +152,7 @@ ol > li
   font-size: 1.25rem;
   font-weight: 400;
   padding-top : 6px;
+  color : var(--text-color-light);
 }
 ul > li
 {
@@ -126,6 +161,7 @@ ul > li
   font-size: 1.25rem;
   font-weight: 400;
   padding-top: 6px;
+  color : var(--text-color-light);
 }
 pre
 {
@@ -143,7 +179,7 @@ pre
 }
 .light_text
 {
-  color : var(--black-200);
+  color : var(--black-600);
 }
 .active_icon
 {

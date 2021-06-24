@@ -1,6 +1,6 @@
 .user_top_banner
 {
-    background-color: var(--black-700);
+    background-color: var(--body-bg);
     height : 180px;
 }
 
@@ -10,7 +10,7 @@
     padding : 10px 15px 20px 15px;
     background-color: var(--header-bg);
     border-radius: 6px;
-    border : 1px solid var(--black-100);
+    /* border : 1px solid var(--black-100); */
     box-shadow: 0 10px 10px -10px rgb(0 64 128 / 20%);
 }
 .user_top_info_profile
@@ -31,7 +31,7 @@
     font-family: var(--ff-san);
     font-weight: 700;
     text-align: center;
-    color : var(--black-800);
+    color : var(--black-050);
 }
 .user_top_info_follow_btn
 {
@@ -43,24 +43,24 @@
     font-weight: 500;
     letter-spacing: 0.010rem;
     color : var(--text-white);
-    background-color: var(--btn-blue);
+    background-color: var(--btn-blue-bg);
     border: none;
     border-radius: 6px;
 }
 .user_top_info_description
 {
     padding : 5px 0px 10px 0px;
-    font-size: 1rem;
+    font-size: 1.030rem;
     line-height: 30px;
     font-family: var(--ff-san);
     font-weight: 400;
     text-align: center;
     word-spacing: 2px;
-    color : var(--black-800);
+    color : var(--black-100);
 }
 .user_top_info_highlight_container
 {
-    border-top: 1px solid var(--black-050);
+    border-top: 1px solid var(--black-700);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,7 +76,7 @@
 .user_top_info_highlight_icon
 {
     width : 17px !important;
-    color : var(--black-600) !important;
+    color : var(--black-100) !important;
 }
 .user_top_info_highlight_text
 {
@@ -84,7 +84,7 @@
     font-size: .9rem;
     font-family: var(--ff-san);
     font-weight: 400;
-    color : var(--black-800);
+    color : var(--black-100);
 }
 
 /* left panel */
@@ -95,10 +95,10 @@
 }
 .user_left_post_data_container
 {
-    border : 1px solid var(--black-100);
+    /* border : 1px solid var(--black-100); */
     background-color: var(--header-bg);
     border-radius: 6px;
-    padding : 0px 7px;
+    padding : 5px 7px;
 }
 .user_left_post_data_info_container
 {
@@ -110,10 +110,10 @@
     cursor: pointer;
     transition: 0.4s all ease-in-out;
 }
-.user_left_post_data_info_container:hover
+/* .user_left_post_data_info_container:hover
 {
     background-color: var(--black-050);
-}
+} */
 .user_left_post_data_info_container:hover > .icon
 {
     color : var(--text-blue) !important;
@@ -134,7 +134,7 @@
 {
     width : 17px !important;
     font-weight: 800;
-    color : var(--black-600) !important;
+    color : var(--black-100) !important;
     transition: 0.4s all ease-in-out;
 }
 .user_left_post_data_info_container > .text
@@ -143,7 +143,8 @@
     font-size: .930rem;
     font-family: var(--ff-san);
     font-weight: 500;
-    color : var(--black-800);
+    letter-spacing: 0.020rem;
+    color : var(--black-100);
     transition: 0.4s all ease-in-out;
 }
 

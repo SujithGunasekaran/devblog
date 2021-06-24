@@ -11,24 +11,25 @@
     padding : 20px 15px;
     border-radius: 6px;
     background-color: var(--box-bg);
-    border: 1px solid var(--black-100);
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.25),0px 4px 4px rgba(0,0,0,0.3);
+    /* border: 1px solid var(--black-100); */
 }
 .home_left_dev_heading
 {
     font-family: var(--inter-text);
     font-size: 1.125rem;
-    line-height: 28px;
+    line-height: 30px;
     font-weight: 700;
     letter-spacing: 0.020rem;
-    color : var(--black-900);
+    color : var(--black-050);
 }
 .home_left_dev_info
 {
     padding : 15px 0px;
-    color : var(--black-700);
+    color : var(--black-100);
     font-family: var(--ff-san);
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.950rem;
     line-height: 25px;
 }
 .home_left_dev_login
@@ -40,7 +41,7 @@
     border-radius: 6px;
     padding : 8px 10px;
     font-family: var(--inter-text);
-    background-color: var(--black-050);
+    background-color: var(--btn-light-bg);
     font-size: 0.950rem;
     transition: 0.5s all ease-in-out;
 }
@@ -53,10 +54,6 @@
 .home_left_dev_login:focus
 {
     outline: none;
-}
-.home_left_dev_login:hover
-{
-    background-color: var(--black-100);
 }
 
 .home_left_dev_popular_container
@@ -78,7 +75,7 @@
     font-size: 1.1rem;
     letter-spacing: 0.020rem;
     z-index: 20;
-    color : var(--black-800);
+    color : var(--black-100);
 }
 
 .home_left_dev_popular_container .home_left_dev_popular_list
@@ -89,6 +86,7 @@
     font-family: var(--ff-san);
     font-size: .960rem;
     font-weight: 400;
+    color : var(--black-300)
 }
 
 /* home middle panel */
@@ -103,8 +101,9 @@
 {
     font-family: var(--ff-san);
     font-size: 1.180rem;
+    letter-spacing: 0.020rem;
     font-weight: 700;
-    color : var(--black-900);
+    color : var(--black-100);
 }
 
 .home_middle_head_date_conatiner
@@ -122,21 +121,21 @@
     font-size: .970rem;
     font-weight: 500;
     border-bottom: 3px solid var(--body-bg);
-    color : var(--black-900);
+    color : var(--black-200);
     cursor: pointer;
     transition: 0.4s all ease-in-out;
 }
 .home_middle_head_date_conatiner > .home_middle_head_date_name.active
 {
     color : var(--text-blue);
-    border-bottom: 3px solid var(--border-blue);
+    border-bottom: 3px solid var(--text-border);
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     transition: 0.4s all ease-in-out;
 }
 .home_middle_head_date_conatiner > .home_middle_head_date_name:hover
 {
-    background-color: var(--hover-blue);
+    background-color: var(--text-hover-bg);
     color : var(--text-blue);
 }
 .home_middle_post_link
@@ -155,9 +154,10 @@
     width: 100%;
     margin : 10px 0px;
     padding : 20px 15px;
-    border : 1px solid var(--black-100);
+    /* border : 1px solid var(--black-100); */
     background-color: var(--box-bg);
     border-radius: 6px;
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.25),0px 4px 4px rgba(0,0,0,0.3);
     transition: 0.4s all ease-in-out;
 }
 .home_middle_post_user_container
@@ -197,7 +197,7 @@
     font-family: var(--inter-text);
     font-size: .960rem;
     font-weight: 500;
-    color : var(--black-600);
+    color : var(--black-300);
 }
 .home_middle_post_date
 {
@@ -205,14 +205,14 @@
     font-family: var(--inter-text);
     font-size: .670rem;
     font-weight: 400;
-    color : var(--black-700);
+    color : var(--black-300);
 }
 .home_middle_post_title
 {
     padding : 12px 0px 5px 0px;
     font-weight: 700;
     font-size: 1.760rem;
-    color : var(--black-900);
+    color : var(--black-100);
     transition: 0.4s all ease-in-out;
 }
 .home_middle_post_tag_display
@@ -225,7 +225,7 @@
     padding : 8px 12px 10px 3px;
     font-family: var(--inter-text);
     font-size: .750rem;
-    color : var(--black-500);
+    color : var(--black-400);
     font-weight: 500;
     letter-spacing: 0.010rem;
 }
@@ -248,7 +248,7 @@
 {
     width: 17px !important;
     font-size: 1.7rem !important;
-    color : var(--black-300);
+    color : var(--black-200);
     font-weight: 700;
     transition: 0.4s all ease-in-out;
 }
@@ -257,7 +257,7 @@
 {
     width: 17px !important;
     font-size: 1.7rem !important;
-    color : var(--black-600);
+    color : var(--black-100);
     font-weight: 600;
     cursor: pointer;
     transition: 0.4s all ease-in-out;
@@ -270,7 +270,7 @@
 {
     width: 17px !important;
     font-size: 1.7rem !important;
-    color : var(--black-600);
+    color : var(--black-100);
     font-weight: 600;
     cursor: pointer;
     transition: 0.4s all ease-in-out;
@@ -294,5 +294,5 @@
     font-size: .820rem;
     font-family: 500;
     word-spacing: 3px;
-    color: var(--black-700);
+    color: var(--black-300);
 }

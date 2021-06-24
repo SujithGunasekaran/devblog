@@ -2,7 +2,7 @@
 {
     padding : 8px 20px;
     background-color: var(--header-bg);
-    box-shadow: 0 1px 1px var(--header-shadow);
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.25),0px 4px 4px rgba(0,0,0,0.3);
     width: 100%;
     position: fixed;
     top: 0px;
@@ -24,7 +24,7 @@
     font-weight: 600;
     letter-spacing: 0.040rem;
     text-decoration: none;
-    background-color: var(--black-750);
+    background-color: var(--header-logo-bg);
 }
 .header_logo:hover
 {
@@ -49,17 +49,17 @@
     padding : 8px 15px;
     border-radius: 6px;
     font-family: var(--inter-text);
-    font-weight: 600;
+    font-weight: var(--light-font-size);
     letter-spacing: 0.010rem;
     text-decoration: none;
     background-color: var(--header-bg);
-    color : var(--black-800);
+    color : var(--text-white);
     transition: 0.4s all ease-in-out;
 }
 .header_info_list_name:hover
 {
-    background-color: var(--black-050);
-    color : var(--text-blue);
+    background-color: var(--text-hover-bg);
+    color : var(--text-hover-color);
 }
 
 .header_auth_container
@@ -74,10 +74,10 @@
     border-radius: 6px;
     font-family: var(--inter-text);
     font-size: 1rem;
-    letter-spacing: 0.010rem;
-    font-weight: 600;
+    letter-spacing: 0.040rem;
+    font-weight: var(--dark-font-size);
     color : var(--text-blue);
-    background-color: var(--black-050);
+    background-color: var(--text-hover-bg);
     transition: 0.4s all ease-in-out;
     text-decoration: none;
 }
@@ -101,8 +101,9 @@
     padding-right: 10px;
     font-family: var(--inter-text);
     font-size: 1rem;
-    letter-spacing: 0.010rem;
-    font-weight: 600;
+    color : var(--text-color-light);
+    font-weight: var(--medium-font-size);
+    letter-spacing: 0.030rem;
 }
 .header_auth_user_profile
 {
@@ -116,7 +117,7 @@
     padding : 9px 10px;
     width : 200px;
     border-radius: 8px;
-    background-color: var(--header-bg);
+    background-color: var(--box-bg);
     top : calc(100% + 3px);
     right : 15px;
     box-shadow: 0 10px 12px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
@@ -138,13 +139,14 @@
 .header_profile_list_display:hover 
 .header_profile_list_icon
 {
+    transition: 0.4s all ease-in-out;
     color : var(--text-blue) !important;
 }
 .header_profile_list_icon
 {
     width : 30px !important;
     font-size: 1.4rem !important;
-    color : var(--black-500) !important;
+    color : var(--black-300) !important;
     transition: 0.4s all ease-in-out;
 }
 .header_profile_list_name
@@ -152,9 +154,9 @@
     padding-left: 5px;
     font-size: .920rem;
     font-family: var(--inter-text);
-    font-weight: 600;
-    letter-spacing: 0.010rem;
-    color : var(--black-700);
+    font-weight: var(--medium-font-size);
+    letter-spacing: 0.030rem;
+    color : var(--text-color-light);
     transition: 0.4s all ease-in-out;
 }
 
@@ -164,7 +166,7 @@
     height : 20px;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid var(--black-100);
+    border-bottom: 10px solid var(--black-600);
 }
 
 .header_profile_dropdown > .header_profile_triangle

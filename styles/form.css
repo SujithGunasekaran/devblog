@@ -1,8 +1,8 @@
 .form_main
 {
     margin : 25px 0px;
-    padding : 20px;
-    background-color: var(--header-bg);
+    padding : 30px 20px;
+    background-color: var(--box-bg);
     border-radius: 5px;
     box-shadow: 0 10px 40px -10px rgb(0 64 128 / 20%);
 }
@@ -12,17 +12,18 @@
     word-spacing: 1px;
     font-weight: 700;
     letter-spacing: 0.010rem;
-    color : var(--black-750);
+    color : var(--black-100);
     text-align: center;
 }
 .form_intro
 {
-    padding : 10px 0px 5px 0px;
+    padding : 20px 0px 10px 0px;
     font-size: .950rem;
     word-spacing: 1px;
     font-weight: 400;
+    font-family: var(--ff-san);
     letter-spacing: 0.010rem;
-    color : var(--black-750);
+    color : var(--black-300);
     text-align: center;
 }
 .form_google_login
@@ -52,7 +53,7 @@
     font-family: var(--inter-text);
     font-size: 1rem;
     font-weight: 500;
-    color: var(--black-700);
+    color: var(--black-300);
 }
 
 

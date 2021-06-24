@@ -5,7 +5,7 @@
 }
 .post_header
 {
-    border-bottom: 1px solid var(--black-100);
+    border-bottom: 2px solid var(--header-bg);
 }
 .post_header_list
 {
@@ -16,7 +16,7 @@
     padding : 10px 30px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    border-bottom: 1px solid var(--black-050);
+    border-bottom: 2px solid var(--header-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +35,7 @@
 }  */
 .post_header_info.active
 {
-    border-bottom: 1px solid var(--border-blue);
+    border-bottom: 2px solid var(--text-border);
 }
 .post_header_info.active .post_header_name,
 .post_header_info.active .post_header_icon
@@ -46,7 +46,7 @@
 {
     width: 16px !important;
     font-size: 1rem !important;
-    color : var(--black-500);
+    color : var(--black-300);
     transition: 0.4s all ease-in-out;
 }
 .post_header_name
@@ -55,7 +55,7 @@
     font-size: .870rem;
     font-weight: 500;
     font-family: var(--inter-text);
-    color : var(--black-700);
+    color : var(--black-200);
 }
 
 /* post form */
@@ -75,13 +75,14 @@
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.020rem;
+    background-color: var(--body-bg);
     color : var(--black-800);
-    border : 1px solid var(--black-100);
+    border : 1px solid var(--black-600);
     transition: 0.4s all ease-in-out;
 }
 .post_form_input::placeholder
 {
-    font-size: .8rem;
+    font-size: .820rem;
     font-weight: 400;
     letter-spacing: 0.010rem;
     color : var(--black-300);
@@ -106,8 +107,9 @@
     font-size: .950rem;
     font-weight: 500;
     letter-spacing: 0.010rem;
-    color : var(--black-800);
-    border : 1px solid var(--black-100);
+    color : var(--black-100);
+    background-color: var(--body-bg);
+    border : 1px solid var(--black-700);
     transition: 0.4s all ease-in-out;
     resize: none;
 }
@@ -137,9 +139,9 @@
     display: flex;
     margin-left: auto;
     border : none;
-    background-color: var(--btn-blue);
+    background-color: var(--btn-blue-bg);
     border-radius: 6px;
-    color : var(--text-white);
+    color : var(--text-color-light);
     font-family: var(--inter-text);
     font-weight: 500;
     letter-spacing: 0.010rem;
@@ -167,6 +169,7 @@
     padding : 15px 0px;
     font-size: 1.7rem;
     font-weight: 600;
+    color : var(--black-100);
 }
 .post_guide_info_container
 {
@@ -178,26 +181,29 @@
 }
 .post_guide_info_table_head
 {
-    background-color: var(--black-050) !important;
-    border : 1px solid var(--black-100) !important;
+    background-color: var(--body-bg) !important;
+    border : 1px solid var(--black-700) !important;
 }
 .post_guide_info_table_th
 {
     padding : 10px 20px !important;
     text-align: left !important;
-    border-left : 1px solid var(--black-100) !important;
+    color : var(--black-200);
+    letter-spacing: 0.020rem;
+    border-left : 1px solid var(--black-700) !important;
     border-bottom: none !important;
 }
 .post_guide_info_table_body
 {
-    border : 1px solid var(--black-100) !important;
+    border : 1px solid var(--black-700) !important;
 }
 .post_guide_info_table_td
 {
     padding : 20px 20px !important;
     text-align: left !important;
-    border-left: 1px solid var(--black-100) !important;
-    border-bottom: 1px solid var(--black-100) !important;
+    color : var(--black-200);
+    border-left: 1px solid var(--black-700) !important;
+    border-bottom: 1px solid var(--black-700) !important;
 }
 
 
@@ -239,7 +245,7 @@
     font-family: var(--inter-text);
     font-size: .950rem;
     font-weight: 500rem;
-    color : var(--black-600);
+    color : var(--black-200);
 }
 .post_id_left_heart_icon_bg
 {
@@ -312,7 +318,7 @@
 .post_id_middle_container
 {
     padding : 20px 50px;
-    border : 1px solid var(--black-100);
+    /* border : 1px solid var(--black-100); */
     border-radius: 6px;
     background-color: var(--box-bg);
 }
@@ -329,18 +335,19 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 10px;
 }
 .post_id_middle_head_tag_name
 {
     margin-top: 4px;
     margin-right : 9px;
-    padding : 3px 9px;
+    padding : 5px 10px;
     border-radius: 6px;
     font-family: var(--inter-text);
     font-size: .800rem;
     font-weight: 500;
-    background-color: var(--black-600);
-    color: var(--text-white);
+    background-color: var(--text-hover-bg);
+    color: var(--black-100);
 }
 .post_id_middle_head_profile_container
 {
@@ -373,13 +380,13 @@
     font-size: .910rem;
     font-weight: 600;
     letter-spacing: 0.015rem;
-    color : var(--black-700);
+    color : var(--black-200);
     transition: 0.4s all ease-in-out;
 }
 .post_id_middle_head_profile_name a
 {
     text-decoration: none;
-    color : var(--black-700);
+    color : var(--black-300);
     transition: 0.4s all ease-in-out;
 }
 .post_id_middle_head_profile_name a:hover
@@ -392,7 +399,7 @@
     font-family: var(--inter-text);
     font-size: .870rem;
     font-weight: 400;
-    color : var(--black-500);
+    color : var(--black-400);
 }
 .post_id_middle_content_container
 {
@@ -411,15 +418,15 @@
 .post_id_right_user_card_container
 {
     border-radius: 6px;
-    background-color: var(--header-bg);
-    border: 1px solid var(--black-100);
+    background-color: var(--box-bg);
+    /* border: 1px solid var(--black-100); */
 }
 .post_id_right_user_card_header
 {
     height : 20px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    background-color: var(--black-800);
+    /* background-color: var(--black-700); */
 }
 .post_id_right_user_card_subhead_container
 {
@@ -444,7 +451,7 @@
     font-family: var(--ff-san);
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--black-800);
+    color: var(--black-100);
     cursor: pointer;
     transition: 0.4s all ease-in-out;
 }
@@ -462,16 +469,16 @@
     font-size: .930rem;
     line-height: 25px;
     font-weight: 400;
-    letter-spacing: 0.013rem;
+    letter-spacing: 0.014rem;
     font-family: var(--ff-san);
-    color : var(--black-800);
+    color : var(--black-100);
 }
 .post_id_right_body_btn
 {
     margin: 15px 0px 15px 0px;
     padding : 8px 0px;
     width : 100%;
-    background-color: var(--btn-blue);
+    background-color: var(--btn-blue-bg);
     border-radius: 8px;
     border : none;
     color: var(--text-white);
@@ -489,9 +496,9 @@
     font-size: .860rem;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.010rem;
+    letter-spacing: 0.015rem;
     font-family: var(--ff-san);
-    color : var(--black-600);
+    color : var(--black-300);
 }
 .post_id_right_body_info_content
 {
@@ -499,15 +506,15 @@
     font-size: .950rem;
     font-weight: 400;
     font-family: var(--ff-san);
-    color : var(--black-800);
+    color : var(--black-200);
 }
 .post_id_right_user_post_container
 {
     margin : 25px 0px;
     padding : 20px 15px;
     border-radius: 6px;
-    background-color:var(--header-bg);
-    border : 1px solid var(--black-100);
+    background-color:var(--box-bg);
+    /* border : 1px solid var(--black-100); */
 }
 .post_id_right_user_post_heading
 {
@@ -515,8 +522,9 @@
     font-family: var(--ff-san);
     font-size: 1.2rem;
     font-weight: 700;
+    color: var(--black-050);
     letter-spacing: 0.010rem;
-    border-bottom: 1px solid var(--black-100);
+    border-bottom: 1px solid var(--black-700);
 }
 .post_id_right_user_post_list_container
 {
@@ -525,8 +533,10 @@
 .post_id_right_user_post_list_container > .user_post_list
 {
     padding : 10px 0px;
-    border-radius: 6px;
-    border-bottom: 1px solid var(--black-050);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    /* border-radius: 6px; */
+    border-bottom: 1px solid var(--black-700);
 }
 .post_id_right_user_post_list_container > .user_post_list:hover
 {
@@ -543,7 +553,8 @@
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.010rem;
-    color : var(--black-900);
+    color : var(--black-100);
+    transition: 0.4s all ease-in-out;
 }
 .post_id_right_user_post_list_container > .user_post_list > .tag_container
 {
@@ -558,7 +569,7 @@
     font-family: var(--ff-san);
     font-size: .9rem;
     font-weight: 400;
-    color : var(--black-600);
+    color : var(--black-300);
 }
 
 
