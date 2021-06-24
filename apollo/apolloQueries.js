@@ -163,7 +163,7 @@ export const GET_TAG_LIST = gql`
             taglist
         }
     }
-`
+`;
 
 export const GET_POST_BY_ID = gql`
     query GetPostById(
@@ -230,7 +230,37 @@ export const CREATE_POST = gql`
             }
         }
     }
-`
+`;
+
+export const EDIT_POST_INFO = gql`
+    mutation EditPostInfo(
+        $postid : ID
+        $title : String!
+        $content : String!
+        $tags : String
+    ){
+        editPost(input : {
+            postid : $postid
+            userid : $userid
+            title : $title
+            content : $content
+            tags : $tags
+        })
+        {
+            _id
+            title
+            userliked
+            usersaved
+            tags
+            createdAt
+            user {
+                _id
+                username
+                userprofile
+            }
+        }
+    }
+`;
 
 export const SET_POST_LIKE = gql`
     mutation AddLikeToPost(

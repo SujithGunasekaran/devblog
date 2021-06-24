@@ -9,6 +9,7 @@ import {
     SET_POST_LIKE,
     SET_POST_SAVE,
     CREATE_POST,
+    EDIT_POST_INFO,
     GET_POST_BY_ID,
     GET_POST_BY_USER,
     GET_TAG_LIST
@@ -131,6 +132,8 @@ export const useCreatePost = () => useMutation(CREATE_POST, {
         }
     }
 });
+
+export const useEditPostInfo = () => useMutation(EDIT_POST_INFO);
 
 export const useSetLikeToPost = () => useMutation(SET_POST_LIKE, {
     update(cache, { data: { addLikeToPost } }) {

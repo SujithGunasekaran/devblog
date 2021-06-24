@@ -13,7 +13,16 @@ const useForm = () => {
         })
     }
 
-    return { postForm, handleFormField }
+    const setPostInfo = (value = {}) => {
+        setPostForm((prevPostForm) => {
+            return {
+                ...prevPostForm,
+                ...value
+            }
+        })
+    }
+
+    return { postForm, handleFormField, setPostInfo }
 
 }
 

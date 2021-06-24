@@ -4,10 +4,10 @@ const Markdown = dynamic(() => import('../markdowns/MarkdownRender'));
 
 const PostForm = (props) => {
 
-    const { showPreview, postForm, publishLoading, handleFormField, handlePublishPost } = props;
+    const { showPreview, postForm, btnText, btnLoadingText, postLoading, handleFormField, handlePostData } = props;
 
     return (
-        <form onSubmit={handlePublishPost}>
+        <form onSubmit={handlePostData}>
             <div className="row">
                 <div className="col-md-6">
                     <input
@@ -46,7 +46,7 @@ const PostForm = (props) => {
                         onChange={handleFormField}
                     />
             }
-            <button disabled={publishLoading} className='post_form_publish_btn'>{publishLoading ? 'Publishing...' : 'Publish'}</button>
+            <button disabled={postLoading} className='post_form_publish_btn'>{postLoading ? btnLoadingText : btnText}</button>
         </form>
     )
 

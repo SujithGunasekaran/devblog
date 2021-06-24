@@ -4,8 +4,9 @@ import HeaderTag from '../../components/HeadTag';
 import useForm from '../../hooks/useForm';
 import withApollo from '../../hoc/withApollo';
 import { useCreatePost } from '../../apollo/apolloActions';
-import { EditSquareIcon, EyeIcon, InfoCircleIcon, CancelIcon } from '../../components/icons';
+import { CancelIcon } from '../../components/icons';
 import useChangeView from '../../hooks/useChangeView';
+import HeaderTabs from '../../components/post/PostHeaderTabs';
 
 const PostForm = dynamic(() => import('../../components/form/postForm'));
 const MarkdownGuide = dynamic(() => import('../../components/markdowns/MakrdownGuide'));
@@ -53,20 +54,10 @@ const CreatePost = () => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="post_header">
-                                <div className="post_header_list">
-                                    <div className={`post_header_info ${currentView === 'edit' ? 'active' : ''}`} onClick={() => handleChangeView('edit')}>
-                                        <EditSquareIcon cssClass="post_header_icon" />
-                                        <div title="Edit Post" className="post_header_name">Edit</div>
-                                    </div>
-                                    <div className={`post_header_info ${currentView === 'preview' ? 'active' : ''}`} onClick={() => handleChangeView('preview')}>
-                                        <EyeIcon cssClass="post_header_icon" />
-                                        <div title="Preview Post" className="post_header_name">Preview</div>
-                                    </div>
-                                    <div className={`post_header_info ${currentView === 'guide' ? 'active' : ''}`} onClick={() => handleChangeView('guide')}>
-                                        <InfoCircleIcon cssClass="post_header_icon" />
-                                        <div title="Markdown Guide" className="post_header_name">Guide</div>
-                                    </div>
-                                </div>
+                                <HeaderTabs
+                                    currentView={currentView}
+                                    handleChangeView={handleChangeView}
+                                />
                             </div>
                             {
                                 showSuccess &&
@@ -88,8 +79,10 @@ const CreatePost = () => {
                                     <PostForm
                                         postForm={postForm}
                                         handleFormField={handleFormField}
-                                        handlePublishPost={handlePublishPost}
-                                        publishLoading={loading}
+                                        handlePostData={handlePublishPost}
+                                        btnText="Publish"
+                                        btnLoadingText="Publishing..."
+                                        postLoading={loading}
                                         showPreview={currentView === 'preview' ? true : false}
                                     />
                                 </div>
