@@ -81,6 +81,7 @@ const UserPage = () => {
         try {
             const { data } = await deleteCreatePost({ variables: { postid, userid } });
             setShowSuccess(data?.deleteUserPosts?.message ?? '');
+            window.scrollTo({ top, behavior: 'smooth' });
         }
         catch (err) {
             console.log(err);

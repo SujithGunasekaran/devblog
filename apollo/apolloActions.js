@@ -35,7 +35,8 @@ export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_PO
             variables: { userid: deleteUserPosts.loggedUserInfo._id }
         });
         const allPost = cache.readQuery({
-            query: GET_POST_LIST
+            query: GET_POST_LIST,
+            variables: ''
         });
         if (userInfoById) {
             try {
@@ -83,7 +84,8 @@ export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_PO
                             ...getAllPost,
                             postList: deleteUserPosts.postInfo
                         }
-                    }
+                    },
+                    variables: { startDate: '' }
                 })
             }
             catch (err) { }
@@ -99,7 +101,7 @@ export const useLogout = () => useQuery(USER_LOGOUT);
 
 // post actions start
 
-export const useGetAllPost = () => useQuery(GET_POST_LIST);
+export const useGetAllPost = (startDate) => useLazyQuery(GET_POST_LIST, { variables: { startDate }, fetchPolicy: 'cache-and-network' });
 
 export const useGetTagList = () => useQuery(GET_TAG_LIST);
 
@@ -110,7 +112,8 @@ export const useGetPostByUser = (postid) => useQuery(GET_POST_BY_USER, { variabl
 export const useCreatePost = () => useMutation(CREATE_POST, {
     update(cache, { data: { createPost } }) {
         const postListData = cache.readQuery({
-            query: GET_POST_LIST
+            query: GET_POST_LIST,
+            variables: { startDate: '' }
         });
         if (postListData) {
             try {
@@ -125,7 +128,8 @@ export const useCreatePost = () => useMutation(CREATE_POST, {
                                 createPost
                             ]
                         }
-                    }
+                    },
+                    variables: { startDate: '' }
                 })
             }
             catch (err) { }

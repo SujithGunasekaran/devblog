@@ -133,8 +133,12 @@ export const USER_LOGOUT = gql`
 
 
 export const GET_POST_LIST = gql`
-    query GetPostList {
-        getAllPost {
+    query GetPostList(
+        $startDate : String
+    ){
+        getAllPost(
+            startDate : $startDate
+        ){
             postList {
                 _id
                 title

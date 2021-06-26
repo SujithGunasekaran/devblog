@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HeadTag from '../components/HeadTag';
 import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost } from '../apollo/apolloActions';
+import { getCurrentDateByType } from '../utils';
 
 const DevLeftPanel = dynamic(() => import('../components/panel/leftPanel/HomeLeftPanel'));
 const PostCard = dynamic(() => import('../components/post/PostCard'));
@@ -13,7 +14,20 @@ const Home = () => {
   const [currentFilter, setCurrentFilter] = useState('feed');
 
   // query and mutation
-  const { data: post, loading: postLoading, error: postError } = useGetAllPost();
+  const [getAllPost, { data: post, loading: postLoading, error: postError }] = useGetAllPost();
+
+  // useEffect
+  useEffect(() => {
+    getAllPost({ variables: '' });
+  }, [])
+
+  const handleTabChange = (resultType) => {
+    if (currentFilter !== resultType) {
+      setCurrentFilter(resultType);
+      const startDate = getCurrentDateByType(resultType);
+      getAllPost({ variables: { startDate } });
+    }
+  }
 
   return (
     <div>
@@ -30,11 +44,16 @@ const Home = () => {
             <div className="home_middle_head_container">
               <div className="home_middle_head_info">Posts</div>
               <div className="home_middle_head_date_conatiner">
-                <div onClick={() => setCurrentFilter('feed')} className={`home_middle_head_date_name ${currentFilter === 'feed' ? 'active' : ''}`}>Feed</div>
-                <div onClick={() => setCurrentFilter('week')} className={`home_middle_head_date_name ${currentFilter === 'week' ? 'active' : ''}`}>Week</div>
-                <div onClick={() => setCurrentFilter('month')} className={`home_middle_head_date_name ${currentFilter === 'month' ? 'active' : ''}`}>Month</div>
+                <div onClick={() => handleTabChange('feed')} className={`home_middle_head_date_name ${currentFilter === 'feed' ? 'active' : ''}`}>Feed</div>
+                <div onClick={() => handleTabChange('week')} className={`home_middle_head_date_name ${currentFilter === 'week' ? 'active' : ''}`}>Week</div>
+                <div onClick={() => handleTabChange('month')} className={`home_middle_head_date_name ${currentFilter === 'month' ? 'active' : ''}`}>Month</div>
+                <div onClick={() => handleTabChange('year')} className={`home_middle_head_date_name ${currentFilter === 'year' ? 'active' : ''}`}>Year</div>
               </div>
             </div>
+            {
+              (!post || !post.getAllPost) && !postLoading &&
+              <p className="not_available_message">Do post Available...</p>
+            }
             {
               post && post.getAllPost &&
               post.getAllPost.postList.map((postInfo, index) => (

@@ -1,4 +1,4 @@
-import { HeartLightIcon, BookmarkLightIcon } from '../../icons';
+import { HeartLightIcon, HeartIcon, BookmarkIcon, BookmarkLightIcon } from '../../icons';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
@@ -13,19 +13,37 @@ const PostLeftPanel = (props) => {
     return (
         <>
             <div className="post_id_left_icon_container">
-                <Tooltip TransitionComponent={Zoom} title={postData && postData.getPostById && postData.getPostById.isUserLikedThePost ? 'Dislike' : 'Like'} arrow>
-                    <div className="post_id_left_heart_icon_bg" onClick={() => !likeLoading && handleLikeReaction(isUserLikedThePost, postData.getPostById.loggedUserid)}>
-                        <HeartLightIcon cssClass={isUserLikedThePost ? "post_id_left_heart_icon_active" : "post_id_left_heart_icon"} />
-                    </div>
-                </Tooltip>
+                {
+                    isUserLikedThePost ?
+                        <Tooltip TransitionComponent={Zoom} title={'Dislike'} arrow>
+                            <div className="post_id_left_heart_icon_bg" onClick={() => !likeLoading && handleLikeReaction(isUserLikedThePost, postData.getPostById.loggedUserid)}>
+                                <HeartIcon cssClass="post_id_left_heart_icon_active" />
+                            </div>
+                        </Tooltip> :
+                        <Tooltip TransitionComponent={Zoom} title={'Like'} arrow>
+                            <div className="post_id_left_heart_icon_bg" onClick={() => !likeLoading && handleLikeReaction(isUserLikedThePost, postData.getPostById.loggedUserid)}>
+                                <HeartLightIcon cssClass="post_id_left_heart_icon" />
+                            </div>
+                        </Tooltip>
+                }
+
                 <div className="post_id_left_count">{postData?.getPostById?.postInfo?.userliked.length ?? ''}</div>
             </div>
             <div className="post_id_left_icon_container">
-                <Tooltip TransitionComponent={Zoom} title={postData && postData.getPostById && postData.getPostById.isUserSavedThePost ? 'unSave' : 'Save'} arrow>
-                    <div className="post_id_left_save_icon_bg" onClick={() => !saveLoading && handleSaveReaction(isUserSavedThePost, postData.getPostById.loggedUserid)}>
-                        <BookmarkLightIcon cssClass={isUserSavedThePost ? "post_id_left_save_icon_active" : "post_id_left_save_icon"} />
-                    </div>
-                </Tooltip>
+                {
+                    isUserSavedThePost ?
+                        <Tooltip TransitionComponent={Zoom} title={'unSave'} arrow>
+                            <div className="post_id_left_save_icon_bg" onClick={() => !saveLoading && handleSaveReaction(isUserSavedThePost, postData.getPostById.loggedUserid)}>
+                                <BookmarkIcon cssClass="post_id_left_save_icon_active" />
+                            </div>
+                        </Tooltip> :
+                        <Tooltip TransitionComponent={Zoom} title={'Save'} arrow>
+                            <div className="post_id_left_save_icon_bg" onClick={() => !saveLoading && handleSaveReaction(isUserSavedThePost, postData.getPostById.loggedUserid)}>
+                                <BookmarkLightIcon cssClass="post_id_left_save_icon" />
+                            </div>
+                        </Tooltip>
+                }
+
                 <div className="post_id_left_count">{postData?.getPostById?.postInfo?.usersaved.length ?? ''}</div>
             </div>
         </>

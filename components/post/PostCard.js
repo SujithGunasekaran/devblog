@@ -1,4 +1,4 @@
-import { HeartLightIcon, EditSquareIcon, DeleteIcon } from '../icons';
+import { HeartLightIcon, EditSquareIcon, DeleteIcon, HeartIcon } from '../icons';
 import { convertFullDateToShort, prettyUserName } from '../../utils';
 import PageLink from '../PageLink';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -55,7 +55,11 @@ const PostCard = (props) => {
                                 <div className="home_middle_post_reaction_main">
                                     <div className="home_middle_post_reaction_container">
                                         <div className="home_middle_post_like_bg">
-                                            <HeartLightIcon cssClass={postInfo && postInfo.userliked && loggedUserInfo && postInfo.userliked.includes(loggedUserInfo._id) ? "home_middle_post_like_icon_active" : "home_middle_post_like_icon"} />
+                                            {
+                                                postInfo && postInfo.userliked && loggedUserInfo && postInfo.userliked.includes(loggedUserInfo._id) ?
+                                                    <HeartIcon cssClass="home_middle_post_like_icon_active" /> :
+                                                    <HeartLightIcon cssClass="home_middle_post_like_icon" />
+                                            }
                                         </div>
                                         <div className="home_middle_post_like_count">{postInfo?.userliked.length ?? 0} Liked</div>
                                     </div>

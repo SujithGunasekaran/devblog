@@ -19,7 +19,7 @@ const UserPostList = ({ postid, userName, userid }) => {
                     data && data.getPostByUser && data.getPostByUser.postList &&
                     data.getPostByUser.postList.map((postInfo, index) => (
                         <PageLink href={'/post/[postID]'} as={`/post/${postInfo._id}`} key={index}>
-                            <div className="user_post_list">
+                            <div className={`user_post_list ${index < data.getPostByUser.postList.length - 1 ? 'border_active' : ''}`}>
                                 <div className="post_heading">{postInfo.title ?? ''}</div>
                                 <div className="tag_container">
                                     {

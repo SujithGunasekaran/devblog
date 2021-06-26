@@ -53,3 +53,33 @@ export const isUserCanEditOrDelete = (loggedUser, createdPostUser) => {
     return isUserCanEdit;
 
 }
+
+/**
+ * Return converted date to based on given type
+ * Eg. type = "month" will reduce one month from the currentDate. currentDate = 26.06.2021 result = 26-05-2021 
+ * function accepts one parameter type must be week, month, year
+ * @param {*} type 
+ * @returns 
+*/
+
+export const getCurrentDateByType = (type) => {
+
+    let startDate = new Date();
+
+    switch (type.toLowerCase()) {
+        case 'week':
+            startDate = startDate.setDate(startDate.getDate() - 6);
+            break;
+        case 'month':
+            startDate = startDate.setMonth(startDate.getMonth() - 1);
+            break;
+        case 'year':
+            startDate = startDate.setUTCFullYear(startDate.getUTCFullYear() - 1);
+            break;
+        default:
+            startDate = "";
+    };
+
+    return new Date(startDate);
+
+}
