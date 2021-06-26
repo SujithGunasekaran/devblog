@@ -1,6 +1,6 @@
 exports.postQuery = {
-    getAllPost: async (root, args, context) => {
-        const postList = await context.model.postModel.getPostList();
+    getAllPost: async (root, { startDate }, context) => {
+        const postList = await context.model.postModel.getPostList(startDate);
         return postList;
     },
     getPostById: async (root, { input }, context) => {

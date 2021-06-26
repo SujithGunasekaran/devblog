@@ -44,9 +44,15 @@ class postModel {
 
     // function used to get all post list 
 
-    async getPostList() {
+    async getPostList(startDate) {
 
-        const postList = await this.model.find({}).populate('user');
+        const postList = startDate ? await this.model.find({
+            createdAt: {
+                $gte: startDate,
+                $lte: new Date()
+            }
+        }).sort({ createdAt: 'desc' }).populate('user') :
+            await this.model.find({}).sort({ createdAt: 'desc' }).populate('user');
         if (!postList) throw new Error('Error while getting post list');
         const loggedUserInfo = this._getAuthUserInfo();
         return { postList, loggedUserInfo: loggedUserInfo ? loggedUserInfo : null };

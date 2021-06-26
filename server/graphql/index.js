@@ -35,7 +35,7 @@ exports.createApolloServer = () => {
 
             getTagList : tagList
 
-            getAllPost : allPost
+            getAllPost(startDate : String) : allPost
             getPostById(input : getPostInfo) :  postById
             getPostByUser(postid : ID) : postByUser
 
