@@ -6,6 +6,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 require('./model/userModel');
 require('./model/blogPostModel');
 require('./model/tagsModel');
+require('./model/userFollowModel');
 
 exports.connect = () => {
 

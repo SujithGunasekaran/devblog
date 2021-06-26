@@ -34,9 +34,31 @@ exports.userTypes = `
         message : String
     }
 
+    type userFollowResult {
+        followerList : [ID]
+        followingList : [ID]
+    }
+
+    type getUserFollow {
+        followerList : [userInfo]
+        followingList : [userInfo]
+        isUserLoggedIn : Boolean
+        isLoggedInUserFollowing : Boolean
+    }
+
     input deletePost {
         postid : ID
         userid : ID
+    }
+
+    input userFollowInput {
+        loggedUser : ID,
+        followUser : ID
+    }
+
+    input userFollowing {
+        loggedUser : ID,
+        followUser : ID
     }
 
 `;

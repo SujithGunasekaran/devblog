@@ -256,8 +256,7 @@ class postModel {
 
         try {
             const postCount = await this.model.countDocuments({ user: userid });
-            if (!postCount) throw new Error('Error while getting post count');
-            return postCount;
+            return postCount ? postCount : 0;
         }
         catch (err) {
             throw new Error(err.message);

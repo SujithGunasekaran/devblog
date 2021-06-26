@@ -136,7 +136,7 @@ class userModel {
         const updatedResult = type === 'add' ? await this.model.findOneAndUpdate(
             { _id: userid },
             {
-                $push: {
+                $addToSet: {
                     usersavedpost: mongoose.Types.ObjectId(postid)
                 }
             },

@@ -11,10 +11,12 @@ const { postTypes } = require('./types/postTypes');
 // grapql resolver
 const { userQuery, userMutation } = require('./resolver/Gql_UserQuery');
 const { postQuery, postMutation } = require('./resolver/Gql_PostQuery');
+const { userFollowQuery, userFollowMutation } = require('./resolver/Gql_UserFollowQuery');
 
 // graphql model
 const postModel = require('./model/Gql_postModel');
 const userModel = require('./model/Gql_UserMode');
+const userFollowModel = require('./model/Gql_UserFollowModel');
 
 
 exports.createApolloServer = () => {
@@ -39,6 +41,8 @@ exports.createApolloServer = () => {
             getPostById(input : getPostInfo) :  postById
             getPostByUser(postid : ID) : postByUser
 
+            getUserFollowFollowing(userid : ID) : getUserFollow
+
         }
 
         type Mutation {
@@ -50,6 +54,8 @@ exports.createApolloServer = () => {
 
             deleteUserPosts(input : deletePost) : userPostList
 
+            addUserFollow(input : userFollowInput) : userFollowResult
+
         }
 
     `);
@@ -57,11 +63,13 @@ exports.createApolloServer = () => {
     const resolvers = {
         Query: {
             ...userQuery,
-            ...postQuery
+            ...postQuery,
+            ...userFollowQuery
         },
         Mutation: {
             ...postMutation,
-            ...userMutation
+            ...userMutation,
+            ...userFollowMutation
         }
     }
 
@@ -71,7 +79,8 @@ exports.createApolloServer = () => {
         context: ({ req }) => ({
             model: {
                 userModel: new userModel(mongoose.model('devBlogUser'), req),
-                postModel: new postModel(mongoose.model('devBlogPost'), req)
+                postModel: new postModel(mongoose.model('devBlogPost'), req),
+                userFollowModel: new userFollowModel(mongoose.model('devBlogUserFollow'), req)
             }
         }),
         playground: true
