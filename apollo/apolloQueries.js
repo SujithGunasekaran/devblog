@@ -117,7 +117,24 @@ export const DELETE_USER_CREATED_POST = gql`
             postcount
         }
     }
-`
+`;
+
+// export const GET_USER_FOLLOW_FOLLOWING_LIST = gql`
+//     mutation AddUserFollow(
+//         $loggedUser : ID,
+//         $followUser : ID
+//     )
+//     {
+//         addUserFollow(input : {
+//             loggedUser : $loggedUser,
+//             followUser : $followUser
+//         })
+//         {
+//             followerList
+//             followingList
+//         }
+//     }
+// `
 
 export const USER_LOGOUT = gql`
     query Logout {
