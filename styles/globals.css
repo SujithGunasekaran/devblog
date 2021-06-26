@@ -17,9 +17,9 @@
 
 
   --danger-color : #dc1818;
-  --danger-bg : #fde0e0;
-  --save-bg : #d9dbf8;
-  --save-color : #323ebe;
+  --danger-bg : rgba(248,81,73,0.1);
+  --save-bg : rgba(65, 179, 224, 0.1);
+  --save-color : #1DA1F2;
 
   --error-alert-text : #ff5a4e;
   --error-alert-bg : rgba(248,81,73,0.1);
@@ -56,6 +56,7 @@
   --header-logo-color : #fff;
 
   --text-hover-bg : #3d3d3d;
+  --dark-border : #1b1b1b;
   --text-hover-color : #fff;
 
   --text-color-light : #fff;
@@ -140,7 +141,7 @@ p
   color : var(--text-color-light);
   font-weight: 400;
   font-family: var(--ff-san);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   word-spacing: 2px;
   padding : 5px 0px 5px 4px !important;
   line-height: 31px;
@@ -149,7 +150,7 @@ ol > li
 {
   color : var(--black-800);
   font-family: var(--ff-san);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 400;
   padding-top : 6px;
   color : var(--text-color-light);
@@ -158,7 +159,7 @@ ul > li
 {
   color : var(--black-800);
   font-family: var(--ff-san);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 400;
   padding-top: 6px;
   color : var(--text-color-light);
@@ -188,11 +189,12 @@ pre
 
 .success_alert
 {
-  margin : 10px 0px 10px 0px;
+  margin : 14px 0px 10px 0px;
   padding : 9px 10px;
   font-size: .9rem;
   font-family: var(--inter-text);
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0.005rem;
   background-color: var(--success-alert-bg);
   color: var(--success-alert-text);
   border: 1px solid var(--success-alert-border);
@@ -236,6 +238,15 @@ pre
   background-color: var(--light-blue-bg);
   letter-spacing: 0.005rem;
   color : var(--black-700);
+}
+.not_available_message 
+{
+  margin-top: 35px;
+  text-align: center;
+  color: var(--black-300);
+  font-size: .940rem;
+  font-family: var(--inter-text);
+  font-weight: 500;
 }
 
 @media(max-width:750px)

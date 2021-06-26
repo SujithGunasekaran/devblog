@@ -30,24 +30,25 @@
 }
 .model_show_border
 {
-    border-bottom: 2px solid var(--black-200);
+    border-bottom: 2px solid var(--black-800);
 }
 .model_head_heading
 {
     font-family: var(--ff-san);
     font-weight: 700;
     font-size: 1.5rem;
-    color : var(--black-800);
+    color : var(--black-100);
 }
 .medium_font
 {
-    font-size: 1.5rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
 }
 .model_head_cancel_icon
 {
     width: 14px !important;
     font-size: 1.4rem !important;
-    color : var(--black-800);
+    color : var(--black-500);
     font-weight: 700;
     transition: 0.4s all ease-in-out;
 }
@@ -75,7 +76,7 @@
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.010rem;
-    color : var(--black-900);
+    color : var(--black-150);
 }
 .model_body_btn
 {
@@ -83,7 +84,7 @@
     border-radius: 6px;
     margin : 10px 0px 0px 0px;
     padding : 8px 0px;
-    background-color: var(--black-050);
+    background-color: var(--btn-light-bg);
     width: 100%;
     font-family: var(--inter-text);
     font-size: 1rem;
@@ -100,7 +101,7 @@
 {
     margin-right: 15px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     padding : 6px 10px;
     background-color: var(--black-700);
     font-family: var(--inter-text);
@@ -116,9 +117,9 @@
 .model_footer_ok_btn
 {
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     padding : 6px 10px;
-    background-color: var(--btn-blue);
+    background-color: var(--btn-blue-bg);
     font-family: var(--inter-text);
     font-size: .9rem;
     font-weight: 400;

@@ -1,7 +1,7 @@
 .user_top_banner
 {
     background-color: var(--body-bg);
-    height : 180px;
+    height : 140px;
 }
 
 .user_top_info_container
@@ -16,7 +16,7 @@
 .user_top_info_profile
 {
     position: absolute;
-    top : 190px;
+    top : 145px;
     border-radius: 50%;
     width : 100px;
     height : 100px;
