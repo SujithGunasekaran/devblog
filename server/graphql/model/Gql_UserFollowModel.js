@@ -38,17 +38,23 @@ class userFollowModel {
 
     }
 
+    async _createIfUserDocumentNotExist(loggedUser, followUser) {
+        const currentUser = await this.model.findOne({ userid: loggedUser });
+        const followerUser = await this.model.findOne({ userid: followUser });
+        if (!currentUser) await this.model.create({ userid: loggedUser });
+        if (!followerUser) await this.model.create({ userid: followUser });
+    }
+
     // function used to get follow and following id
 
     async getUserFollowList(userid) {
 
         const userID = this._getAuthUserID();
         try {
-            const userFollowList = await this.model.findOne({ userid }).populate('userfollowerlist');
-            const isLoggedInUserFollowing = (userID || userID !== userid) ? await this.model.findOne({ userid: userID, userfollowinglist: userid }) : false
+            const userFollowList = await this.model.findOne({ userid }).populate('follower').populate('following');
+            const isLoggedInUserFollowing = (userID || userID !== userid) ? await this.model.findOne({ userid: userID, following: userid }) : false
             const result = {
-                followerList: [],
-                followingList: [],
+                userData: userFollowList,
                 isUserLoggedIn: userID ? true : false,
                 isLoggedInUserFollowing: isLoggedInUserFollowing ? true : false
 
@@ -70,6 +76,8 @@ class userFollowModel {
 
         if (!userID) throw new Error('User not authenticated');
 
+        await this._createIfUserDocumentNotExist(loggedUser, followUser);
+
         try {
             const savedUserFollowInfo = await this.model.findOneAndUpdate(
                 {
@@ -77,7 +85,7 @@ class userFollowModel {
                 },
                 {
                     $addToSet: {
-                        userfollowinglist: mongoose.Types.ObjectId(followUser)
+                        following: mongoose.Types.ObjectId(followUser)
                     }
                 },
                 {
@@ -92,7 +100,7 @@ class userFollowModel {
                 },
                 {
                     $addToSet: {
-                        userfollowerlist: mongoose.Types.ObjectId(loggedUser)
+                        follower: mongoose.Types.ObjectId(loggedUser)
                     }
                 },
                 {
@@ -106,10 +114,10 @@ class userFollowModel {
             });
             const savedUserFollowingId = await this.model.findOne({
                 userid: followUser,
-            })
+            });
             const result = {
-                followerList: savedUserId?.userfollowerlist ?? [],
-                followingList: savedUserFollowingId?.userfollowinglist ?? []
+                followerList: savedUserId?.following ?? [],
+                followingList: savedUserFollowingId?.follower ?? []
             }
             return result;
         }

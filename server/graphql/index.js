@@ -80,7 +80,7 @@ exports.createApolloServer = () => {
             model: {
                 userModel: new userModel(mongoose.model('devBlogUser'), req),
                 postModel: new postModel(mongoose.model('devBlogPost'), req),
-                userFollowModel: new userFollowModel(mongoose.model('devBlogUserFollow'), req)
+                userFollowModel: new userFollowModel(mongoose.model('devBlogUserFollowInfo'), req)
             }
         }),
         playground: true

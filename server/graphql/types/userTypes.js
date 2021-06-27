@@ -39,9 +39,14 @@ exports.userTypes = `
         followingList : [ID]
     }
 
+    type userFollowFollowingInfo {
+        userid : ID
+        follower : [userInfo]
+        following : [userInfo]
+    }
+
     type getUserFollow {
-        followerList : [userInfo]
-        followingList : [userInfo]
+        userData : userFollowFollowingInfo
         isUserLoggedIn : Boolean
         isLoggedInUserFollowing : Boolean
     }
