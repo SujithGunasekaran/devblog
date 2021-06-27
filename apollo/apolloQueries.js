@@ -119,22 +119,29 @@ export const DELETE_USER_CREATED_POST = gql`
     }
 `;
 
-// export const GET_USER_FOLLOW_FOLLOWING_LIST = gql`
-//     mutation AddUserFollow(
-//         $loggedUser : ID,
-//         $followUser : ID
-//     )
-//     {
-//         addUserFollow(input : {
-//             loggedUser : $loggedUser,
-//             followUser : $followUser
-//         })
-//         {
-//             followerList
-//             followingList
-//         }
-//     }
-// `
+export const GET_USER_FOLLOW_FOLLOWING_LIST = gql`
+    query getUserFollow($userid : ID) {
+        getUserFollowFollowing(userid : $userid) {
+            userData {
+                userid 
+                follower {
+                    username
+                    userprofile
+                    joined
+                    userdescription
+                }
+                following {
+                    username
+                    userprofile
+                    joined
+                    userdescription
+                }
+            }
+            isUserLoggedIn
+            isLoggedInUserFollowing
+        }
+    }
+`;
 
 export const USER_LOGOUT = gql`
     query Logout {

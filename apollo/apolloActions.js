@@ -3,6 +3,7 @@ import {
     GET_USER_INFO,
     GET_USER_INFO_BY_ID,
     GET_USER_POST_LIST,
+    GET_USER_FOLLOW_FOLLOWING_LIST,
     DELETE_USER_CREATED_POST,
     USER_LOGOUT,
     GET_POST_LIST,
@@ -23,6 +24,8 @@ export const useGetUserInfo = () => useLazyQuery(GET_USER_INFO);
 export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid }, fetchPolicy: 'network-only' });
 
 export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid }, fetchPolicy: 'network-only' });
+
+export const useGetUserFollowFollwing = (userid) => useQuery(GET_USER_FOLLOW_FOLLOWING_LIST, { variables: { userid } });
 
 export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_POST, {
     update(cache, { data: { deleteUserPosts } }) {

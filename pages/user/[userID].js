@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import { useGetUserInfoById, useGetUserPostList, useDeleteUserCreatedPost } from '../../apollo/apolloActions';
+import { useGetUserInfoById, useGetUserPostList, useDeleteUserCreatedPost, useGetUserFollowFollwing } from '../../apollo/apolloActions';
 import useChangeView from '../../hooks/useChangeView';
 import useModelControl from '../../hooks/useModelControl';
 import ConfirmModel from '../../components/models/ShowConfirmModel';
@@ -31,6 +31,7 @@ const UserPage = () => {
 
     // querys and mutations
     const { data: userInfo, loading: userInfoLoading, error: userInfoError } = useGetUserInfoById(userID);
+    const { data: userFollowInfo, error: userFollowError } = useGetUserFollowFollwing(userID);
     const [getUserPostList, { data: userPost, loading: userPostLoading, error: userPostError }] = useGetUserPostList(userID);
     const [deleteCreatePost, { error: createdPostDeleteError }] = useDeleteUserCreatedPost();
 
@@ -125,7 +126,8 @@ const UserPage = () => {
                             {
                                 userInfo && userInfo.getUserById &&
                                 <UserInfoBanner
-                                    userData={userInfo.getUserById.userData}
+                                    userInfo={userInfo.getUserById}
+                                    userFollowInfo={userFollowInfo?.getUserFollowFollowing ?? ''}
                                 />
                             }
                         </div>
@@ -138,6 +140,7 @@ const UserPage = () => {
                                             currentView={currentView}
                                             handleChangeView={handleChangeView}
                                             userInfo={userInfo.getUserById}
+                                            userFollowInfo={userFollowInfo?.getUserFollowFollowing ?? ''}
                                         />
                                     }
                                 </div>
@@ -194,7 +197,7 @@ const UserPage = () => {
                     </div>
                 </div>
             }
-            {(userInfoError || userPostError || createdPostDeleteError) && <div></div>}
+            {(userInfoError || userPostError || createdPostDeleteError || userFollowError) && <div></div>}
         </div>
     )
 
