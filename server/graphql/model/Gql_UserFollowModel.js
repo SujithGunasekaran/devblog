@@ -45,21 +45,43 @@ class userFollowModel {
         if (!followerUser) await this.model.create({ userid: followUser });
     }
 
+    /**
+     * Logged user id as first parameter and followUser id as second parameter
+     * It return the followUser data and is loggedin user follows the followUser id.
+     * @param {*} loggedUserId 
+     * @param {*} followUserId 
+     * @returns 
+     */
+
+    async _getUserFollowData(loggedUserId, followUserId) {
+
+        try {
+            const userFollowList = await this.model.findOne({ userid: followUserId }).populate('follower').populate('following');
+            const loggedUserData = await this.model.findOne({ userid: loggedUserId }).populate('follower').populate('following');
+            const isLoggedInUserFollowing = (loggedUserId && loggedUserId !== followUserId) ? await this.model.findOne({ userid: loggedUserId, following: followUserId }) : false
+            const result = {
+                userData: userFollowList,
+                loggedUserData,
+                isUserLoggedIn: loggedUserId ? true : false,
+                isLoggedInUserFollowing: isLoggedInUserFollowing ? true : false
+
+            }
+            return result;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
     // function used to get follow and following id
 
     async getUserFollowList(userid) {
 
         const userID = this._getAuthUserID();
         try {
-            const userFollowList = await this.model.findOne({ userid }).populate('follower').populate('following');
-            const isLoggedInUserFollowing = (userID || userID !== userid) ? await this.model.findOne({ userid: userID, following: userid }) : false
-            const result = {
-                userData: userFollowList,
-                isUserLoggedIn: userID ? true : false,
-                isLoggedInUserFollowing: isLoggedInUserFollowing ? true : false
-
-            }
-            return result;
+            const responseData = await this._getUserFollowData(userID, userid);
+            return responseData;
         }
         catch (err) {
             throw new Error(err.message);
@@ -109,17 +131,57 @@ class userFollowModel {
                 }
             );
             if (!savedUserFollowingInfo) throw new Error('Error while saving the following user data');
-            const savedUserId = await this.model.findOne({
-                userid: loggedUser,
-            });
-            const savedUserFollowingId = await this.model.findOne({
-                userid: followUser,
-            });
-            const result = {
-                followerList: savedUserId?.following ?? [],
-                followingList: savedUserFollowingId?.follower ?? []
-            }
-            return result;
+            const responseData = await this._getUserFollowData(loggedUser, followUser);
+            return responseData;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
+    // function used to remove user follow
+
+    async removedUserFollow(input) {
+
+        const { loggedUser, followUser } = input;
+        const userID = this._getAuthUserID();
+
+        if (!userID) throw new Error('User not authenticated');
+
+        try {
+            const savedUserFollowInfo = await this.model.findOneAndUpdate(
+                {
+                    userid: loggedUser
+                },
+                {
+                    $pull: {
+                        following: mongoose.Types.ObjectId(followUser)
+                    }
+                },
+                {
+                    new: true,
+                    runValidators: true
+                }
+            );
+            if (!savedUserFollowInfo) throw new Error('Error while removing the followed user');
+            const savedUserFollowingInfo = await this.model.findOneAndUpdate(
+                {
+                    userid: followUser
+                },
+                {
+                    $pull: {
+                        follower: mongoose.Types.ObjectId(loggedUser)
+                    }
+                },
+                {
+                    new: true,
+                    runValidators: true
+                }
+            );
+            if (!savedUserFollowingInfo) throw new Error('Error while removing the followed user data');
+            const responseData = await this._getUserFollowData(loggedUser, followUser);
+            return responseData;
         }
         catch (err) {
             throw new Error(err.message);

@@ -9,5 +9,9 @@ exports.userFollowMutation = {
     addUserFollow: async (root, { input }, context) => {
         const userFollowInfo = await context.model.userFollowModel.addUserToFollowList(input);
         return userFollowInfo;
+    },
+    removeUserFollow: async (root, { input }, context) => {
+        const userFollowInfo = await context.model.userFollowModel.removedUserFollow(input);
+        return userFollowInfo;
     }
 }
