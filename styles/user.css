@@ -47,6 +47,11 @@
     border: none;
     border-radius: 6px;
 }
+.user_top_info_follow_btn:disabled
+{
+    background-color: var(--black-200);
+    color: var(--black-900);
+}
 .user_top_info_description
 {
     padding : 5px 0px 10px 0px;
