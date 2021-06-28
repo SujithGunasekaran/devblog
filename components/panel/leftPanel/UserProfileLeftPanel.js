@@ -1,4 +1,4 @@
-import { FileTextIcon, BookmarkLightIcon } from '../../icons';
+import { FileTextIcon, BookmarkLightIcon, PeopleIcon } from '../../icons';
 
 const UserProfileLeftPanel = (props) => {
 
@@ -15,11 +15,11 @@ const UserProfileLeftPanel = (props) => {
                 <div className="text">{userInfo?.userData?.usersavedpost.length ?? ''} posts saved</div>
             </div>
             <div onClick={() => handleChangeView('follower')} className={`user_left_post_data_info_container ${currentView === 'save' ? 'active' : ''}`}>
-                <BookmarkLightIcon cssClass="icon" />
+                <PeopleIcon cssClass="icon" />
                 <div className="text">{userFollowInfo?.userData?.follower.length ?? ''} Follower</div>
             </div>
             <div onClick={() => handleChangeView('following')} className={`user_left_post_data_info_container ${currentView === 'save' ? 'active' : ''}`}>
-                <BookmarkLightIcon cssClass="icon" />
+                <PeopleIcon cssClass="icon" />
                 <div className="text">{userFollowInfo?.userData?.following.length ?? ''} Followings</div>
             </div>
         </div>

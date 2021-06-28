@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import { useGetUserInfoById, useGetUserPostList, useDeleteUserCreatedPost, useGetUserFollowFollwing } from '../../apollo/apolloActions';
+import {
+    useGetUserInfoById,
+    useGetUserPostList,
+    useDeleteUserCreatedPost,
+    useGetUserFollowFollwing,
+    useAddUserToFollow,
+    useRemoveFollowedUser
+} from '../../apollo/apolloActions';
 import useChangeView from '../../hooks/useChangeView';
 import useModelControl from '../../hooks/useModelControl';
 import ConfirmModel from '../../components/models/ShowConfirmModel';
@@ -34,7 +41,8 @@ const UserPage = () => {
     const { data: userFollowInfo, error: userFollowError } = useGetUserFollowFollwing(userID);
     const [getUserPostList, { data: userPost, loading: userPostLoading, error: userPostError }] = useGetUserPostList(userID);
     const [deleteCreatePost, { error: createdPostDeleteError }] = useDeleteUserCreatedPost();
-
+    const [addUserToFollowList, { loading: followUserLoading, error: followUserError }] = useAddUserToFollow();
+    const [removeUserFromFollow, { loading: removeUserLoading, error: removeUserError }] = useRemoveFollowedUser();
 
     // to get user post list 
     useEffect(() => {
@@ -101,6 +109,26 @@ const UserPage = () => {
         });
     }
 
+    // function used to follow the user
+    const handleFollowUser = async (loggedUser, followUser) => {
+        try {
+            await addUserToFollowList({ variables: { loggedUser, followUser } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    // function used to remove user from follow list
+    const handleRemoveFollowedUser = async (loggedUser, followUser) => {
+        try {
+            await removeUserFromFollow({ variables: { loggedUser, followUser } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div>
             {
@@ -128,6 +156,10 @@ const UserPage = () => {
                                 <UserInfoBanner
                                     userInfo={userInfo.getUserById}
                                     userFollowInfo={userFollowInfo?.getUserFollowFollowing ?? ''}
+                                    handleFollowUser={handleFollowUser}
+                                    handleRemoveFollowedUser={handleRemoveFollowedUser}
+                                    removeUserLoading={removeUserLoading}
+                                    followUserLoading={followUserLoading}
                                 />
                             }
                         </div>

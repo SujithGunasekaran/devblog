@@ -3,16 +3,16 @@ import { CalenderIcon } from '../icons';
 
 const UserInfoBanner = (props) => {
 
-    const { userInfo, userFollowInfo } = props;
+    const { userInfo, userFollowInfo, followUserLoading, removeUserLoading, handleRemoveFollowedUser, handleFollowUser } = props;
 
     return (
         <div>
             {
-                (userFollowInfo && userInfo) && userFollowInfo.userData.userid !== userInfo.loggedUserInfo._id ?
+                (userFollowInfo && userInfo.loggedUserInfo) && userFollowInfo.userData.userid !== userInfo.loggedUserInfo._id ?
                     (
                         userFollowInfo.isLoggedInUserFollowing ?
-                            <button className="user_top_info_follow_btn">unFollow</button> :
-                            <button className="user_top_info_follow_btn">Follow</button>
+                            <button disabled={removeUserLoading} className="user_top_info_follow_btn" onClick={() => handleRemoveFollowedUser(userInfo.loggedUserInfo._id, userFollowInfo.userData.userid)}>{removeUserLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
+                            <button disabled={followUserLoading} className="user_top_info_follow_btn" onClick={() => handleFollowUser(userInfo.loggedUserInfo._id, userFollowInfo.userData.userid)}>{followUserLoading ? 'Following...' : 'Follow'}</button>
                     ) : <div style={{ padding: '20px 13px' }}></div>
             }
             <div className="user_top_info_username">{prettyUserName(userInfo?.userData?.username ?? '')}</div>

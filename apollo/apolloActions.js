@@ -4,6 +4,8 @@ import {
     GET_USER_INFO_BY_ID,
     GET_USER_POST_LIST,
     GET_USER_FOLLOW_FOLLOWING_LIST,
+    FOLLOW_USER,
+    REMOVE_FOLLOW_USER,
     DELETE_USER_CREATED_POST,
     USER_LOGOUT,
     GET_POST_LIST,
@@ -26,6 +28,114 @@ export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { va
 export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid }, fetchPolicy: 'network-only' });
 
 export const useGetUserFollowFollwing = (userid) => useQuery(GET_USER_FOLLOW_FOLLOWING_LIST, { variables: { userid } });
+
+export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
+    update(cache, { data: { addUserFollow } }) {
+        const followList = cache.readQuery({
+            query: GET_USER_FOLLOW_FOLLOWING_LIST,
+            variables: { userid: addUserFollow.userData.userid }
+        })
+        const loggedUserFollowList = cache.readQuery({
+            query: GET_USER_FOLLOW_FOLLOWING_LIST,
+            variables: { userid: addUserFollow.loggedUserData.userid }
+        })
+        if (followList) {
+            try {
+                const { getUserFollowFollowing } = followList
+                cache.writeQuery({
+                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
+                    variables: { userid: addUserFollow.userData.userid },
+                    data: {
+                        getUserFollowFollowing: {
+                            ...getUserFollowFollowing,
+                            userData: {
+                                ...getUserFollowFollowing.userData,
+                                following: addUserFollow.userData.following,
+                                follower: addUserFollow.userData.follower,
+                            },
+                            isLoggedInUserFollowing: addUserFollow.isLoggedInUserFollowing
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+        if (loggedUserFollowList) {
+            try {
+                cache.writeQuery({
+                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
+                    variables: { userid: addUserFollow.loggedUserData.userid },
+                    data: {
+                        getUserFollowFollowing: {
+                            ...loggedUserFollowList.getUserFollowFollowing,
+                            userData: {
+                                ...loggedUserFollowList.getUserFollowFollowing.userData,
+                                follower: addUserFollow.loggedUserData.follower,
+                                following: addUserFollow.loggedUserData.following,
+                                userid: addUserFollow.loggedUserData.userid
+                            }
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+    }
+})
+
+export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
+    update(cache, { data: { removeUserFollow } }) {
+        const followList = cache.readQuery({
+            query: GET_USER_FOLLOW_FOLLOWING_LIST,
+            variables: { userid: removeUserFollow.userData.userid }
+        });
+        const loggedUserFollowList = cache.readQuery({
+            query: GET_USER_FOLLOW_FOLLOWING_LIST,
+            variables: { userid: removeUserFollow.loggedUserData.userid }
+        });
+        if (followList) {
+            try {
+                const { getUserFollowFollowing } = followList
+                cache.writeQuery({
+                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
+                    variables: { userid: removeUserFollow.userData.userid },
+                    data: {
+                        getUserFollowFollowing: {
+                            ...getUserFollowFollowing,
+                            userData: {
+                                ...getUserFollowFollowing.userData,
+                                following: removeUserFollow.userData.following,
+                                follower: removeUserFollow.userData.follower,
+                            },
+                            isLoggedInUserFollowing: removeUserFollow.isLoggedInUserFollowing
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+        if (loggedUserFollowList) {
+            try {
+                cache.writeQuery({
+                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
+                    variables: { userid: removeUserFollow.loggedUserData.userid },
+                    data: {
+                        getUserFollowFollowing: {
+                            ...loggedUserFollowList.getUserFollowFollowing,
+                            userData: {
+                                ...loggedUserFollowList.getUserFollowFollowing.userData,
+                                follower: removeUserFollow.loggedUserData.follower,
+                                following: removeUserFollow.loggedUserData.following,
+                                userid: removeUserFollow.loggedUserData.userid
+                            }
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+    }
+})
 
 export const useDeleteUserCreatedPost = () => useMutation(DELETE_USER_CREATED_POST, {
     update(cache, { data: { deleteUserPosts } }) {

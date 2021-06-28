@@ -119,29 +119,86 @@ export const DELETE_USER_CREATED_POST = gql`
     }
 `;
 
+const followData = `
+    userData {
+        userid 
+        follower {
+            _id
+            username
+            userprofile
+            joined
+            userdescription
+        }
+        following {
+            _id
+            username
+            userprofile
+            joined
+            userdescription
+        }
+    }
+    loggedUserData {
+        userid 
+        follower {
+            _id
+            username
+            userprofile
+            joined
+            userdescription
+        }
+        following {
+            _id
+            username
+            userprofile
+            joined
+            userdescription
+        }
+    }
+    isUserLoggedIn
+    isLoggedInUserFollowing
+`
+
 export const GET_USER_FOLLOW_FOLLOWING_LIST = gql`
     query getUserFollow($userid : ID) {
         getUserFollowFollowing(userid : $userid) {
-            userData {
-                userid 
-                follower {
-                    username
-                    userprofile
-                    joined
-                    userdescription
-                }
-                following {
-                    username
-                    userprofile
-                    joined
-                    userdescription
-                }
-            }
-            isUserLoggedIn
-            isLoggedInUserFollowing
+            ${followData}
         }
     }
 `;
+
+export const FOLLOW_USER = gql`
+    mutation UserFollow(
+        $loggedUser : ID
+        $followUser : ID
+    )
+    {
+        addUserFollow(
+        input : {
+            loggedUser : $loggedUser,
+            followUser : $followUser
+        })
+        {
+            ${followData}
+        }
+    }
+`;
+
+export const REMOVE_FOLLOW_USER = gql`
+    mutation RemoveUserFollow(
+        $loggedUser : ID
+        $followUser : ID
+    )
+    {
+        removeUserFollow(
+        input : {
+            loggedUser : $loggedUser,
+            followUser : $followUser
+        })
+        {
+            ${followData}
+        }
+    }
+`
 
 export const USER_LOGOUT = gql`
     query Logout {
