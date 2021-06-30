@@ -30,8 +30,6 @@ const Home = () => {
     }
   }
 
-  console.log(currentFilter);
-
   return (
     <div>
       <HeadTag
@@ -53,10 +51,6 @@ const Home = () => {
                   tabList={['Feed', 'Week', 'Month', 'Year']}
                   handleTab={handleTabChange}
                 />
-                {/* <div onClick={() => handleTabChange('feed')} className={`home_middle_head_date_name ${currentFilter === 'feed' ? 'active' : ''}`}>Feed</div>
-                <div onClick={() => handleTabChange('week')} className={`home_middle_head_date_name ${currentFilter === 'week' ? 'active' : ''}`}>Week</div>
-                <div onClick={() => handleTabChange('month')} className={`home_middle_head_date_name ${currentFilter === 'month' ? 'active' : ''}`}>Month</div>
-                <div onClick={() => handleTabChange('year')} className={`home_middle_head_date_name ${currentFilter === 'year' ? 'active' : ''}`}>Year</div> */}
               </div>
             </div>
             {
