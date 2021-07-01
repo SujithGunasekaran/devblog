@@ -4,7 +4,7 @@ const PostCard = dynamic(() => import('../post/PostCard'));
 
 const UserSavePost = (props) => {
 
-    const { userInfo, handleEditPost, handleDeletePost } = props;
+    const { userInfo, handleEditPost, handleDeletePost, emptyMessage = "" } = props;
 
     return (
         <div>
@@ -25,7 +25,7 @@ const UserSavePost = (props) => {
                             />
                         )
                     }) :
-                    <div className="zero_post_message">You have not saved any post</div>
+                    <div className="not_available_message">{emptyMessage}</div>
             }
         </div>
     )
