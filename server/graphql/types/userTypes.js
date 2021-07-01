@@ -46,10 +46,20 @@ exports.userTypes = `
     }
 
     type getUserFollow {
-        userData : userFollowFollowingInfo
+        userid : ID
         isUserLoggedIn : Boolean
         isLoggedInUserFollowing : Boolean
         loggedUserData : userFollowFollowingInfo
+        userFollowArray : [ID]
+        userFollowingArray : [ID]
+    }
+
+    type followListInfo {
+        userData : userFollowFollowingInfo
+    }
+
+    type followingListInfo {
+        userData : userFollowFollowingInfo
     }
 
     input deletePost {
