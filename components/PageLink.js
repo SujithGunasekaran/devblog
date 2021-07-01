@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 const PageLink = (props) => {
 
-    const { href, as } = props;
+    const { href, as, index } = props;
 
     return (
-        <Link href={href} as={as}>
+        <Link key={index} href={href} as={as}>
             {props.children}
         </Link>
     )

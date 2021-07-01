@@ -14,13 +14,13 @@ const UserProfileLeftPanel = (props) => {
                 <BookmarkLightIcon cssClass="icon" />
                 <div className="text">{userInfo?.userData?.usersavedpost.length ?? ''} posts saved</div>
             </div>
-            <div onClick={() => handleChangeView('follower')} className={`user_left_post_data_info_container ${currentView === 'save' ? 'active' : ''}`}>
+            <div onClick={() => handleChangeView('follower')} className={`user_left_post_data_info_container ${currentView === 'follower' ? 'active' : ''}`}>
                 <PeopleIcon cssClass="icon" />
-                <div className="text">{userFollowInfo?.userData?.follower.length ?? ''} Follower</div>
+                <div className="text">{userFollowInfo && userFollowInfo.userFollowArray.length} Follower</div>
             </div>
-            <div onClick={() => handleChangeView('following')} className={`user_left_post_data_info_container ${currentView === 'save' ? 'active' : ''}`}>
+            <div onClick={() => handleChangeView('following')} className={`user_left_post_data_info_container ${currentView === 'following' ? 'active' : ''}`}>
                 <PeopleIcon cssClass="icon" />
-                <div className="text">{userFollowInfo?.userData?.following.length ?? ''} Followings</div>
+                <div className="text">{userFollowInfo && userFollowInfo.userFollowingArray.length} Followings</div>
             </div>
         </div>
     )

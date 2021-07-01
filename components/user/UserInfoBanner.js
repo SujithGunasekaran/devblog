@@ -8,11 +8,11 @@ const UserInfoBanner = (props) => {
     return (
         <div>
             {
-                (userFollowInfo && userInfo.loggedUserInfo) && userFollowInfo.userData.userid !== userInfo.loggedUserInfo._id ?
+                (userFollowInfo && userInfo.loggedUserInfo) && userFollowInfo.userid !== userInfo.loggedUserInfo._id ?
                     (
                         userFollowInfo.isLoggedInUserFollowing ?
-                            <button disabled={removeUserLoading} className="user_top_info_follow_btn" onClick={() => handleRemoveFollowedUser(userInfo.loggedUserInfo._id, userFollowInfo.userData.userid)}>{removeUserLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
-                            <button disabled={followUserLoading} className="user_top_info_follow_btn" onClick={() => handleFollowUser(userInfo.loggedUserInfo._id, userFollowInfo.userData.userid)}>{followUserLoading ? 'Following...' : 'Follow'}</button>
+                            <button disabled={removeUserLoading} className="user_top_info_follow_btn" onClick={() => handleRemoveFollowedUser(userInfo.loggedUserInfo._id, userFollowInfo.userid)}>{removeUserLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
+                            <button disabled={followUserLoading} className="user_top_info_follow_btn" onClick={() => handleFollowUser(userInfo.loggedUserInfo._id, userFollowInfo.userid)}>{followUserLoading ? 'Following...' : 'Follow'}</button>
                     ) : <div style={{ padding: '20px 13px' }}></div>
             }
             <div className="user_top_info_username">{prettyUserName(userInfo?.userData?.username ?? '')}</div>

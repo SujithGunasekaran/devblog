@@ -6,7 +6,10 @@ import {
     useGetUserInfoById,
     useGetUserPostList,
     useDeleteUserCreatedPost,
-    useGetUserFollowFollwing,
+    useGetVistingUserInfo,
+    useGetLoggedUserInfo,
+    useGetFollowListInfo,
+    useGetFollowingListInfo,
     useAddUserToFollow,
     useRemoveFollowedUser
 } from '../../apollo/apolloActions';
@@ -16,17 +19,21 @@ import ConfirmModel from '../../components/models/ShowConfirmModel';
 import HeadTag from '../../components/HeadTag';
 import { prettyUserName } from '../../utils';
 import { CancelIcon } from '../../components/icons';
+import CircularLoading from '../../components/UI/CircularLoading';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
 const UserCreatedPost = dynamic(() => import('../../components/user/UserCreatedPost'));
 const UserSavePost = dynamic(() => import('../../components/user/UserSavedPost'));
+const UserListWrapper = dynamic(() => import('../../components/user/UserListWrapper'));
 
 const UserPage = () => {
 
     // state
     const [postActionInfo, setPostActionInfo] = useState({});
     const [showSuccess, setShowSuccess] = useState(null);
+    const [loggedUserFollowList, setLoggedUserFollowList] = useState(new Set());
+    const [loggedUserFollowingList, setLoggedUserFollowingList] = useState(new Set());
 
     // hooks
     const { currentView, handleChangeView } = useChangeView('publish');
@@ -38,7 +45,10 @@ const UserPage = () => {
 
     // querys and mutations
     const { data: userInfo, loading: userInfoLoading, error: userInfoError } = useGetUserInfoById(userID);
-    const { data: userFollowInfo, error: userFollowError } = useGetUserFollowFollwing(userID);
+    const { data: visitingUserInfo, error: visitingUserInfoError } = useGetVistingUserInfo(userID);
+    const { data: loggedUserInfo, error: loggedUserInfoError } = useGetLoggedUserInfo();
+    const [getUserFollowListInfo, { data: followListInfo, loading: followListLoading, error: followListError }] = useGetFollowListInfo(userID);
+    const [getUserFollowingListInfo, { data: followingListInfo, loading: followingListLoading, error: followingListError }] = useGetFollowingListInfo(userID);
     const [getUserPostList, { data: userPost, loading: userPostLoading, error: userPostError }] = useGetUserPostList(userID);
     const [deleteCreatePost, { error: createdPostDeleteError }] = useDeleteUserCreatedPost();
     const [addUserToFollowList, { loading: followUserLoading, error: followUserError }] = useAddUserToFollow();
@@ -48,6 +58,13 @@ const UserPage = () => {
     useEffect(() => {
         invokeUserPostList()
     }, [])
+
+    useEffect(() => {
+        if (loggedUserInfo && loggedUserInfo.getLoggedUserFollowFollwingList && loggedUserFollowList.size === 0 && loggedUserFollowingList.size === 0) {
+            setLoggedUserFollowList(new Set(loggedUserInfo.getLoggedUserFollowFollwingList.userFollowArray));
+            setLoggedUserFollowingList(new Set(loggedUserInfo.getLoggedUserFollowFollwingList.userFollowingArray));
+        }
+    }, [loggedUserInfo])
 
     const invokeUserPostList = () => {
         try {
@@ -129,6 +146,39 @@ const UserPage = () => {
         }
     }
 
+    // function used to get user follow list info
+    const getUserFollowList = () => {
+        try {
+            getUserFollowListInfo();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    // function used to get user following list info
+    const getUserFollowingList = () => {
+        try {
+            getUserFollowingListInfo();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleLeftPanelView = (viewName) => {
+        handleChangeView(viewName);
+        switch (viewName) {
+            case 'follower':
+                getUserFollowList();
+                break;
+            case 'following':
+                getUserFollowingList();
+                break;
+            default: ''
+        };
+    }
+
     return (
         <div>
             {
@@ -155,7 +205,7 @@ const UserPage = () => {
                                 userInfo && userInfo.getUserById &&
                                 <UserInfoBanner
                                     userInfo={userInfo.getUserById}
-                                    userFollowInfo={userFollowInfo?.getUserFollowFollowing ?? ''}
+                                    userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
                                     handleFollowUser={handleFollowUser}
                                     handleRemoveFollowedUser={handleRemoveFollowedUser}
                                     removeUserLoading={removeUserLoading}
@@ -170,9 +220,9 @@ const UserPage = () => {
                                         userInfo && userInfo.getUserById &&
                                         <UserProfileLeftPanel
                                             currentView={currentView}
-                                            handleChangeView={handleChangeView}
+                                            handleChangeView={handleLeftPanelView}
                                             userInfo={userInfo.getUserById}
-                                            userFollowInfo={userFollowInfo?.getUserFollowFollowing ?? ''}
+                                            userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
                                         />
                                     }
                                 </div>
@@ -185,28 +235,55 @@ const UserPage = () => {
                                         <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
                                     </div>
                                 }
-                                {
-                                    currentView === 'publish' &&
-                                    userPost && userPost.getUserPosts &&
-                                    <div className="user_middle_post_list_container">
+                                <div className="user_middle_post_list_container">
+                                    {
+                                        (userInfoLoading || userPostLoading ||
+                                            followListLoading || followingListLoading
+                                        ) &&
+                                        <CircularLoading />
+                                    }
+                                    {
+                                        currentView === 'publish' &&
+                                        userPost && userPost.getUserPosts &&
                                         <UserCreatedPost
                                             handleDeletePost={showConfirmModel}
                                             handleEditPost={handleEditPost}
                                             posts={userPost.getUserPosts}
+                                            emptyMessage={'You have not created any post'}
                                         />
-                                    </div>
-                                }
-                                {
-                                    currentView === 'save' &&
-                                    userInfo && userInfo.getUserById &&
-                                    <div className="user_middle_post_list_container">
+                                    }
+                                    {
+                                        currentView === 'save' &&
+                                        userInfo && userInfo.getUserById &&
                                         <UserSavePost
                                             handleDeletePost={showConfirmModel}
                                             handleEditPost={handleEditPost}
                                             userInfo={userInfo.getUserById}
+                                            emptyMessage={'You have not saved any post'}
                                         />
-                                    </div>
-                                }
+                                    }
+                                    {
+                                        currentView === 'follower' &&
+                                        followListInfo && followListInfo.getUserFollowListInfo &&
+                                        <UserListWrapper
+                                            currentView={currentView}
+                                            isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.loggedUserData?.userid ? true : false}
+                                            loggedUserFollowList={loggedUserFollowList}
+                                            userList={followListInfo.getUserFollowListInfo}
+                                        />
+                                    }
+                                    {
+                                        currentView === 'following' &&
+                                        followingListInfo && followingListInfo.getUserFollowingListInfo &&
+                                        <UserListWrapper
+                                            currentView={currentView}
+                                            isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.loggedUserData?.userid ? true : false}
+                                            loggedUserFollowingList={loggedUserFollowingList}
+                                            userList={followingListInfo.getUserFollowingListInfo}
+                                        />
+                                    }
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -229,7 +306,16 @@ const UserPage = () => {
                     </div>
                 </div>
             }
-            {(userInfoError || userPostError || createdPostDeleteError || userFollowError) && <div></div>}
+            {(userInfoError ||
+                userPostError ||
+                createdPostDeleteError ||
+                visitingUserInfoError ||
+                loggedUserInfoError ||
+                followListError ||
+                followingListError ||
+                followUserError ||
+                removeUserError
+            ) && <div></div>}
         </div>
     )
 

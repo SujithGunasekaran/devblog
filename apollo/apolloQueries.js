@@ -158,13 +158,59 @@ const followData = `
     isLoggedInUserFollowing
 `
 
-export const GET_USER_FOLLOW_FOLLOWING_LIST = gql`
-    query getUserFollow($userid : ID) {
-        getUserFollowFollowing(userid : $userid) {
-            ${followData}
+export const GET_VISITOR_USER_INFO = gql`
+    query GetUserFollowFollwing($userid : ID) {
+        getUserFollowFollowing(userid : $userid){
+            userid
+            userFollowArray
+            userFollowingArray
+            isUserLoggedIn
+            isLoggedInUserFollowing
         }
     }
 `;
+
+export const GET_LOGGED_USER_INFO = gql`
+    query GetUserFollowFollowingList {
+        getLoggedUserFollowFollwingList {
+            loggedUserData{
+                userid
+            }
+            userFollowArray
+            userFollowingArray
+        }
+    }
+`;
+
+export const GET_FOLLOW_LIST_INFO = gql`
+    query GetUserFollowListInfo($userid : ID) {
+        getUserFollowListInfo(userid : $userid){
+            userData {
+                userid
+                follower {
+                    _id
+                    username
+                    userprofile
+                }
+            }
+        }
+    }
+`;
+
+export const GET_FOLLOWING_LIST_INFO = gql`
+    query GetUserFollowingListInfo($userid : ID) {
+        getUserFollowingListInfo(userid : $userid){
+            userData {
+                userid
+                following {
+                    _id
+                    username
+                    userprofile
+                }
+            }
+        }
+    }
+`
 
 export const FOLLOW_USER = gql`
     mutation UserFollow(

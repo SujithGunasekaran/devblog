@@ -3,7 +3,10 @@ import {
     GET_USER_INFO,
     GET_USER_INFO_BY_ID,
     GET_USER_POST_LIST,
-    GET_USER_FOLLOW_FOLLOWING_LIST,
+    GET_VISITOR_USER_INFO,
+    GET_LOGGED_USER_INFO,
+    GET_FOLLOW_LIST_INFO,
+    GET_FOLLOWING_LIST_INFO,
     FOLLOW_USER,
     REMOVE_FOLLOW_USER,
     DELETE_USER_CREATED_POST,
@@ -27,7 +30,13 @@ export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { va
 
 export const useGetUserPostList = (userid) => useLazyQuery(GET_USER_POST_LIST, { variables: { userid }, fetchPolicy: 'network-only' });
 
-export const useGetUserFollowFollwing = (userid) => useQuery(GET_USER_FOLLOW_FOLLOWING_LIST, { variables: { userid } });
+export const useGetVistingUserInfo = (userid) => useQuery(GET_VISITOR_USER_INFO, { variables: { userid } });
+
+export const useGetLoggedUserInfo = () => useQuery(GET_LOGGED_USER_INFO);
+
+export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid } });
+
+export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid } });
 
 export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
     update(cache, { data: { addUserFollow } }) {
