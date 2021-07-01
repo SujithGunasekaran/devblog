@@ -163,3 +163,60 @@
 {
     margin: 30px 0px 0px 0px !important;
 }
+
+/* user list info */
+
+.user_middle_list_container
+{
+    padding : 15px 5px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--black-900);
+    transition: 0.4s all ease-in-out;
+}
+.user_middle_list_container:hover
+{
+    background-color: var(--header-bg);
+}
+.user_middle_list_container:hover > .username:hover
+{
+    color : var(--text-blue);
+    cursor: pointer;
+}
+.user_middle_list_container:hover > .follow_btn:hover
+{
+    background-color: var(--btn-blue-bg);
+}
+.user_middle_list_container > .profile
+{
+    width : 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+.user_middle_list_container > .username
+{
+    padding-left: 10px;
+    font-family: var(--inter-text);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.010rem;
+    color : var(--black-200);
+    transition: 0.4s all ease-in-out;
+}
+.user_middle_list_container > .follow_btn
+{
+    margin-left: auto;
+    padding : 7px 10px;
+    background-color: transparent;
+    border: 1px solid var(--black-800);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background-color: var(--black-750);
+    color : var(--black-150);
+    transition: 0.4s all ease-in-out;
+}
+.user_middle_card_link
+{
+    text-decoration: none;
+}

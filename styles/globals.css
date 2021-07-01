@@ -248,6 +248,15 @@ pre
   font-family: var(--inter-text);
   font-weight: 500;
 }
+.circular_loading
+{
+  width: 34px !important;
+  height: 34px !important;
+  display: flex !important;
+  margin : 0px auto;
+  text-align: center !important;
+  color : var(--text-blue) !important;
+}
 
 @media(max-width:750px)
 {
