@@ -119,44 +119,22 @@ export const DELETE_USER_CREATED_POST = gql`
     }
 `;
 
-const followData = `
-    userData {
-        userid 
-        follower {
-            _id
-            username
-            userprofile
-            joined
-            userdescription
-        }
-        following {
-            _id
-            username
-            userprofile
-            joined
-            userdescription
-        }
+const followFollowingData = `
+    visitorUserID
+    loggedUserID
+    visitorFollowArray
+    loggedUserFollowingArray
+    visitorFollowInfo{
+        username
+        userprofile
     }
-    loggedUserData {
-        userid 
-        follower {
-            _id
-            username
-            userprofile
-            joined
-            userdescription
-        }
-        following {
-            _id
-            username
-            userprofile
-            joined
-            userdescription
-        }
+    loggedFollowingInfo{
+        username
+        userprofile
     }
-    isUserLoggedIn
     isLoggedInUserFollowing
-`
+    isUserLoggedIn
+`;
 
 export const GET_VISITOR_USER_INFO = gql`
     query GetUserFollowFollwing($userid : ID) {
@@ -224,7 +202,7 @@ export const FOLLOW_USER = gql`
             followUser : $followUser
         })
         {
-            ${followData}
+            ${followFollowingData}
         }
     }
 `;
@@ -241,7 +219,7 @@ export const REMOVE_FOLLOW_USER = gql`
             followUser : $followUser
         })
         {
-            ${followData}
+            ${followFollowingData}
         }
     }
 `
