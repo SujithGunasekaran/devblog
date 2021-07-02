@@ -47,14 +47,10 @@ class userFollowModel {
 
     async _getUserFollowData(loggedUserId, followUserId) {
         try {
-            const userFollowList = await this.model.findOne({ userid: followUserId });
             const isLoggedInUserFollowing = (loggedUserId && loggedUserId !== followUserId) ? await this.model.findOne({ userid: loggedUserId, following: followUserId }) : false
             const result = {
-                userid: userFollowList.userid,
-                isUserLoggedIn: loggedUserId ? true : false,
                 isLoggedInUserFollowing: isLoggedInUserFollowing ? true : false,
-                userFollowArray: userFollowList.follower,
-                userFollowingArray: userFollowList.following
+                isUserLoggedIn: loggedUserId ? true : false,
             }
             return result;
         }
@@ -195,7 +191,36 @@ class userFollowModel {
                 }
             );
             if (!savedUserFollowingInfo) throw new Error('Error while saving the following user data');
-            const responseData = await this._getUserFollowData(loggedUser, followUser);
+            let responseData = await this._getUserFollowData(loggedUser, followUser);
+            const visitorUserFollowInfo = await this.model.findOne(
+                {
+                    userid: followUser,
+                    follower: {
+                        $in: [
+                            loggedUser
+                        ]
+                    }
+                }
+            ).populate('follower');
+            const loggedUserFollowingInfo = await this.model.findOne(
+                {
+                    userid: loggedUser,
+                    following: {
+                        $in: [
+                            followUser
+                        ]
+                    }
+                }
+            ).populate('following');
+            responseData = {
+                ...responseData,
+                visitorUserID: followUser,
+                loggedUserID: loggedUser,
+                loggedUserFollowingArray: savedUserFollowInfo.following,
+                visitorFollowArray: savedUserFollowingInfo.follower,
+                visitorFollowInfo: visitorUserFollowInfo.follower,
+                loggedFollowingInfo: loggedUserFollowingInfo.following
+            };
             return responseData;
         }
         catch (err) {
