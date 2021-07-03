@@ -34,54 +34,127 @@ export const useGetVistingUserInfo = (userid) => useQuery(GET_VISITOR_USER_INFO,
 
 export const useGetLoggedUserInfo = () => useQuery(GET_LOGGED_USER_INFO);
 
-export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid } });
+export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid }, fetchPolicy: 'network-only' });
 
-export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid } });
+export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid }, fetchPolicy: 'network-only' });
 
 export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
     update(cache, { data: { addUserFollow } }) {
-        const followList = cache.readQuery({
-            query: GET_USER_FOLLOW_FOLLOWING_LIST,
-            variables: { userid: addUserFollow.userData.userid }
-        })
-        const loggedUserFollowList = cache.readQuery({
-            query: GET_USER_FOLLOW_FOLLOWING_LIST,
-            variables: { userid: addUserFollow.loggedUserData.userid }
-        })
-        if (followList) {
+        const visitorUserInfo = cache.readQuery({
+            query: GET_VISITOR_USER_INFO,
+            variables: { userid: addUserFollow.visitorUserID }
+        });
+        const loggedVisitiorInfo = cache.readQuery({
+            query: GET_VISITOR_USER_INFO,
+            variables: { userid: addUserFollow.loggedUserID }
+        });
+        const loggedUserInfo = cache.readQuery({
+            query: GET_LOGGED_USER_INFO,
+        });
+        const getFollowListInfo = cache.readQuery({
+            query: GET_FOLLOW_LIST_INFO,
+            variables: { userid: addUserFollow.visitorUserID }
+        });
+        const getFollowingListInfo = cache.readQuery({
+            query: GET_FOLLOWING_LIST_INFO,
+            variables: { userid: addUserFollow.loggedUserID }
+        });
+        if (visitorUserInfo) {
             try {
-                const { getUserFollowFollowing } = followList
+                const userInfo = JSON.parse(JSON.stringify(visitorUserInfo));
                 cache.writeQuery({
-                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
-                    variables: { userid: addUserFollow.userData.userid },
+                    query: GET_VISITOR_USER_INFO,
+                    variables: { userid: addUserFollow.visitorUserID },
                     data: {
                         getUserFollowFollowing: {
-                            ...getUserFollowFollowing,
-                            userData: {
-                                ...getUserFollowFollowing.userData,
-                                following: addUserFollow.userData.following,
-                                follower: addUserFollow.userData.follower,
-                            },
+                            ...userInfo.getUserFollowFollowing,
+                            userFollowArray: [
+                                ...userInfo.getUserFollowFollowing.userFollowArray,
+                                ...addUserFollow.visitorFollowArray
+                            ],
                             isLoggedInUserFollowing: addUserFollow.isLoggedInUserFollowing
+                        }
+                    }
+                })
+            }
+            catch { }
+        }
+        if (loggedUserInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(loggedUserInfo));
+                cache.writeQuery({
+                    query: GET_LOGGED_USER_INFO,
+                    data: {
+                        getLoggedUserFollowFollwingList: {
+                            ...userInfo.getLoggedUserFollowFollwingList,
+                            userFollowingArray: [
+                                ...userInfo.getLoggedUserFollowFollwingList.userFollowingArray,
+                                ...addUserFollow.loggedUserFollowingArray
+                            ]
                         }
                     }
                 })
             }
             catch (err) { }
         }
-        if (loggedUserFollowList) {
+        if (loggedVisitiorInfo) {
             try {
+                const userInfo = JSON.parse(JSON.stringify(loggedVisitiorInfo));
                 cache.writeQuery({
-                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
-                    variables: { userid: addUserFollow.loggedUserData.userid },
+                    query: GET_VISITOR_USER_INFO,
+                    variables: { userid: addUserFollow.loggedUserID },
                     data: {
                         getUserFollowFollowing: {
-                            ...loggedUserFollowList.getUserFollowFollowing,
+                            ...userInfo.getUserFollowFollowing,
+                            userFollowingArray: [
+                                ...userInfo.getUserFollowFollowing.userFollowingArray,
+                                ...addUserFollow.loggedUserFollowingArray
+                            ],
+                        }
+                    }
+                })
+            }
+            catch { }
+        }
+        if (getFollowListInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(getFollowListInfo));
+                cache.writeQuery({
+                    query: GET_FOLLOW_LIST_INFO,
+                    variables: { userid: addUserFollow.visitorUserID },
+                    data: {
+                        getUserFollowListInfo: {
+                            ...userInfo.getUserFollowListInfo,
                             userData: {
-                                ...loggedUserFollowList.getUserFollowFollowing.userData,
-                                follower: addUserFollow.loggedUserData.follower,
-                                following: addUserFollow.loggedUserData.following,
-                                userid: addUserFollow.loggedUserData.userid
+                                ...userInfo.getUserFollowListInfo.userData,
+                                follower: [
+                                    ...userInfo.getUserFollowListInfo.userData.follower,
+                                    ...addUserFollow.visitorFollowInfo
+                                ]
+                            }
+                        }
+                    }
+                })
+            }
+            catch (err) {
+
+            }
+        }
+        if (getFollowingListInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(getFollowingListInfo));
+                cache.writeQuery({
+                    query: GET_FOLLOWING_LIST_INFO,
+                    variables: { userid: addUserFollow.loggedUserID },
+                    data: {
+                        getUserFollowingListInfo: {
+                            ...userInfo.getUserFollowingListInfo,
+                            userData: {
+                                ...userInfo.getUserFollowingListInfo.userData,
+                                following: [
+                                    ...userInfo.getUserFollowingListInfo.userData.following,
+                                    ...addUserFollow.loggedFollowingInfo
+                                ]
                             }
                         }
                     }
@@ -94,48 +167,106 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
 
 export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
     update(cache, { data: { removeUserFollow } }) {
-        const followList = cache.readQuery({
-            query: GET_USER_FOLLOW_FOLLOWING_LIST,
-            variables: { userid: removeUserFollow.userData.userid }
+        const visitorUserInfo = cache.readQuery({
+            query: GET_VISITOR_USER_INFO,
+            variables: { userid: removeUserFollow.visitorUserID }
         });
-        const loggedUserFollowList = cache.readQuery({
-            query: GET_USER_FOLLOW_FOLLOWING_LIST,
-            variables: { userid: removeUserFollow.loggedUserData.userid }
+        const loggedUserInfo = cache.readQuery({
+            query: GET_LOGGED_USER_INFO,
         });
-        if (followList) {
+        const loggedVisitiorInfo = cache.readQuery({
+            query: GET_VISITOR_USER_INFO,
+            variables: { userid: removeUserFollow.loggedUserID }
+        });
+        const getFollowListInfo = cache.readQuery({
+            query: GET_FOLLOW_LIST_INFO,
+            variables: { userid: removeUserFollow.visitorUserID }
+        });
+        const getFollowingListInfo = cache.readQuery({
+            query: GET_FOLLOWING_LIST_INFO,
+            variables: { userid: removeUserFollow.loggedUserID }
+        });
+        if (visitorUserInfo) {
             try {
-                const { getUserFollowFollowing } = followList
+                const userInfo = JSON.parse(JSON.stringify(visitorUserInfo));
                 cache.writeQuery({
-                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
-                    variables: { userid: removeUserFollow.userData.userid },
+                    query: GET_VISITOR_USER_INFO,
+                    variables: { userid: removeUserFollow.visitorUserID },
                     data: {
                         getUserFollowFollowing: {
-                            ...getUserFollowFollowing,
-                            userData: {
-                                ...getUserFollowFollowing.userData,
-                                following: removeUserFollow.userData.following,
-                                follower: removeUserFollow.userData.follower,
-                            },
+                            ...userInfo.getUserFollowFollowing,
+                            userFollowArray: removeUserFollow.visitorFollowArray,
                             isLoggedInUserFollowing: removeUserFollow.isLoggedInUserFollowing
+                        }
+                    }
+                })
+            }
+            catch { }
+        }
+        if (loggedUserInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(loggedUserInfo));
+                cache.writeQuery({
+                    query: GET_LOGGED_USER_INFO,
+                    data: {
+                        getLoggedUserFollowFollwingList: {
+                            ...userInfo.getLoggedUserFollowFollwingList,
+                            userFollowingArray: removeUserFollow.loggedUserFollowingArray
                         }
                     }
                 })
             }
             catch (err) { }
         }
-        if (loggedUserFollowList) {
+        if (loggedVisitiorInfo) {
             try {
+                const userInfo = JSON.parse(JSON.stringify(loggedVisitiorInfo));
                 cache.writeQuery({
-                    query: GET_USER_FOLLOW_FOLLOWING_LIST,
-                    variables: { userid: removeUserFollow.loggedUserData.userid },
+                    query: GET_VISITOR_USER_INFO,
+                    variables: { userid: removeUserFollow.loggedUserID },
                     data: {
                         getUserFollowFollowing: {
-                            ...loggedUserFollowList.getUserFollowFollowing,
+                            ...userInfo.getUserFollowFollowing,
+                            userFollowingArray: removeUserFollow.loggedUserFollowingArray,
+                        }
+                    }
+                })
+            }
+            catch { }
+        }
+        if (getFollowListInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(getFollowListInfo));
+                cache.writeQuery({
+                    query: GET_FOLLOW_LIST_INFO,
+                    variables: { userid: removeUserFollow.visitorUserID },
+                    data: {
+                        getUserFollowListInfo: {
+                            ...userInfo.getUserFollowListInfo,
                             userData: {
-                                ...loggedUserFollowList.getUserFollowFollowing.userData,
-                                follower: removeUserFollow.loggedUserData.follower,
-                                following: removeUserFollow.loggedUserData.following,
-                                userid: removeUserFollow.loggedUserData.userid
+                                ...userInfo.getUserFollowListInfo.userData,
+                                follower: removeUserFollow.visitorFollowInfo
+                            }
+                        }
+                    }
+                })
+            }
+            catch (err) {
+
+            }
+        }
+        if (getFollowingListInfo) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(getFollowingListInfo));
+                cache.writeQuery({
+                    query: GET_FOLLOWING_LIST_INFO,
+                    variables: { userid: removeUserFollow.loggedUserID },
+                    data: {
+                        getUserFollowingListInfo: {
+                            ...userInfo.getUserFollowingListInfo,
+                            userData: {
+                                ...userInfo.getUserFollowingListInfo.userData,
+                                following: removeUserFollow.loggedFollowingInfo
                             }
                         }
                     }

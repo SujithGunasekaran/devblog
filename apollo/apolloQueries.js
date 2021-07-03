@@ -125,10 +125,12 @@ const followFollowingData = `
     visitorFollowArray
     loggedUserFollowingArray
     visitorFollowInfo{
+        _id
         username
         userprofile
     }
     loggedFollowingInfo{
+        _id
         username
         userprofile
     }
@@ -151,9 +153,7 @@ export const GET_VISITOR_USER_INFO = gql`
 export const GET_LOGGED_USER_INFO = gql`
     query GetUserFollowFollowingList {
         getLoggedUserFollowFollwingList {
-            loggedUserData{
-                userid
-            }
+            userid
             userFollowArray
             userFollowingArray
         }

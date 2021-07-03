@@ -56,7 +56,7 @@ const UserPage = () => {
 
     // to get user post list 
     useEffect(() => {
-        invokeUserPostList()
+        invokeUserPostList();
     }, [])
 
     useEffect(() => {
@@ -179,6 +179,32 @@ const UserPage = () => {
         };
     }
 
+    const handleFollowUserFromList = async (loggedUserId, followUserid) => {
+        try {
+            const data = await addUserToFollowList({ variables: { loggedUser: loggedUserId, followUser: followUserid } });
+            // console.log(data);
+            if (data && data.data && data.data.addUserFollow) {
+                // console.log("inside if", data);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleUnFollowUserFromList = async (loggedUserId, followUserId) => {
+        try {
+            const data = await removeUserFromFollow({ variables: { loggedUser: loggedUserId, followUser: followUserId } });
+            // console.log(data);
+            if (data && data.data && data.data.removeUserFollow) {
+                // console.log("inside if", data);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div>
             {
@@ -267,9 +293,15 @@ const UserPage = () => {
                                         followListInfo && followListInfo.getUserFollowListInfo &&
                                         <UserListWrapper
                                             currentView={currentView}
-                                            isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.loggedUserData?.userid ? true : false}
-                                            loggedUserFollowList={loggedUserFollowList}
+                                            // isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ? true : false}
+                                            loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
+                                            // loggedUserFollowList={loggedUserFollowList}
+                                            loggedUserFollowingList={loggedUserFollowingList}
                                             userList={followListInfo.getUserFollowListInfo}
+                                            followUserLoading={followUserLoading}
+                                            removeUserLoading={removeUserLoading}
+                                            handleFollowUserFromList={handleFollowUserFromList}
+                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
                                         />
                                     }
                                     {
@@ -277,9 +309,14 @@ const UserPage = () => {
                                         followingListInfo && followingListInfo.getUserFollowingListInfo &&
                                         <UserListWrapper
                                             currentView={currentView}
-                                            isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.loggedUserData?.userid ? true : false}
+                                            // isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ? true : false}
+                                            loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
                                             loggedUserFollowingList={loggedUserFollowingList}
                                             userList={followingListInfo.getUserFollowingListInfo}
+                                            followUserLoading={followUserLoading}
+                                            removeUserLoading={removeUserLoading}
+                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
+                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
                                         />
                                     }
                                 </div>
