@@ -89,7 +89,7 @@ class userFollowModel {
         const userData = await this.model.findOne({ userid });
         if (!userData) throw new Error('Error while getting user data');
         const result = {
-            loggedUserData: userData,
+            userid: userData.userid,
             userFollowArray: userData.follower,
             userFollowingArray: userData.following
         }
@@ -118,7 +118,12 @@ class userFollowModel {
         const userID = this._getAuthUserID();
         try {
             const responseData = await this._getUserFollowData(userID, userid);
-            return responseData;
+            const userInfo = await this._getFollowFollowingArray(userid);
+            const result = {
+                ...responseData,
+                ...userInfo
+            }
+            return result;
         }
         catch (err) {
             throw new Error(err.message);
@@ -254,6 +259,7 @@ class userFollowModel {
                 }
             );
             if (!savedUserFollowInfo) throw new Error('Error while removing the followed user');
+            const loggedFollowListInfo = await this.model.findOne({ userid: loggedUser });
             const savedUserFollowingInfo = await this.model.findOneAndUpdate(
                 {
                     userid: followUser
@@ -269,7 +275,27 @@ class userFollowModel {
                 }
             );
             if (!savedUserFollowingInfo) throw new Error('Error while removing the followed user data');
-            const responseData = await this._getUserFollowData(loggedUser, followUser);
+            const visitorFollowInfo = await this.model.findOne({ userid: followUser });
+            let responseData = await this._getUserFollowData(loggedUser, followUser);
+            const visitorUserFollowInfo = await this.model.findOne(
+                {
+                    userid: followUser
+                }
+            ).populate('follower');
+            const loggedUserFollowingInfo = await this.model.findOne(
+                {
+                    userid: loggedUser
+                }
+            ).populate('following');
+            responseData = {
+                ...responseData,
+                visitorUserID: followUser,
+                loggedUserID: loggedUser,
+                loggedUserFollowingArray: loggedFollowListInfo.following,
+                visitorFollowArray: visitorFollowInfo.follower,
+                visitorFollowInfo: visitorUserFollowInfo.follower,
+                loggedFollowingInfo: loggedUserFollowingInfo.following
+            };
             return responseData;
         }
         catch (err) {

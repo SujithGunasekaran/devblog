@@ -49,7 +49,6 @@ exports.userTypes = `
         userid : ID
         isUserLoggedIn : Boolean
         isLoggedInUserFollowing : Boolean
-        loggedUserData : userFollowFollowingInfo
         userFollowArray : [ID]
         userFollowingArray : [ID]
     }
