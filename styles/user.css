@@ -175,11 +175,15 @@
     border-bottom: 1px solid var(--black-900);
     transition: 0.4s all ease-in-out;
 }
+.user_middle_list_container a
+{
+    text-decoration: none;
+}
 .user_middle_list_container:hover
 {
     background-color: var(--header-bg);
 }
-.user_middle_list_container:hover > .username:hover
+.user_middle_list_container:hover > a > .username:hover
 {
     color : var(--text-blue);
     cursor: pointer;
@@ -194,7 +198,7 @@
     height: 35px;
     border-radius: 50%;
 }
-.user_middle_list_container > .username
+.user_middle_list_container > a > .username
 {
     padding-left: 10px;
     font-family: var(--inter-text);
@@ -215,8 +219,4 @@
     background-color: var(--black-750);
     color : var(--black-150);
     transition: 0.4s all ease-in-out;
-}
-.user_middle_card_link
-{
-    text-decoration: none;
 }
