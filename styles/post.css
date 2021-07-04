@@ -485,6 +485,18 @@
     font-family: var(--inter-text);
     font-size: .940rem;
 }
+.post_id_right_body_unfollow_btn
+{
+    margin: 15px 0px 15px 0px;
+    padding : 8px 0px;
+    width : 100%;
+    background-color: var(--black-700);
+    border-radius: 8px;
+    border : none;
+    color: var(--text-white);
+    font-family: var(--inter-text);
+    font-size: .940rem;
+}
 .post_id_right_body_info_container
 {
     padding: 10px 0px 25px 0px;
