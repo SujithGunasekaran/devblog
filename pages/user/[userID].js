@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -32,7 +32,6 @@ const UserPage = () => {
     // state
     const [postActionInfo, setPostActionInfo] = useState({});
     const [showSuccess, setShowSuccess] = useState(null);
-    const [loggedUserFollowList, setLoggedUserFollowList] = useState(new Set());
     const [loggedUserFollowingList, setLoggedUserFollowingList] = useState(new Set());
 
     // hooks
@@ -60,8 +59,7 @@ const UserPage = () => {
     }, [])
 
     useEffect(() => {
-        if (loggedUserInfo && loggedUserInfo.getLoggedUserFollowFollwingList && loggedUserFollowList.size === 0 && loggedUserFollowingList.size === 0) {
-            setLoggedUserFollowList(new Set(loggedUserInfo.getLoggedUserFollowFollwingList.userFollowArray));
+        if (loggedUserInfo && loggedUserInfo.getLoggedUserFollowFollwingList && loggedUserFollowingList.size === 0) {
             setLoggedUserFollowingList(new Set(loggedUserInfo.getLoggedUserFollowFollwingList.userFollowingArray));
         }
     }, [loggedUserInfo])
@@ -129,7 +127,14 @@ const UserPage = () => {
     // function used to follow the user
     const handleFollowUser = async (loggedUser, followUser) => {
         try {
-            await addUserToFollowList({ variables: { loggedUser, followUser } });
+            const data = await addUserToFollowList({ variables: { loggedUser, followUser } });
+            if (data && data.data && data.data.addUserFollow) {
+                setLoggedUserFollowingList(prevInfo => {
+                    let loggedUserFollowingList = prevInfo;
+                    loggedUserFollowingList = new Set(data.data.addUserFollow.loggedUserFollowingArray);
+                    return loggedUserFollowingList;
+                })
+            }
         }
         catch (err) {
             console.log(err);
@@ -139,7 +144,14 @@ const UserPage = () => {
     // function used to remove user from follow list
     const handleRemoveFollowedUser = async (loggedUser, followUser) => {
         try {
-            await removeUserFromFollow({ variables: { loggedUser, followUser } });
+            const data = await removeUserFromFollow({ variables: { loggedUser, followUser } });
+            if (data && data.data && data.data.removeUserFollow) {
+                setLoggedUserFollowingList(prevInfo => {
+                    let loggedUserFollowingList = prevInfo;
+                    loggedUserFollowingList = new Set(data.data.removeUserFollow.loggedUserFollowingArray);
+                    return loggedUserFollowingList
+                })
+            }
         }
         catch (err) {
             console.log(err);
@@ -179,31 +191,37 @@ const UserPage = () => {
         };
     }
 
-    const handleFollowUserFromList = async (loggedUserId, followUserid) => {
+    const handleFollowUserFromList = useCallback(async (loggedUserId, followUserid) => {
         try {
             const data = await addUserToFollowList({ variables: { loggedUser: loggedUserId, followUser: followUserid } });
-            // console.log(data);
             if (data && data.data && data.data.addUserFollow) {
-                // console.log("inside if", data);
+                setLoggedUserFollowingList(prevInfo => {
+                    let loggedUserFollowingList = prevInfo;
+                    loggedUserFollowingList = new Set(data.data.addUserFollow.loggedUserFollowingArray);
+                    return loggedUserFollowingList;
+                })
             }
         }
         catch (err) {
             console.log(err);
         }
-    }
+    }, [loggedUserFollowingList])
 
-    const handleUnFollowUserFromList = async (loggedUserId, followUserId) => {
+    const handleUnFollowUserFromList = useCallback(async (loggedUserId, followUserId) => {
         try {
             const data = await removeUserFromFollow({ variables: { loggedUser: loggedUserId, followUser: followUserId } });
-            // console.log(data);
             if (data && data.data && data.data.removeUserFollow) {
-                // console.log("inside if", data);
+                setLoggedUserFollowingList(prevInfo => {
+                    let loggedUserFollowingList = prevInfo;
+                    loggedUserFollowingList = new Set(data.data.removeUserFollow.loggedUserFollowingArray);
+                    return loggedUserFollowingList
+                })
             }
         }
         catch (err) {
             console.log(err);
         }
-    }
+    }, [loggedUserFollowingList])
 
     return (
         <div>
@@ -293,13 +311,9 @@ const UserPage = () => {
                                         followListInfo && followListInfo.getUserFollowListInfo &&
                                         <UserListWrapper
                                             currentView={currentView}
-                                            // isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ? true : false}
                                             loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
-                                            // loggedUserFollowList={loggedUserFollowList}
                                             loggedUserFollowingList={loggedUserFollowingList}
                                             userList={followListInfo.getUserFollowListInfo}
-                                            followUserLoading={followUserLoading}
-                                            removeUserLoading={removeUserLoading}
                                             handleFollowUserFromList={handleFollowUserFromList}
                                             handleUnFollowUserFromList={handleUnFollowUserFromList}
                                         />
@@ -309,13 +323,10 @@ const UserPage = () => {
                                         followingListInfo && followingListInfo.getUserFollowingListInfo &&
                                         <UserListWrapper
                                             currentView={currentView}
-                                            // isUserLoggedIn={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ? true : false}
                                             loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
                                             loggedUserFollowingList={loggedUserFollowingList}
                                             userList={followingListInfo.getUserFollowingListInfo}
-                                            followUserLoading={followUserLoading}
-                                            removeUserLoading={removeUserLoading}
-                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
+                                            handleFollowUserFromList={handleFollowUserFromList}
                                             handleUnFollowUserFromList={handleUnFollowUserFromList}
                                         />
                                     }

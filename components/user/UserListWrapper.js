@@ -4,9 +4,9 @@ const UserListWrapper = (props) => {
 
     const {
         userList, currentView,
-        loggedUserFollowList, loggedUserFollowingList,
+        loggedUserFollowingList,
         handleFollowUserFromList, handleUnFollowUserFromList,
-        loggedUserID, followUserLoading, removeUserLoading
+        loggedUserID
     } = props;
 
     return (
@@ -21,8 +21,6 @@ const UserListWrapper = (props) => {
                                 userList={loggedUserFollowingList}
                                 handleFollowUserFromList={handleFollowUserFromList}
                                 handleUnFollowUserFromList={handleUnFollowUserFromList}
-                                followUserLoading={followUserLoading}
-                                removeUserLoading={removeUserLoading}
                                 userInfo={userInfo}
                             />
 
@@ -40,8 +38,6 @@ const UserListWrapper = (props) => {
                                 userList={loggedUserFollowingList}
                                 handleFollowUserFromList={handleFollowUserFromList}
                                 handleUnFollowUserFromList={handleUnFollowUserFromList}
-                                followUserLoading={followUserLoading}
-                                removeUserLoading={removeUserLoading}
                                 userInfo={userInfo}
                             />
                         )) :

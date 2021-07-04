@@ -68,10 +68,7 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getUserFollowFollowing: {
                             ...userInfo.getUserFollowFollowing,
-                            userFollowArray: [
-                                ...userInfo.getUserFollowFollowing.userFollowArray,
-                                ...addUserFollow.visitorFollowArray
-                            ],
+                            userFollowArray: addUserFollow.visitorFollowArray,
                             isLoggedInUserFollowing: addUserFollow.isLoggedInUserFollowing
                         }
                     }
@@ -87,10 +84,7 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getLoggedUserFollowFollwingList: {
                             ...userInfo.getLoggedUserFollowFollwingList,
-                            userFollowingArray: [
-                                ...userInfo.getLoggedUserFollowFollwingList.userFollowingArray,
-                                ...addUserFollow.loggedUserFollowingArray
-                            ]
+                            userFollowingArray: addUserFollow.loggedUserFollowingArray
                         }
                     }
                 })
@@ -106,10 +100,7 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getUserFollowFollowing: {
                             ...userInfo.getUserFollowFollowing,
-                            userFollowingArray: [
-                                ...userInfo.getUserFollowFollowing.userFollowingArray,
-                                ...addUserFollow.loggedUserFollowingArray
-                            ],
+                            userFollowingArray: addUserFollow.loggedUserFollowingArray
                         }
                     }
                 })
