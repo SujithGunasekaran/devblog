@@ -97,6 +97,27 @@ class userFollowModel {
 
     }
 
+    // function used to check if loggedUser following ( function called from post Model )
+
+    async checkIfLoggedInUserFollowing(loggedUser, visitorUser) {
+        try {
+            const result = await this.model.findOne(
+                {
+                    userid: loggedUser,
+                    following: {
+                        $in: [
+                            visitorUser
+                        ]
+                    }
+                }
+            );
+            return result;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
 
     // function used to get logged user follow and following array
 
@@ -158,7 +179,7 @@ class userFollowModel {
 
     async addUserToFollowList(input) {
 
-        const { loggedUser, followUser } = input;
+        const { loggedUser, followUser, postId } = input;
         const userID = this._getAuthUserID();
 
         if (!userID) throw new Error('User not authenticated');
@@ -219,6 +240,7 @@ class userFollowModel {
             ).populate('following');
             responseData = {
                 ...responseData,
+                postId,
                 visitorUserID: followUser,
                 loggedUserID: loggedUser,
                 loggedUserFollowingArray: savedUserFollowInfo.following,
@@ -238,7 +260,7 @@ class userFollowModel {
 
     async removedUserFollow(input) {
 
-        const { loggedUser, followUser } = input;
+        const { loggedUser, followUser, postId } = input;
         const userID = this._getAuthUserID();
 
         if (!userID) throw new Error('User not authenticated');
@@ -289,6 +311,7 @@ class userFollowModel {
             ).populate('following');
             responseData = {
                 ...responseData,
+                postId,
                 visitorUserID: followUser,
                 loggedUserID: loggedUser,
                 loggedUserFollowingArray: loggedFollowListInfo.following,

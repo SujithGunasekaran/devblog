@@ -47,8 +47,9 @@ exports.postTypes = `
     }
 
     type postById {
-        postInfo : post,
+        postInfo : post
         loggedUserid : ID
+        isLoggedInUserFollowing : Boolean
     }
 
     type tagList {

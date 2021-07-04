@@ -4,7 +4,7 @@ exports.postQuery = {
         return postList;
     },
     getPostById: async (root, { input }, context) => {
-        const postInfo = await context.model.postModel.getPostInfoById(input);
+        const postInfo = await context.model.postModel.getPostInfoById(input, context);
         return postInfo;
     },
     getPostByUser: async (root, { postid }, context) => {

@@ -199,21 +199,24 @@ class postModel {
 
     // function used to get post info by id
 
-    async getPostInfoById(postData) {
+    async getPostInfoById(postData, context) {
 
         const { postid } = postData;
         const userid = this._getAuthUserID();
         try {
             const postInfo = await this.model.findOne({ _id: postid }).populate('user');
+            if (!postInfo) throw new Error('Error while getting the post info')
+            const isLoggedInUserFollowing = await context.model.userFollowModel.checkIfLoggedInUserFollowing(userid, postInfo.user._id);
             if (!postInfo) throw new Error('Error while getting post info');
             const postInfoResult = {
                 postInfo,
-                loggedUserid: userid ? userid : null
+                loggedUserid: userid ? userid : null,
+                isLoggedInUserFollowing: isLoggedInUserFollowing ? true : false
             }
             return postInfoResult;
         }
         catch (err) {
-            throw new Error('Something went wrong while getting post');
+            throw new Error(err.message)
         }
 
     }

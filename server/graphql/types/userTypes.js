@@ -62,6 +62,7 @@ exports.userTypes = `
     }
 
     type FollowFollowingResult {
+        postId : ID
         visitorUserID : ID
         visitorFollowArray : [ID]
         loggedUserID : ID
@@ -78,8 +79,9 @@ exports.userTypes = `
     }
 
     input userFollowInput {
-        loggedUser : ID,
+        loggedUser : ID
         followUser : ID
+        postId : ID
     }
 
     input userFollowing {
