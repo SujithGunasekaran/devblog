@@ -59,6 +59,10 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
             query: GET_FOLLOWING_LIST_INFO,
             variables: { userid: addUserFollow.loggedUserID }
         });
+        const postInfo = cache.readQuery({
+            query: GET_POST_BY_ID,
+            variables: { postid: addUserFollow.postId }
+        });
         if (visitorUserInfo) {
             try {
                 const userInfo = JSON.parse(JSON.stringify(visitorUserInfo));
@@ -153,6 +157,22 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
             }
             catch (err) { }
         }
+        if (postInfo && addUserFollow.postId) {
+            try {
+                const postData = JSON.parse(JSON.stringify(postInfo));
+                cache.writeQuery({
+                    query: GET_POST_BY_ID,
+                    variables: { postid: addUserFollow.postId },
+                    data: {
+                        getPostById: {
+                            ...postData.getPostById,
+                            isLoggedInUserFollowing: addUserFollow.isLoggedInUserFollowing
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
     }
 })
 
@@ -176,6 +196,10 @@ export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
         const getFollowingListInfo = cache.readQuery({
             query: GET_FOLLOWING_LIST_INFO,
             variables: { userid: removeUserFollow.loggedUserID }
+        });
+        const postInfo = cache.readQuery({
+            query: GET_POST_BY_ID,
+            variables: { postid: removeUserFollow.postId }
         });
         if (visitorUserInfo) {
             try {
@@ -259,6 +283,22 @@ export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
                                 ...userInfo.getUserFollowingListInfo.userData,
                                 following: removeUserFollow.loggedFollowingInfo
                             }
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+        if (postInfo && removeUserFollow.postId) {
+            try {
+                const postData = JSON.parse(JSON.stringify(postInfo));
+                cache.writeQuery({
+                    query: GET_POST_BY_ID,
+                    variables: { postid: removeUserFollow.postId },
+                    data: {
+                        getPostById: {
+                            ...postData.getPostById,
+                            isLoggedInUserFollowing: removeUserFollow.isLoggedInUserFollowing
                         }
                     }
                 })
@@ -349,7 +389,7 @@ export const useGetAllPost = (startDate) => useLazyQuery(GET_POST_LIST, { variab
 
 export const useGetTagList = () => useQuery(GET_TAG_LIST);
 
-export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid } });
+export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: { postid }, fetchPolicy: 'cache-and-network' });
 
 export const useGetPostByUser = (postid) => useQuery(GET_POST_BY_USER, { variables: { postid } });
 

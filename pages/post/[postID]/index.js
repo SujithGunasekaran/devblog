@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import HeaderTag from '../../../components/HeadTag';
 import withApollo from '../../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetPostById, useSetLikeToPost, useSetSaveToPost } from '../../../apollo/apolloActions';
+import { useGetPostById, useSetLikeToPost, useSetSaveToPost, useAddUserToFollow, useRemoveFollowedUser } from '../../../apollo/apolloActions';
 import useModelControl from '../../../hooks/useModelControl';
 
 const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'));
@@ -25,6 +25,8 @@ const PostInfo = () => {
     const { data, loading, error: postError } = useGetPostById(postID);
     const [setLikeToPost, { error: likeError, loading: likeLoading }] = useSetLikeToPost();
     const [setSaveToPost, { error: saveError, loading: saveLoading }] = useSetSaveToPost();
+    const [addUserToFollow, { error: followError, loading: followLoading }] = useAddUserToFollow();
+    const [removeFollowedUser, { error: unFollowError, loading: unFollowLoading }] = useRemoveFollowedUser();
 
     const handleLikeReaction = async (userLiked, isUserLoggedIn) => {
         if (data.getPostById && isUserLoggedIn) {
@@ -66,7 +68,26 @@ const PostInfo = () => {
 
     const closeModel = useCallback(() => {
         handleShowModel(false);
-    }, [showModel])
+    }, [showModel]);
+
+
+    const handleFollowUser = async (visitorUserId) => {
+        try {
+            await addUserToFollow({ variables: { loggedUser: data.getPostById.loggedUserid, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleRemoveFollowedUser = async (visitorUserId) => {
+        try {
+            await removeFollowedUser({ variables: { loggedUser: data.getPostById.loggedUserid, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
     return (
         <div>
@@ -111,8 +132,13 @@ const PostInfo = () => {
                                 {
                                     data && data.getPostById && data.getPostById.postInfo &&
                                     <UserInfo
+                                        isLoggedInUserFollowing={data?.getPostById?.isLoggedInUserFollowing ?? false}
                                         userInfo={data.getPostById.postInfo.user}
                                         postid={data.getPostById.postInfo._id}
+                                        followLoading={followLoading}
+                                        unFollowLoading={unFollowLoading}
+                                        handleFollowUser={handleFollowUser}
+                                        handleRemoveFollowedUser={handleRemoveFollowedUser}
                                     />
                                 }
 
@@ -136,7 +162,7 @@ const PostInfo = () => {
                 </div>
             }
             {
-                (postError || likeError || saveError) && <div></div>
+                (postError || likeError || saveError || followError || unFollowError) && <div></div>
             }
         </div>
     )

@@ -4,7 +4,7 @@ import PageLink from '../../PageLink';
 
 const PostRightPanel = (props) => {
 
-    const { userInfo, postid } = props;
+    const { userInfo, postid, isLoggedInUserFollowing, followLoading, unFollowLoading, handleFollowUser, handleRemoveFollowedUser } = props;
 
     return (
         <div>
@@ -20,7 +20,11 @@ const PostRightPanel = (props) => {
                 </div>
                 <div className="post_id_right_body_container">
                     <div className="post_id_right_body_content">{userInfo?.userdescription ?? ''}</div>
-                    <button className="post_id_right_body_btn">Follow</button>
+                    {
+                        isLoggedInUserFollowing ?
+                            <button disabled={unFollowLoading} onClick={() => handleRemoveFollowedUser(userInfo._id)} className="post_id_right_body_unfollow_btn">{unFollowLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
+                            <button disabled={followLoading} onClick={() => handleFollowUser(userInfo._id)} className="post_id_right_body_btn">{followLoading ? 'Following...' : 'Follow'}</button>
+                    }
                     <div className="post_id_right_body_info_container">
                         <div className="post_id_right_body_info_heading">Joined</div>
                         <div className="post_id_right_body_info_content">{convertFullDateToLong(userInfo.joined)}</div>

@@ -120,6 +120,7 @@ export const DELETE_USER_CREATED_POST = gql`
 `;
 
 const followFollowingData = `
+    postId
     visitorUserID
     loggedUserID
     visitorFollowArray
@@ -194,12 +195,14 @@ export const FOLLOW_USER = gql`
     mutation UserFollow(
         $loggedUser : ID
         $followUser : ID
+        $postId : ID
     )
     {
         addUserFollow(
         input : {
-            loggedUser : $loggedUser,
+            loggedUser : $loggedUser
             followUser : $followUser
+            postId : $postId
         })
         {
             ${followFollowingData}
@@ -211,12 +214,14 @@ export const REMOVE_FOLLOW_USER = gql`
     mutation RemoveUserFollow(
         $loggedUser : ID
         $followUser : ID
+        $postId : ID
     )
     {
         removeUserFollow(
         input : {
-            loggedUser : $loggedUser,
+            loggedUser : $loggedUser
             followUser : $followUser
+            postId : $postId
         })
         {
             ${followFollowingData}
@@ -298,6 +303,7 @@ export const GET_POST_BY_ID = gql`
                 }
             }
             loggedUserid
+            isLoggedInUserFollowing
         }
     }
 `;
