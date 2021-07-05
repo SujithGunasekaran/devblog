@@ -1,0 +1,33 @@
+.footer_main
+{
+    margin-top: 0px;
+    border-top: 1px solid var(--black-800);
+    padding : 35px 25px;
+    background-color: var(--body-bg);
+    width: 100%;
+}
+.footer_info_container
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer_info_container > a > .github_icon
+{
+    width: 25px;
+    height: 25px;
+    color : var(--black-150);
+    transition: 0.4s all ease-in-out;
+}
+.footer_info_container > .name
+{
+    padding-left: 12px;
+    font-family: var(--inter-text);
+    font-size: 0.970rem;
+    color: var(--black-200);
+}
+
+a .github_icon:hover
+{
+    color: var(--text-blue);
+}

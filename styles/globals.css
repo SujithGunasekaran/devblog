@@ -82,18 +82,15 @@
 
 }
 
-
-
 .main_page
 {
+  background-color: var(--body-bg);
   width: 100%;
-  background-color: var(--dark-theme-body-background);
 }
 .main_body
 {
-  padding : 20px 10px;
   margin-top: 55px;
-  background-color: var(--body-bg);
+  padding : 20px 10px;
   min-height: 100vh !important;
 }
 

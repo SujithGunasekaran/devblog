@@ -115,10 +115,6 @@
     cursor: pointer;
     transition: 0.4s all ease-in-out;
 }
-/* .user_left_post_data_info_container:hover
-{
-    background-color: var(--black-050);
-} */
 .user_left_post_data_info_container:hover > .icon
 {
     color : var(--text-blue) !important;
