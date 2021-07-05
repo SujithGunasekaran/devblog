@@ -54,8 +54,8 @@ const Home = () => {
               </div>
             </div>
             {
-              (!post || !post.getAllPost) && !postLoading &&
-              <p className="not_available_message">No post Available...</p>
+              (!post || !post.getAllPost || post.getAllPost.postList.length === 0) && !postLoading &&
+              <p className="not_available_message">{`No one has created a post ${currentFilter !== 'Feed' ? `for last one ${currentFilter}...` : '...'}`}</p>
             }
             {
               post && post.getAllPost &&

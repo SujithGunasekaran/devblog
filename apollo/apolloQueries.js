@@ -356,7 +356,6 @@ export const EDIT_POST_INFO = gql`
     ){
         editPost(input : {
             postid : $postid
-            userid : $userid
             title : $title
             content : $content
             tags : $tags

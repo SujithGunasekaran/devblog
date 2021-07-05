@@ -133,6 +133,7 @@ const PostInfo = () => {
                                     data && data.getPostById && data.getPostById.postInfo &&
                                     <UserInfo
                                         isLoggedInUserFollowing={data?.getPostById?.isLoggedInUserFollowing ?? false}
+                                        loggedUserId={data?.getPostById?.loggedUserid ?? null}
                                         userInfo={data.getPostById.postInfo.user}
                                         postid={data.getPostById.postInfo._id}
                                         followLoading={followLoading}

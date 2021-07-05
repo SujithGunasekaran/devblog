@@ -34,9 +34,9 @@ export const useGetVistingUserInfo = (userid) => useQuery(GET_VISITOR_USER_INFO,
 
 export const useGetLoggedUserInfo = () => useQuery(GET_LOGGED_USER_INFO);
 
-export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid }, fetchPolicy: 'network-only' });
+export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network' });
 
-export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid }, fetchPolicy: 'network-only' });
+export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network' });
 
 export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
     update(cache, { data: { addUserFollow } }) {
@@ -72,7 +72,10 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getUserFollowFollowing: {
                             ...userInfo.getUserFollowFollowing,
-                            userFollowArray: addUserFollow.visitorFollowArray,
+                            userFollowArray: [
+                                ...userInfo.getUserFollowFollowing.userFollowArray,
+                                ...addUserFollow.visitorFollowArray
+                            ],
                             isLoggedInUserFollowing: addUserFollow.isLoggedInUserFollowing
                         }
                     }
@@ -88,7 +91,10 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getLoggedUserFollowFollwingList: {
                             ...userInfo.getLoggedUserFollowFollwingList,
-                            userFollowingArray: addUserFollow.loggedUserFollowingArray
+                            userFollowingArray: [
+                                ...userInfo.getLoggedUserFollowFollwingList.userFollowingArray,
+                                ...addUserFollow.loggedUserFollowingArray
+                            ]
                         }
                     }
                 })
@@ -104,7 +110,10 @@ export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
                     data: {
                         getUserFollowFollowing: {
                             ...userInfo.getUserFollowFollowing,
-                            userFollowingArray: addUserFollow.loggedUserFollowingArray
+                            userFollowingArray: [
+                                ...userInfo.getUserFollowFollowing.userFollowingArray,
+                                ...addUserFollow.loggedUserFollowingArray
+                            ]
                         }
                     }
                 })
@@ -189,14 +198,6 @@ export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
             query: GET_VISITOR_USER_INFO,
             variables: { userid: removeUserFollow.loggedUserID }
         });
-        const getFollowListInfo = cache.readQuery({
-            query: GET_FOLLOW_LIST_INFO,
-            variables: { userid: removeUserFollow.visitorUserID }
-        });
-        const getFollowingListInfo = cache.readQuery({
-            query: GET_FOLLOWING_LIST_INFO,
-            variables: { userid: removeUserFollow.loggedUserID }
-        });
         const postInfo = cache.readQuery({
             query: GET_POST_BY_ID,
             variables: { postid: removeUserFollow.postId }
@@ -248,46 +249,6 @@ export const useRemoveFollowedUser = () => useMutation(REMOVE_FOLLOW_USER, {
                 })
             }
             catch { }
-        }
-        if (getFollowListInfo) {
-            try {
-                const userInfo = JSON.parse(JSON.stringify(getFollowListInfo));
-                cache.writeQuery({
-                    query: GET_FOLLOW_LIST_INFO,
-                    variables: { userid: removeUserFollow.visitorUserID },
-                    data: {
-                        getUserFollowListInfo: {
-                            ...userInfo.getUserFollowListInfo,
-                            userData: {
-                                ...userInfo.getUserFollowListInfo.userData,
-                                follower: removeUserFollow.visitorFollowInfo
-                            }
-                        }
-                    }
-                })
-            }
-            catch (err) {
-
-            }
-        }
-        if (getFollowingListInfo) {
-            try {
-                const userInfo = JSON.parse(JSON.stringify(getFollowingListInfo));
-                cache.writeQuery({
-                    query: GET_FOLLOWING_LIST_INFO,
-                    variables: { userid: removeUserFollow.loggedUserID },
-                    data: {
-                        getUserFollowingListInfo: {
-                            ...userInfo.getUserFollowingListInfo,
-                            userData: {
-                                ...userInfo.getUserFollowingListInfo.userData,
-                                following: removeUserFollow.loggedFollowingInfo
-                            }
-                        }
-                    }
-                })
-            }
-            catch (err) { }
         }
         if (postInfo && removeUserFollow.postId) {
             try {

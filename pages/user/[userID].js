@@ -131,7 +131,10 @@ const UserPage = () => {
             if (data && data.data && data.data.addUserFollow) {
                 setLoggedUserFollowingList(prevInfo => {
                     let loggedUserFollowingList = prevInfo;
-                    loggedUserFollowingList = new Set(data.data.addUserFollow.loggedUserFollowingArray);
+                    loggedUserFollowingList = new Set([
+                        ...loggedUserFollowingList,
+                        ...data.data.addUserFollow.loggedUserFollowingArray
+                    ])
                     return loggedUserFollowingList;
                 })
             }
@@ -145,6 +148,8 @@ const UserPage = () => {
     const handleRemoveFollowedUser = async (loggedUser, followUser) => {
         try {
             const data = await removeUserFromFollow({ variables: { loggedUser, followUser, postId: '' } });
+            if (currentView === 'follower' && followUser === userID) getUserFollowListInfo();
+            if (currentView === 'following' && loggedUser === userID) getUserFollowingListInfo();
             if (data && data.data && data.data.removeUserFollow) {
                 setLoggedUserFollowingList(prevInfo => {
                     let loggedUserFollowingList = prevInfo;
@@ -197,7 +202,10 @@ const UserPage = () => {
             if (data && data.data && data.data.addUserFollow) {
                 setLoggedUserFollowingList(prevInfo => {
                     let loggedUserFollowingList = prevInfo;
-                    loggedUserFollowingList = new Set(data.data.addUserFollow.loggedUserFollowingArray);
+                    loggedUserFollowingList = new Set([
+                        ...loggedUserFollowingList,
+                        ...data.data.addUserFollow.loggedUserFollowingArray
+                    ])
                     return loggedUserFollowingList;
                 })
             }
@@ -210,6 +218,9 @@ const UserPage = () => {
     const handleUnFollowUserFromList = useCallback(async (loggedUserId, followUserId) => {
         try {
             const data = await removeUserFromFollow({ variables: { loggedUser: loggedUserId, followUser: followUserId, postid: '' } });
+            console.log(currentView, followUserId, loggedUserId, userID);
+            if (currentView === 'follower' && followUserId === userID) getUserFollowListInfo();
+            if (currentView === 'following' && loggedUserId === userID) getUserFollowingListInfo();
             if (data && data.data && data.data.removeUserFollow) {
                 setLoggedUserFollowingList(prevInfo => {
                     let loggedUserFollowingList = prevInfo;
@@ -221,7 +232,7 @@ const UserPage = () => {
         catch (err) {
             console.log(err);
         }
-    }, [loggedUserFollowingList])
+    }, [loggedUserFollowingList, currentView, userID])
 
     return (
         <div>

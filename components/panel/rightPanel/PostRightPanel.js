@@ -4,7 +4,7 @@ import PageLink from '../../PageLink';
 
 const PostRightPanel = (props) => {
 
-    const { userInfo, postid, isLoggedInUserFollowing, followLoading, unFollowLoading, handleFollowUser, handleRemoveFollowedUser } = props;
+    const { userInfo, postid, isLoggedInUserFollowing, followLoading, unFollowLoading, handleFollowUser, handleRemoveFollowedUser, loggedUserId } = props;
 
     return (
         <div>
@@ -21,9 +21,11 @@ const PostRightPanel = (props) => {
                 <div className="post_id_right_body_container">
                     <div className="post_id_right_body_content">{userInfo?.userdescription ?? ''}</div>
                     {
-                        isLoggedInUserFollowing ?
-                            <button disabled={unFollowLoading} onClick={() => handleRemoveFollowedUser(userInfo._id)} className="post_id_right_body_unfollow_btn">{unFollowLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
-                            <button disabled={followLoading} onClick={() => handleFollowUser(userInfo._id)} className="post_id_right_body_btn">{followLoading ? 'Following...' : 'Follow'}</button>
+                        loggedUserId !== userInfo._id ?
+                            isLoggedInUserFollowing ?
+                                <button disabled={unFollowLoading} onClick={() => handleRemoveFollowedUser(userInfo._id)} className="post_id_right_body_unfollow_btn">{unFollowLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
+                                <button disabled={followLoading} onClick={() => handleFollowUser(userInfo._id)} className="post_id_right_body_btn">{followLoading ? 'Following...' : 'Follow'}</button>
+                            : null
                     }
                     <div className="post_id_right_body_info_container">
                         <div className="post_id_right_body_info_heading">Joined</div>
