@@ -20,6 +20,7 @@ import HeadTag from '../../components/HeadTag';
 import { prettyUserName } from '../../utils';
 import { CancelIcon } from '../../components/icons';
 import CircularLoading from '../../components/UI/CircularLoading';
+import React from 'react';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -234,6 +235,89 @@ const UserPage = () => {
         }
     }, [loggedUserFollowingList, currentView, userID])
 
+
+    // UI
+
+    const conditionalRendering = (currentView) => (
+        <React.Fragment>
+            {
+                currentView === 'publish' &&
+                userPost && userPost.getUserPosts &&
+                <UserCreatedPost
+                    handleDeletePost={showConfirmModel}
+                    handleEditPost={handleEditPost}
+                    posts={userPost.getUserPosts}
+                    emptyMessage={'You have not created any post'}
+                />
+            }
+            {
+                currentView === 'save' &&
+                userInfo && userInfo.getUserById &&
+                <UserSavePost
+                    handleDeletePost={showConfirmModel}
+                    handleEditPost={handleEditPost}
+                    userInfo={userInfo.getUserById}
+                    emptyMessage={'You have not saved any post'}
+                />
+            }
+            {
+                currentView === 'follower' &&
+                followListInfo && followListInfo.getUserFollowListInfo &&
+                <UserListWrapper
+                    currentView={currentView}
+                    loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
+                    loggedUserFollowingList={loggedUserFollowingList}
+                    userList={followListInfo.getUserFollowListInfo}
+                    handleFollowUserFromList={handleFollowUserFromList}
+                    handleUnFollowUserFromList={handleUnFollowUserFromList}
+                />
+            }
+            {
+                currentView === 'following' &&
+                followingListInfo && followingListInfo.getUserFollowingListInfo &&
+                <UserListWrapper
+                    currentView={currentView}
+                    loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
+                    loggedUserFollowingList={loggedUserFollowingList}
+                    userList={followingListInfo.getUserFollowingListInfo}
+                    handleFollowUserFromList={handleFollowUserFromList}
+                    handleUnFollowUserFromList={handleUnFollowUserFromList}
+                />
+            }
+        </React.Fragment>
+    );
+
+    const userLeftPanel = () => (
+        <React.Fragment>
+            {
+                userInfo && userInfo.getUserById &&
+                <UserProfileLeftPanel
+                    currentView={currentView}
+                    handleChangeView={handleLeftPanelView}
+                    userInfo={userInfo.getUserById}
+                    userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
+                />
+            }
+        </React.Fragment>
+    );
+
+    const userInfoBanner = () => (
+        <React.Fragment>
+            {
+                userInfo && userInfo.getUserById &&
+                <UserInfoBanner
+                    userInfo={userInfo.getUserById}
+                    userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
+                    handleFollowUser={handleFollowUser}
+                    handleRemoveFollowedUser={handleRemoveFollowedUser}
+                    removeUserLoading={removeUserLoading}
+                    followUserLoading={followUserLoading}
+                />
+            }
+        </React.Fragment>
+    )
+
+
     return (
         <div>
             {
@@ -256,30 +340,12 @@ const UserPage = () => {
                 <div className="row">
                     <div className="col-md-10 mx-auto">
                         <div className="user_top_info_container">
-                            {
-                                userInfo && userInfo.getUserById &&
-                                <UserInfoBanner
-                                    userInfo={userInfo.getUserById}
-                                    userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
-                                    handleFollowUser={handleFollowUser}
-                                    handleRemoveFollowedUser={handleRemoveFollowedUser}
-                                    removeUserLoading={removeUserLoading}
-                                    followUserLoading={followUserLoading}
-                                />
-                            }
+                            {userInfoBanner()}
                         </div>
                         <div className="row">
                             <div className="col-md-3">
                                 <div className="user_left_info_container">
-                                    {
-                                        userInfo && userInfo.getUserById &&
-                                        <UserProfileLeftPanel
-                                            currentView={currentView}
-                                            handleChangeView={handleLeftPanelView}
-                                            userInfo={userInfo.getUserById}
-                                            userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
-                                        />
-                                    }
+                                    {userLeftPanel()}
                                 </div>
                             </div>
                             <div className="col-md-9">
@@ -297,50 +363,7 @@ const UserPage = () => {
                                         ) &&
                                         <CircularLoading />
                                     }
-                                    {
-                                        currentView === 'publish' &&
-                                        userPost && userPost.getUserPosts &&
-                                        <UserCreatedPost
-                                            handleDeletePost={showConfirmModel}
-                                            handleEditPost={handleEditPost}
-                                            posts={userPost.getUserPosts}
-                                            emptyMessage={'You have not created any post'}
-                                        />
-                                    }
-                                    {
-                                        currentView === 'save' &&
-                                        userInfo && userInfo.getUserById &&
-                                        <UserSavePost
-                                            handleDeletePost={showConfirmModel}
-                                            handleEditPost={handleEditPost}
-                                            userInfo={userInfo.getUserById}
-                                            emptyMessage={'You have not saved any post'}
-                                        />
-                                    }
-                                    {
-                                        currentView === 'follower' &&
-                                        followListInfo && followListInfo.getUserFollowListInfo &&
-                                        <UserListWrapper
-                                            currentView={currentView}
-                                            loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
-                                            loggedUserFollowingList={loggedUserFollowingList}
-                                            userList={followListInfo.getUserFollowListInfo}
-                                            handleFollowUserFromList={handleFollowUserFromList}
-                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
-                                        />
-                                    }
-                                    {
-                                        currentView === 'following' &&
-                                        followingListInfo && followingListInfo.getUserFollowingListInfo &&
-                                        <UserListWrapper
-                                            currentView={currentView}
-                                            loggedUserID={loggedUserInfo?.getLoggedUserFollowFollwingList?.userid ?? null}
-                                            loggedUserFollowingList={loggedUserFollowingList}
-                                            userList={followingListInfo.getUserFollowingListInfo}
-                                            handleFollowUserFromList={handleFollowUserFromList}
-                                            handleUnFollowUserFromList={handleUnFollowUserFromList}
-                                        />
-                                    }
+                                    {conditionalRendering(currentView)}
                                 </div>
 
                             </div>

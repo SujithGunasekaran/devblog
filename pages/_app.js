@@ -7,9 +7,11 @@ import '../styles/post.css';
 import '../styles/home.css';
 import '../styles/model.css';
 import '../styles/user.css';
+import '../styles/footer.css';
+import Footer from '../components/Footer';
 
 // dynamic import
-const Header = dynamic(() => import('../components/Header'), { loading: () => <div>Loading...</div> })
+const Header = dynamic(() => import('../components/Header'));
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -25,6 +27,7 @@ function MyApp({ Component, pageProps }) {
         <div className="main_body">
           <Component {...pageProps} />
         </div>
+        <Footer />
       </div>
     </div>
 
