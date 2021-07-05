@@ -218,24 +218,40 @@ class userFollowModel {
             );
             if (!savedUserFollowingInfo) throw new Error('Error while saving the following user data');
             let responseData = await this._getUserFollowData(loggedUser, followUser);
+            const loggedUserFollowingArray = await this.model.findOne(
+                {
+                    userid: loggedUser,
+                    following: mongoose.Types.ObjectId(followUser)
+                },
+                {
+                    'following.$': 1
+                }
+            );
+            const visitorUserFollowArray = await this.model.findOne(
+                {
+                    userid: followUser,
+                    follower: mongoose.Types.ObjectId(loggedUser)
+                },
+                {
+                    'follower.$': 1
+                }
+            );
             const visitorUserFollowInfo = await this.model.findOne(
                 {
                     userid: followUser,
-                    follower: {
-                        $in: [
-                            loggedUser
-                        ]
-                    }
+                    follower: mongoose.Types.ObjectId(loggedUser)
+                },
+                {
+                    'follower.$': 1
                 }
             ).populate('follower');
             const loggedUserFollowingInfo = await this.model.findOne(
                 {
                     userid: loggedUser,
-                    following: {
-                        $in: [
-                            followUser
-                        ]
-                    }
+                    following: mongoose.Types.ObjectId(followUser)
+                },
+                {
+                    'following.$': 1
                 }
             ).populate('following');
             responseData = {
@@ -243,8 +259,8 @@ class userFollowModel {
                 postId,
                 visitorUserID: followUser,
                 loggedUserID: loggedUser,
-                loggedUserFollowingArray: savedUserFollowInfo.following,
-                visitorFollowArray: savedUserFollowingInfo.follower,
+                loggedUserFollowingArray: loggedUserFollowingArray.following,
+                visitorFollowArray: visitorUserFollowArray.follower,
                 visitorFollowInfo: visitorUserFollowInfo.follower,
                 loggedFollowingInfo: loggedUserFollowingInfo.following
             };
@@ -299,16 +315,6 @@ class userFollowModel {
             if (!savedUserFollowingInfo) throw new Error('Error while removing the followed user data');
             const visitorFollowInfo = await this.model.findOne({ userid: followUser });
             let responseData = await this._getUserFollowData(loggedUser, followUser);
-            const visitorUserFollowInfo = await this.model.findOne(
-                {
-                    userid: followUser
-                }
-            ).populate('follower');
-            const loggedUserFollowingInfo = await this.model.findOne(
-                {
-                    userid: loggedUser
-                }
-            ).populate('following');
             responseData = {
                 ...responseData,
                 postId,
@@ -316,8 +322,6 @@ class userFollowModel {
                 loggedUserID: loggedUser,
                 loggedUserFollowingArray: loggedFollowListInfo.following,
                 visitorFollowArray: visitorFollowInfo.follower,
-                visitorFollowInfo: visitorUserFollowInfo.follower,
-                loggedFollowingInfo: loggedUserFollowingInfo.following
             };
             return responseData;
         }
