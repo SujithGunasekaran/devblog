@@ -44,18 +44,40 @@ class postModel {
 
     // function used to get all post list 
 
-    async getPostList(startDate) {
+    async getPostList(input) {
 
-        const postList = startDate ? await this.model.find({
-            createdAt: {
-                $gte: startDate,
-                $lte: new Date()
-            }
-        }).sort({ createdAt: 'desc' }).populate('user') :
-            await this.model.find({}).sort({ createdAt: 'desc' }).populate('user');
+        const postPerRequest = 5;
+        const { skipPost, startDate } = input;
+
+        const totalNoOfPost = startDate ? await this.model.countDocuments({ createdAt: { $gte: startDate, $lte: new Date() } }) : await this.model.countDocuments({});
+        const hasMorePost = totalNoOfPost - (skipPost + postPerRequest);
+
+        const postList = startDate ?
+            await this.model.find({
+                createdAt: {
+                    $gte: startDate,
+                    $lte: new Date()
+                }
+            })
+                .sort({ createdAt: 'desc' })
+                .skip(+skipPost)
+                .limit(+postPerRequest)
+                .populate('user')
+            :
+            await this.model.find({})
+                .sort({ createdAt: 'desc' })
+                .skip(+skipPost)
+                .limit(+postPerRequest)
+                .populate('user');
         if (!postList) throw new Error('Error while getting post list');
         const loggedUserInfo = this._getAuthUserInfo();
-        return { postList, loggedUserInfo: loggedUserInfo ? loggedUserInfo : null };
+        const response = {
+            postList,
+            postToBeSkipped: +skipPost + postPerRequest,
+            hasMore: hasMorePost > 0 ? true : false,
+            loggedUserInfo: loggedUserInfo ? loggedUserInfo : null
+        };
+        return response;
 
     }
 

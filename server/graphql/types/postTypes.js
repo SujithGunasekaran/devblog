@@ -27,6 +27,8 @@ exports.postTypes = `
 
     type allPost {
         postList : [post]
+        hasMore : Boolean
+        postToBeSkipped : Int
         loggedUserInfo : userData
     }
 
@@ -81,6 +83,10 @@ exports.postTypes = `
         tags : String
     }
 
+    input allPostInput {
+        startDate : String,
+        skipPost : Int
+    }
 
 
 `;
