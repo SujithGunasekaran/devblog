@@ -245,10 +245,12 @@ export const USER_LOGOUT = gql`
 export const GET_POST_LIST = gql`
     query GetPostList(
         $startDate : String
+        $skipPost : Int
     ){
-        getAllPost(
+        getAllPost(input : {
             startDate : $startDate
-        ){
+            skipPost : $skipPost
+        }){
             postList {
                 _id
                 title
@@ -262,6 +264,8 @@ export const GET_POST_LIST = gql`
                     userprofile
                 }
             }
+            hasMore
+            postToBeSkipped
             loggedUserInfo {
                 _id
                 username

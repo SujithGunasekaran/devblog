@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import HeadTag from '../components/HeadTag';
 import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
@@ -6,29 +6,77 @@ import { getDataFromTree } from '@apollo/client/react/ssr';
 import { useGetAllPost } from '../apollo/apolloActions';
 import { getCurrentDateByType } from '../utils';
 import Tabs from '../components/Tabs';
+import CircularLoading from '../components/UI/CircularLoading';
 
 const DevLeftPanel = dynamic(() => import('../components/panel/leftPanel/HomeLeftPanel'));
 const PostCard = dynamic(() => import('../components/post/PostCard'));
 
 const Home = () => {
 
+  // state
   const [currentFilter, setCurrentFilter] = useState('Feed');
+  const [loadingPost, setLoadingPost] = useState(false);
+
+  // ref
+  const postRef = useRef();
 
   // query and mutation
-  const [getAllPost, { data: post, loading: postLoading, error: postError }] = useGetAllPost();
+  const [getAllPost, { data: post, loading: postLoading, error: postError, fetchMore }] = useGetAllPost();
 
   // useEffect
   useEffect(() => {
-    getAllPost({ variables: { startDate: '' } });
+    getAllPost({ variables: { startDate: '', skipPost: 0 } });
   }, [])
 
   const handleTabChange = (resultType) => {
     if (currentFilter.toLocaleLowerCase() !== resultType) {
       setCurrentFilter(resultType);
       const startDate = getCurrentDateByType(resultType);
-      getAllPost({ variables: { startDate } });
+      getAllPost({ variables: { startDate, skipPost: 0 } });
     }
   }
+
+  const loadMorePost = useCallback(async () => {
+    setLoadingPost(true);
+    const startDate = getCurrentDateByType(currentFilter);
+    if (!loadingPost && post) {
+      try {
+        await fetchMore({
+          variables: { startDate, skipPost: post.getAllPost.postToBeSkipped },
+          updateQuery: (prevResult, { fetchMoreResult }) => {
+            if (!fetchMoreResult) return prevResult;
+            return {
+              getAllPost: {
+                ...fetchMoreResult.getAllPost,
+                postList: [
+                  ...prevResult.getAllPost.postList,
+                  ...fetchMoreResult.getAllPost.postList,
+                ]
+              }
+            }
+          }
+        })
+        setLoadingPost(false);
+      }
+      catch (err) {
+        setLoadingPost(false);
+        console.log(err);
+      }
+    }
+  })
+
+  const postObserver = useCallback((postElement) => {
+
+    if (postRef.current) postRef.current.disconnect();
+    postRef.current = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && post && post.getAllPost.hasMore) {
+        loadMorePost();
+      }
+    })
+    if (postElement) postRef.current.observe(postElement);
+
+  })
 
   return (
     <div>
@@ -62,11 +110,15 @@ const Home = () => {
               post.getAllPost.postList.map((postInfo, index) => (
                 <PostCard
                   key={index}
+                  length={post.getAllPost.postList.length}
+                  index={index}
+                  postObserver={postObserver}
                   postInfo={postInfo}
                   loggedUserInfo={post.getAllPost.loggedUserInfo}
                 />
               ))
             }
+            {(loadingPost || postLoading) && <CircularLoading />}
           </div>
         </div>
       </div>

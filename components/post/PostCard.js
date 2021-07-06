@@ -6,12 +6,12 @@ import Zoom from '@material-ui/core/Zoom';
 
 const PostCard = (props) => {
 
-    const { postInfo, loggedUserInfo, isUserCanEdit = false, handleEdit, handleDelete, postCreatedUser } = props;
+    const { postInfo, loggedUserInfo, isUserCanEdit = false, handleEdit, handleDelete, postCreatedUser, postObserver, length = null, index = null } = props;
     let createdPostDate = convertFullDateToShort(postInfo.createdAt);
 
     return (
         <div>
-            <div className="home_middle_post_container">
+            <div className="home_middle_post_container" ref={(length && index) && (index === length - 1) ? postObserver : null}>
                 <div className="home_middle_post_user_container">
                     <img src={`${postInfo?.user.userprofile}` ?? ''} alt={postInfo?.user?.username ?? ''} loading="lazy" className="home_middle_post_user_profile" />
                     <div className="home_middle_post_user_info_display">

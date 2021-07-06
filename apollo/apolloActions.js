@@ -346,7 +346,7 @@ export const useLogout = () => useQuery(USER_LOGOUT);
 
 // post actions start
 
-export const useGetAllPost = (startDate) => useLazyQuery(GET_POST_LIST, { variables: { startDate }, fetchPolicy: 'cache-and-network' });
+export const useGetAllPost = () => useLazyQuery(GET_POST_LIST, { fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-first' });
 
 export const useGetTagList = () => useQuery(GET_TAG_LIST);
 
@@ -356,29 +356,29 @@ export const useGetPostByUser = (postid) => useQuery(GET_POST_BY_USER, { variabl
 
 export const useCreatePost = () => useMutation(CREATE_POST, {
     update(cache, { data: { createPost } }) {
-        const postListData = cache.readQuery({
-            query: GET_POST_LIST,
-            variables: { startDate: '' }
-        });
-        if (postListData) {
-            try {
-                const { getAllPost } = postListData;
-                cache.writeQuery({
-                    query: GET_POST_LIST,
-                    data: {
-                        getAllPost: {
-                            ...getAllPost,
-                            postList: [
-                                ...getAllPost.postList,
-                                createPost
-                            ]
-                        }
-                    },
-                    variables: { startDate: '' }
-                })
-            }
-            catch (err) { }
-        }
+        // const postListData = cache.readQuery({
+        //     query: GET_POST_LIST,
+        //     variables: { startDate: '' }
+        // });
+        // if (postListData) {
+        //     try {
+        //         const { getAllPost } = postListData;
+        //         cache.writeQuery({
+        //             query: GET_POST_LIST,
+        //             data: {
+        //                 getAllPost: {
+        //                     ...getAllPost,
+        //                     postList: [
+        //                         ...getAllPost.postList,
+        //                         createPost
+        //                     ]
+        //                 }
+        //             },
+        //             variables: { startDate: '' }
+        //         })
+        //     }
+        //     catch (err) { }
+        // }
     }
 });
 
