@@ -16,12 +16,28 @@ const Header = () => {
     const { showModel, handleShowModel } = useModelControl(false);
 
     const profileDropdown = useRef();
+    const authDropdown = useRef();
     const router = useRouter();
 
     const [getUserInfo, { data: user, error }] = useGetUserInfo();
 
     useEffect(() => {
         getUserInfo()
+    }, [])
+
+    useEffect(() => {
+        function closeDropdown(e) {
+            if (authDropdown.current && !authDropdown.current.contains(e.target)) {
+                profileDropdown.current.classList.remove('show');
+            }
+            if (authDropdown.current && authDropdown.current.contains(e.target)) {
+                profileDropdown.current && profileDropdown.current.classList.add('show');
+            }
+        }
+        document.body.addEventListener('click', closeDropdown);
+        return () => {
+            document.body.removeEventListener('click', closeDropdown)
+        }
     }, [])
 
     const showProfileDropDown = () => {
@@ -76,7 +92,7 @@ const Header = () => {
                     {
                         (user && user.getUserInfo) &&
                         <>
-                            <div className="header_auth_user">
+                            <div className="header_auth_user" ref={authDropdown}>
                                 <div className="header_auth_user_info">Welcome, {`${user.getUserInfo.username[0].toUpperCase()}${user.getUserInfo.username.slice(1).toLowerCase()}`}</div>
                                 {
                                     user.getUserInfo.userprofile &&

@@ -34,9 +34,9 @@ export const useGetVistingUserInfo = (userid) => useQuery(GET_VISITOR_USER_INFO,
 
 export const useGetLoggedUserInfo = () => useQuery(GET_LOGGED_USER_INFO);
 
-export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network' });
+export const useGetFollowListInfo = (userid) => useLazyQuery(GET_FOLLOW_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-first' });
 
-export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network' });
+export const useGetFollowingListInfo = (userid) => useLazyQuery(GET_FOLLOWING_LIST_INFO, { variables: { userid }, fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-first' });
 
 export const useAddUserToFollow = () => useMutation(FOLLOW_USER, {
     update(cache, { data: { addUserFollow } }) {
