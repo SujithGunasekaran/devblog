@@ -1,7 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const config = require('../config');
+const mongoose = require('mongoose');
 const User = require('../mongodb/model/userModel');
+const UserFollowModel = require('../mongodb/model/userFollowModel');
 
 const { GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET } = config;
 
@@ -30,6 +32,8 @@ passport.use(new GoogleStrategy({
             if (!user) {
                 const newUser = new User({ userid: id, username: displayName, userprofile: photos[0].value });
                 const savedUser = await newUser.save();
+                const newUserFollow = new UserFollowModel({ userid: mongoose.Types.ObjectId(savedUser._id) });
+                await newUserFollow.save();
                 done(null, savedUser);
             }
         }

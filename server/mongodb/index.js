@@ -7,6 +7,7 @@ require('./model/userModel');
 require('./model/blogPostModel');
 require('./model/tagsModel');
 require('./model/userFollowModel');
+require('./model/commentModel');
 
 exports.connect = () => {
 

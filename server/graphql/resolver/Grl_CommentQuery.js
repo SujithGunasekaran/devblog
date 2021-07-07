@@ -1,0 +1,7 @@
+exports.commentQuery = {
+
+};
+
+exports.commentMutation = {
+
+};
