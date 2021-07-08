@@ -315,6 +315,24 @@
     color : var(--save-color);
 }
 
+/* post id middle comment start */
+
+.post_id_middle_comment_container
+{
+    margin : 25px 0px;
+}
+.post_id_middle_comment_heading
+{
+    padding : 0px 15px 0px 0px;
+    font-family: var(--ff-san);
+    font-weight: 700;
+    font-size: 1.650rem;
+    letter-spacing: 0.050rem;
+    color: var(--text-color-light);
+}
+
+/* post id middle comment end */
+
 .post_id_middle_container
 {
     padding : 20px 50px;
