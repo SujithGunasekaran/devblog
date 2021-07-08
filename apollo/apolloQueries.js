@@ -414,3 +414,74 @@ export const SET_POST_SAVE = gql`
 
 
 // post queries end
+
+
+
+// comment queries start
+
+
+export const GET_COMMENT_BY_POST_ID = gql`
+    query GetCommentList($postid : ID) {
+        getCommentByPostId(postid : $postid){
+            commentList {
+                postid
+                userinfo {
+                    username
+                    userprofile
+                }
+                parentreplyinfo {
+                    postid
+                    userinfo {
+                        username
+                        userprofile
+                    }
+                    content
+                }
+                content
+                createdAt
+            }
+            commentCount
+            loggedUserId
+        }
+    }
+`;
+
+export const ADD_COMMENT = gql`
+    mutation AddComment(
+        $userinfo : ID
+        $postid : ID
+        $content : String
+        $parentreplyinfo : ID
+    ){
+        addComment(input : {
+            userinfo : $userinfo
+            postid : $postid
+            content : $content
+            parentreplyinfo : $parentreplyinfo
+        })
+        {
+            userinfo{
+                username
+                userprofile
+            }
+            postid
+            content
+            parentreplyinfo {
+                userinfo{
+                    username
+                    userprofile
+                }
+                postid
+                content
+            }
+            commentCount
+            loggedUserId
+            createdAt
+        }
+    }
+`
+
+
+
+
+// comment queries end

@@ -18,7 +18,9 @@ import {
     EDIT_POST_INFO,
     GET_POST_BY_ID,
     GET_POST_BY_USER,
-    GET_TAG_LIST
+    GET_TAG_LIST,
+    GET_COMMENT_BY_POST_ID,
+    ADD_COMMENT
 } from './apolloQueries';
 
 
@@ -427,4 +429,16 @@ export const useSetSaveToPost = () => useMutation(SET_POST_SAVE, {
 })
 
 // post actions end
+
+
+
+// comment action start
+
+
+export const useGetCommentByPostId = () => useLazyQuery(GET_COMMENT_BY_POST_ID);
+
+export const useAddComment = () => useMutation(ADD_COMMENT);
+
+
+// comment action end
 

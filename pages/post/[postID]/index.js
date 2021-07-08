@@ -1,11 +1,19 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import HeaderTag from '../../../components/HeadTag';
 import withApollo from '../../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/client/react/ssr';
-import { useGetPostById, useSetLikeToPost, useSetSaveToPost, useAddUserToFollow, useRemoveFollowedUser } from '../../../apollo/apolloActions';
+import {
+    useGetPostById,
+    useSetLikeToPost,
+    useSetSaveToPost,
+    useAddUserToFollow,
+    useRemoveFollowedUser,
+    useGetCommentByPostId
+} from '../../../apollo/apolloActions';
 import useModelControl from '../../../hooks/useModelControl';
+import CircularLoading from '../../../components/UI/CircularLoading';
 
 const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../../components/panel/leftPanel/PostLeftPanel'));
@@ -27,6 +35,21 @@ const PostInfo = () => {
     const [setSaveToPost, { error: saveError, loading: saveLoading }] = useSetSaveToPost();
     const [addUserToFollow, { error: followError, loading: followLoading }] = useAddUserToFollow();
     const [removeFollowedUser, { error: unFollowError, loading: unFollowLoading }] = useRemoveFollowedUser();
+    const [getComment, { data: commentData, error: commentError, loading: commentLoading }] = useGetCommentByPostId();
+
+    // useEffect
+    useEffect(() => {
+        getCommentByPost();
+    }, [])
+
+    const getCommentByPost = () => {
+        try {
+            getComment({ variables: { postid: postID } });
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
     const handleLikeReaction = async (userLiked, isUserLoggedIn) => {
         if (data.getPostById && isUserLoggedIn) {
@@ -126,6 +149,16 @@ const PostInfo = () => {
                                     />
                                 }
                             </div>
+                            <div className="post_id_middle_comment_container">
+                                {
+                                    commentLoading &&
+                                    <CircularLoading />
+                                }
+                                {
+                                    commentData && commentData.getCommentByPostId &&
+                                    <div className="post_id_middle_comment_heading">Discussion ({commentData.getCommentByPostId.commentCount})</div>
+                                }
+                            </div>
                         </div>
                         <div className="col-md-3">
                             <div className="post_id_right_container">
@@ -163,7 +196,14 @@ const PostInfo = () => {
                 </div>
             }
             {
-                (postError || likeError || saveError || followError || unFollowError) && <div></div>
+                (
+                    postError ||
+                    likeError ||
+                    saveError ||
+                    followError ||
+                    unFollowError ||
+                    commentError
+                ) && <div></div>
             }
         </div>
     )
