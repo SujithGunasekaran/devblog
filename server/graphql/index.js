@@ -29,6 +29,7 @@ exports.createApolloServer = () => {
 
         ${userTypes}
         ${postTypes}
+        ${commentTypes}
 
         type Query {
 
@@ -48,6 +49,8 @@ exports.createApolloServer = () => {
             getUserFollowListInfo(userid : ID) : followListInfo
             getUserFollowingListInfo(userid : ID) : followingListInfo
 
+            getCommentByPostId(postid : ID) : commentListInfo
+
         }
 
         type Mutation {
@@ -61,6 +64,8 @@ exports.createApolloServer = () => {
 
             addUserFollow(input : userFollowInput) : FollowFollowingResult
             removeUserFollow(input : userFollowInput) : FollowFollowingResult
+
+            addComment(input : addCommentInput) : commentInfo
 
         }
 
