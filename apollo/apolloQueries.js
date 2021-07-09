@@ -424,14 +424,18 @@ export const GET_COMMENT_BY_POST_ID = gql`
     query GetCommentList($postid : ID) {
         getCommentByPostId(postid : $postid){
             commentList {
+                _id
                 postid
                 userinfo {
+                    _id
                     username
                     userprofile
                 }
                 parentreplyinfo {
+                    _id
                     postid
                     userinfo {
+                        _id
                         username
                         userprofile
                     }
@@ -460,14 +464,18 @@ export const ADD_COMMENT = gql`
             parentreplyinfo : $parentreplyinfo
         })
         {
+            _id
             userinfo{
+                _id
                 username
                 userprofile
             }
             postid
             content
             parentreplyinfo {
+                _id
                 userinfo{
+                    _id
                     username
                     userprofile
                 }

@@ -19,6 +19,7 @@ const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'
 const Reaction = dynamic(() => import('../../../components/panel/leftPanel/PostLeftPanel'));
 const LoginModel = dynamic(() => import('../../../components/models/ShowLoginModel'));
 const UserInfo = dynamic(() => import('../../../components/panel/rightPanel/PostRightPanel'));
+const CommentList = dynamic(() => import('../../../components/comment/CommentList'));
 
 const PostInfo = () => {
 
@@ -156,7 +157,12 @@ const PostInfo = () => {
                                 }
                                 {
                                     commentData && commentData.getCommentByPostId &&
-                                    <div className="post_id_middle_comment_heading">Discussion ({commentData.getCommentByPostId.commentCount})</div>
+                                    <>
+                                        <div className="post_id_middle_comment_heading">Discussion ({commentData.getCommentByPostId.commentCount})</div>
+                                        <CommentList
+                                            commentList={commentData.getCommentByPostId}
+                                        />
+                                    </>
                                 }
                             </div>
                         </div>

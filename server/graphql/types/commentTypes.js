@@ -15,6 +15,7 @@ exports.commentTypes = `
     }
 
     type commentInfo {
+        _id : ID
         userinfo : commentuserinfo
         postid : ID
         content : String
