@@ -28,6 +28,11 @@
     display: flex;
     align-items: center;
 }
+.comment_add_move_right
+{
+    display: flex;
+    margin-left: auto !important;
+}
 .comment_add_btn
 {
     padding : 9px 15px;

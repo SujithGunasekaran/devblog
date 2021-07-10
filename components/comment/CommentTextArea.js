@@ -19,7 +19,7 @@ const CommentTextArea = (props) => {
                     showCancelBtn &&
                     <button type="button" onClick={() => cancelAction ? cancelAction() : {}} className="comment_add_cancel_btn">Cancel</button>
                 }
-                <button type="submit" disabled={addCommentLoading} className="comment_add_btn">{btnText}</button>
+                <button type="submit" disabled={addCommentLoading} className={`comment_add_btn ${!showCancelBtn ? 'comment_add_move_right' : ''}`}>{btnText}</button>
             </div>
 
         </form>
