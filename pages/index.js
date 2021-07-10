@@ -56,11 +56,12 @@ const Home = () => {
             }
           }
         })
-        setLoadingPost(false);
       }
       catch (err) {
-        setLoadingPost(false);
         console.log(err);
+      }
+      finally {
+        setLoadingPost(false);
       }
     }
   })

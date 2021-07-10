@@ -425,7 +425,6 @@ export const GET_COMMENT_BY_POST_ID = gql`
         getCommentByPostId(postid : $postid){
             commentList {
                 _id
-                postid
                 userinfo {
                     _id
                     username
@@ -433,7 +432,6 @@ export const GET_COMMENT_BY_POST_ID = gql`
                 }
                 parentreplyinfo {
                     _id
-                    postid
                     userinfo {
                         _id
                         username
@@ -445,7 +443,11 @@ export const GET_COMMENT_BY_POST_ID = gql`
                 createdAt
             }
             commentCount
-            loggedUserId
+            postid
+            loggedUserInfo {
+                _id
+                userprofile
+            }
         }
     }
 `;
@@ -464,27 +466,31 @@ export const ADD_COMMENT = gql`
             parentreplyinfo : $parentreplyinfo
         })
         {
-            _id
-            userinfo{
+            commentList {
                 _id
-                username
-                userprofile
-            }
-            postid
-            content
-            parentreplyinfo {
-                _id
-                userinfo{
+                userinfo {
                     _id
                     username
                     userprofile
                 }
-                postid
+                parentreplyinfo {
+                    _id
+                    userinfo {
+                        _id
+                        username
+                        userprofile
+                    }
+                    content
+                }
                 content
+                createdAt
             }
             commentCount
-            loggedUserId
-            createdAt
+            postid
+            loggedUserInfo {
+                _id
+                userprofile
+            }
         }
     }
 `

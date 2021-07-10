@@ -8,6 +8,7 @@ import '../styles/home.css';
 import '../styles/model.css';
 import '../styles/user.css';
 import '../styles/footer.css';
+import '../styles/comments.css';
 import Footer from '../components/Footer';
 
 // dynamic import

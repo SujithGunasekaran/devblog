@@ -10,7 +10,8 @@ import {
     useSetSaveToPost,
     useAddUserToFollow,
     useRemoveFollowedUser,
-    useGetCommentByPostId
+    useGetCommentByPostId,
+    useAddComment
 } from '../../../apollo/apolloActions';
 import useModelControl from '../../../hooks/useModelControl';
 import CircularLoading from '../../../components/UI/CircularLoading';
@@ -37,6 +38,7 @@ const PostInfo = () => {
     const [addUserToFollow, { error: followError, loading: followLoading }] = useAddUserToFollow();
     const [removeFollowedUser, { error: unFollowError, loading: unFollowLoading }] = useRemoveFollowedUser();
     const [getComment, { data: commentData, error: commentError, loading: commentLoading }] = useGetCommentByPostId();
+    const [addComment, { loading: addCommentLoading, error: addCommentError }] = useAddComment();
 
     // useEffect
     useEffect(() => {
@@ -113,6 +115,27 @@ const PostInfo = () => {
         }
     }
 
+    const handleAddComment = async (e, content, commentIdsInfo) => {
+        e.preventDefault();
+        if (commentIdsInfo.userInfo) {
+            try {
+                const addCommentData = {
+                    content,
+                    postid: commentIdsInfo.postid,
+                    userinfo: commentIdsInfo.userInfo._id,
+                    parentreplyinfo: commentIdsInfo.parentreplyinfo
+                }
+                await addComment({ variables: { ...addCommentData } });
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        else {
+            handleShowModel(true);
+        }
+    }
+
     return (
         <div>
             {
@@ -161,6 +184,10 @@ const PostInfo = () => {
                                         <div className="post_id_middle_comment_heading">Discussion ({commentData.getCommentByPostId.commentCount})</div>
                                         <CommentList
                                             commentList={commentData.getCommentByPostId}
+                                            loggedUserInfo={commentData.getCommentByPostId.loggedUserInfo ? commentData.getCommentByPostId.loggedUserInfo : null}
+                                            postid={commentData?.getCommentByPostId?.postid ?? ''}
+                                            addCommentLoading={addCommentLoading}
+                                            handleAddComment={handleAddComment}
                                         />
                                     </>
                                 }
@@ -208,7 +235,8 @@ const PostInfo = () => {
                     saveError ||
                     followError ||
                     unFollowError ||
-                    commentError
+                    commentError ||
+                    addCommentError
                 ) && <div></div>
             }
         </div>

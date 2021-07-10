@@ -437,7 +437,34 @@ export const useSetSaveToPost = () => useMutation(SET_POST_SAVE, {
 
 export const useGetCommentByPostId = () => useLazyQuery(GET_COMMENT_BY_POST_ID);
 
-export const useAddComment = () => useMutation(ADD_COMMENT);
+export const useAddComment = () => useMutation(ADD_COMMENT, {
+    update(cache, { data: { addComment } }) {
+        const commentList = cache.readQuery({
+            query: GET_COMMENT_BY_POST_ID,
+            variables: { postid: addComment.postid }
+        });
+        if (commentList) {
+            try {
+                const commentListInfo = JSON.parse(JSON.stringify(commentList));
+                cache.writeQuery({
+                    query: GET_COMMENT_BY_POST_ID,
+                    variables: { postid: addComment.postid },
+                    data: {
+                        getCommentByPostId: {
+                            ...commentListInfo.getCommentByPostId,
+                            commentList: [
+                                ...commentListInfo.getCommentByPostId.commentList,
+                                addComment.commentList
+                            ],
+                            commentCount: addComment.commentCount
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+    }
+});
 
 
 // comment action end
