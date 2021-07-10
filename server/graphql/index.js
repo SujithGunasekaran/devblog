@@ -65,7 +65,7 @@ exports.createApolloServer = () => {
             addUserFollow(input : userFollowInput) : FollowFollowingResult
             removeUserFollow(input : userFollowInput) : FollowFollowingResult
 
-            addComment(input : addCommentInput) : commentInfo
+            addComment(input : addCommentInput) : addCommentResult
 
         }
 

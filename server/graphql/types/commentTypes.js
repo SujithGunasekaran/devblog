@@ -17,18 +17,23 @@ exports.commentTypes = `
     type commentInfo {
         _id : ID
         userinfo : commentuserinfo
-        postid : ID
         content : String
         parentreplyinfo : commentInfo
         createdAt : String
-        loggedUserId : ID
+    }
+
+    type addCommentResult {
+        commentList : commentInfo
+        loggedUserInfo : commentuserinfo
         commentCount : Int
+        postid : ID
     }
 
     type commentListInfo {
         commentList : [commentInfo]
-        loggedUserId : ID
+        loggedUserInfo : commentuserinfo
         commentCount : Int
+        postid : ID
     }
 
 `;

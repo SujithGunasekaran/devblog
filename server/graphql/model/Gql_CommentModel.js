@@ -17,6 +17,17 @@ class commentModel {
         return userID;
     }
 
+    _getAuthUserInfo() {
+        let userInfo;
+        if (!this.request.isAuthenticated()) {
+            return null;
+        }
+        else {
+            userInfo = this.request.user;
+        }
+        return userInfo;
+    }
+
     async _countComment(postid) {
         const commentCount = await this.model.countDocuments({ postid });
         return commentCount;
@@ -42,7 +53,20 @@ class commentModel {
             return commentList;
         }
         catch (err) {
-            throw new Error()
+            throw new Error(err.message);
+        }
+    }
+
+    async _getCommentById(commentID) {
+        try {
+            const commentInfo = await this.model.findOne({ _id: commentID }).populate('parentreplyinfo').populate('userinfo').populate({ path: "parentreplyinfo", populate: "userinfo" });
+            if (!commentInfo) return {};
+            return {
+                commentInfo
+            }
+        }
+        catch (err) {
+            throw new Error(err.message);
         }
     }
 
@@ -50,14 +74,15 @@ class commentModel {
 
     async getComment(postid) {
 
-        const userID = this._getAuthUserID();
+        const userInfo = this._getAuthUserInfo();
 
         try {
             const commentList = await this._getCommentsByPostId(postid);
             const commentCount = await this._countComment(postid);
             const response = {
                 commentList: commentList,
-                loggedUserId: userID,
+                loggedUserInfo: userInfo ? userInfo : null,
+                postid,
                 commentCount
             };
             return response;
@@ -72,18 +97,19 @@ class commentModel {
 
     async addCommentInfo(input) {
 
-        const userID = this._getAuthUserID();
-        if (!userID) throw new Error('User Not Authenticated');
+        const userInfo = this._getAuthUserInfo();
+        if (!userInfo) throw new Error('User Not Authenticated');
 
         try {
             const savedComment = await this.model.create({ ...input });
             if (!savedComment) throw new Error('Error while saving the comment');
-            const { commentInfo } = await this._getCommentByPostId(savedComment.postid);
+            const { commentInfo } = await this._getCommentById(savedComment._id);
             const commentCount = await this._countComment(savedComment.postid);
             const response = {
-                ...commentInfo.toObject(),
-                loggedUserId: userID,
-                commentCount
+                commentList: commentInfo.toObject(),
+                loggedUserInfo: userInfo ? userInfo : null,
+                commentCount,
+                postid: savedComment.postid
             }
             return response;
         }
