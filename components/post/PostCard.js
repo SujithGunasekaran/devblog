@@ -11,7 +11,7 @@ const PostCard = (props) => {
 
     return (
         <div>
-            <div className="home_middle_post_container" ref={(length && index) && (index === length - 1) ? postObserver : null}>
+            <div className="home_middle_post_container" ref={(length && index) && (index === length - 2) ? postObserver : null}>
                 <div className="home_middle_post_user_container">
                     <img src={`${postInfo?.user.userprofile}` ?? ''} alt={postInfo?.user?.username ?? ''} loading="lazy" className="home_middle_post_user_profile" />
                     <div className="home_middle_post_user_info_display">

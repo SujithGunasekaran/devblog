@@ -173,6 +173,15 @@ const PostInfo = () => {
                                     />
                                 }
                             </div>
+                            <div className="post_id_middle_container_reaction">
+                                <Reaction
+                                    postData={data}
+                                    likeLoading={likeLoading}
+                                    saveLoading={saveLoading}
+                                    handleLikeReaction={handleLikeReaction}
+                                    handleSaveReaction={handleSaveReaction}
+                                />
+                            </div>
                             <div className="post_id_middle_comment_container">
                                 {
                                     commentLoading &&

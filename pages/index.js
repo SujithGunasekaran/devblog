@@ -101,6 +101,15 @@ const Home = () => {
                   handleTab={handleTabChange}
                 />
               </div>
+              <div className="home_middle_head_date_container_mobile">
+                <Tabs
+                  currentTab={currentFilter}
+                  cssClass="home_middle_head_date_name"
+                  tabList={['Feed', 'Week', 'Month', 'Year']}
+                  handleTab={handleTabChange}
+                  showSelect={true}
+                />
+              </div>
             </div>
             {
               (!post || !post.getAllPost || post.getAllPost.postList.length === 0) && !postLoading &&
