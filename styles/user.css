@@ -216,3 +216,14 @@
     color : var(--black-150);
     transition: 0.4s all ease-in-out;
 }
+
+@media(max-width:350px) {
+    .user_top_info_profile{ top : 180px !important; left : 6%; width: 70px; height: 70px; }
+}
+
+@media(max-width : 765px) {
+    .user_top_info_profile{ top : 155px; left : 6%; width: 70px; height: 70px; }
+    .user_top_info_username{text-align: left;}
+    .user_top_info_description{text-align: left;}
+    .user_top_info_highlight_container{justify-content: flex-start;}
+}
