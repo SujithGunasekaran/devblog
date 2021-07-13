@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Fragment } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import withApollo from '../hoc/withApollo';
@@ -7,6 +7,7 @@ import { useGetUserInfo } from '../apollo/apolloActions';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import useModelControl from '../hooks/useModelControl';
+import { HamburgerIcon, CloseIcon } from './icons';
 
 const LogoutModel = dynamic(() => import('./models/ShowConfirmModel'));
 
@@ -15,8 +16,12 @@ const Header = () => {
     // hooks
     const { showModel, handleShowModel } = useModelControl(false);
 
+    //refs
     const profileDropdown = useRef();
     const authDropdown = useRef();
+    const mobileModel = useRef();
+    const mobileModelOverlay = useRef();
+
     const router = useRouter();
 
     const [getUserInfo, { data: user, error }] = useGetUserInfo();
@@ -26,6 +31,7 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
+
         function closeDropdown(e) {
             if (authDropdown.current && !authDropdown.current.contains(e.target)) {
                 profileDropdown.current.classList.remove('show');
@@ -35,9 +41,34 @@ const Header = () => {
             }
         }
         document.body.addEventListener('click', closeDropdown);
+
+        const hamburger = document.querySelector('#hamburger');
+        const closeHamburger = document.querySelector('#closeHamburger')
+        const headerOverlay = document.querySelector('#header-model-overlay');
+
+        const removeHeaderModel = () => {
+            hamburger.style.display = 'block';
+            closeHamburger.style.display = 'none';
+            mobileModel.current.classList.remove('active');
+            mobileModelOverlay.current.classList.add('hidden');
+        }
+
+        const addHeaderModel = () => {
+            hamburger.style.display = 'none';
+            closeHamburger.style.display = 'block';
+            mobileModel.current.classList.add('active');
+            mobileModelOverlay.current.classList.remove('hidden');
+        }
+
+        if (headerOverlay) headerOverlay.addEventListener('click', removeHeaderModel);
+        if (closeHamburger) closeHamburger.addEventListener('click', removeHeaderModel);
+        if (hamburger) hamburger.addEventListener('click', addHeaderModel);
+
+
         return () => {
             document.body.removeEventListener('click', closeDropdown)
         }
+
     }, [])
 
     const showProfileDropDown = () => {
@@ -66,15 +97,38 @@ const Header = () => {
         handleShowModel(false);
     }
 
+
+    const mobileHeaderModel = () => (
+        <Fragment>
+            <div className="header_mobile_model_overlay hidden" id="header-model-overlay" ref={mobileModelOverlay}>
+                <div className="header_mobile_model_container" ref={mobileModel}>
+                    <div className="header_mobile_model_info_container">
+                        <PageLink href={'/post/createpost'} as={'/post/createpost'}>
+                            <a className="header_mobile_model_info_letter">Create Post</a>
+                        </PageLink>
+                    </div>
+                </div>
+            </div>
+        </Fragment>
+    )
+
+
     return (
         <div>
+            {mobileHeaderModel()}
             <div className="header_main">
                 <div className="header_container">
+                    <div id="hamburger">
+                        <HamburgerIcon cssClass="header_hamburger_icon" />
+                    </div>
+                    <div style={{ display: 'none' }} id="closeHamburger">
+                        <CloseIcon cssClass="header_hamburger_close_icon" />
+                    </div>
                     <PageLink href={'/'} as={'/'}>
                         <a className="header_logo">devBlog</a>
                     </PageLink>
                     {
-                        // (user && user.getUserInfo) &&
+                        (user && user.getUserInfo) &&
                         <div className="header_info_list_container">
                             <PageLink href={'/post/createpost'} as={'/post/createpost'}>
                                 <a className="header_info_list_name">Create Post</a>
