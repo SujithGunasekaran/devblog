@@ -20,9 +20,9 @@
     border-radius: 50%;
     width : 100px;
     height : 100px;
-    left: 46.4%;
+    left: 50%;
     z-index: 30;
-    transform: translate(0%, -50%);
+    transform: translate(-50%, -50%);
 }
 .user_top_info_username
 {
@@ -222,8 +222,8 @@
 }
 
 @media(max-width : 765px) {
-    .user_top_info_profile{ top : 155px; left : 6%; width: 70px; height: 70px; }
-    .user_top_info_username{text-align: left;}
-    .user_top_info_description{text-align: left;}
+    .user_top_info_profile{ top : 155px; width: 70px; height: 70px; }
+    .user_top_info_username{text-align: center;}
+    .user_top_info_description{text-align: center;}
     .user_top_info_highlight_container{justify-content: flex-start;}
 }

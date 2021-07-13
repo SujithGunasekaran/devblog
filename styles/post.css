@@ -608,14 +608,12 @@
 }
 .post_id_right_user_card_subhead_container
 {
-    position: relative;
-    padding : 25px 20px;
+    padding : 0px 0px 10px 10px;
 }
 .post_id_right_user_card_info
 {
-    position: absolute;
-    top: -13px;
     display: flex;
+    align-items: center;
 }
 .post_id_right_user_card_profile
 {
@@ -625,7 +623,7 @@
 }
 .post_id_right_user_card_name
 {
-    margin: 18px 0px 0px 10px;
+    margin: 0px 0px 0px 10px;
     font-family: var(--ff-san);
     font-size: 1.2rem;
     font-weight: 700;
