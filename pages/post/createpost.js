@@ -18,27 +18,48 @@ const CreatePost = () => {
     const [showError, setShowError] = useState(null);
 
     // hooks
-    const { postForm, handleFormField } = useForm();
+    const { postForm, formError, handleFormField, setFormError } = useForm();
     const { currentView, handleChangeView } = useChangeView('edit');
 
     // query and action
     const [publishPost, { loading, error }] = useCreatePost();
 
+    const validateField = (formInfo) => {
+        const info = ['title', 'content'];
+        let result = true;
+        info.map(name => {
+            if (!formInfo[name]) {
+                setFormError((prevFormError) => {
+                    return [
+                        ...prevFormError,
+                        name
+                    ]
+                })
+                result = false;
+            }
+        })
+        return result;
+    }
+
     const handlePublishPost = async (e) => {
         e.preventDefault();
-        let publishData = {
-            ...postForm
-        };
-        try {
-            await publishPost({ variables: publishData });
-            setShowSuccess('Post successfully published');
+        const isFormValid = validateField(postForm)
+        if (isFormValid) {
+            let publishData = {
+                ...postForm
+            };
+            try {
+                await publishPost({ variables: publishData });
+                setShowSuccess('Post successfully published');
+            }
+            catch (err) {
+                setShowError('Error while publishing the post');
+            }
+            finally {
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
         }
-        catch (err) {
-            const parsedError = JSON.parse(JSON.stringify(err));
-            if (parsedError?.message.includes('User') ?? '') setShowError(parsedError.message);
-            if (parsedError?.message.includes('Response') ?? '') setShowError(parsedError.message);
-        }
-        finally {
+        else {
             window.scrollTo({ top, behavior: 'smooth' });
         }
     }
@@ -70,6 +91,13 @@ const CreatePost = () => {
                                 showError &&
                                 <div className="failure_alert">
                                     {showError}
+                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
+                                </div>
+                            }
+                            {
+                                formError.length > 0 &&
+                                <div className="failure_alert">
+                                    {`Please Enter ${formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ')}`}
                                     <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
                                 </div>
                             }

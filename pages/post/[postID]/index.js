@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import HeaderTag from '../../../components/HeadTag';
@@ -15,6 +15,7 @@ import {
 } from '../../../apollo/apolloActions';
 import useModelControl from '../../../hooks/useModelControl';
 import CircularLoading from '../../../components/UI/CircularLoading';
+import { CancelIcon } from '../../../components/icons'
 
 const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../../components/panel/leftPanel/PostLeftPanel'));
@@ -23,6 +24,10 @@ const UserInfo = dynamic(() => import('../../../components/panel/rightPanel/Post
 const CommentList = dynamic(() => import('../../../components/comment/CommentList'));
 
 const PostInfo = () => {
+
+    // states
+    const [showSuccess, setShowSuccess] = useState(null);
+    const [showError, setShowError] = useState(null);
 
     // hooks
     const { showModel, handleShowModel } = useModelControl(false);
@@ -115,8 +120,24 @@ const PostInfo = () => {
         }
     }
 
+    const handleCloseSuccessMessage = () => {
+        setShowSuccess(null);
+    }
+
+    const handleCloseErrorMessage = () => {
+        setShowError(null);
+    }
+
+    const scrollToMessageView = (id) => {
+        if (document.querySelector(`${id}`)) document.querySelector(`#${id}`).scrollIntoView({ behavior: 'smooth' });
+    }
+
     const handleAddComment = async (e, content, commentIdsInfo) => {
         e.preventDefault();
+        if (!content) {
+            setShowError('Please enter some content...');
+            scrollToMessageView('error_alert');
+        }
         if (commentIdsInfo.userInfo) {
             try {
                 const addCommentData = {
@@ -126,9 +147,13 @@ const PostInfo = () => {
                     parentreplyinfo: commentIdsInfo.parentreplyinfo
                 }
                 await addComment({ variables: { ...addCommentData } });
+                setShowSuccess(commentIdsInfo.parentreplyinfo ? 'Replied successfully' : 'Comment added successfully');
+                scrollToMessageView('success_alert');
             }
             catch (err) {
                 console.log(err);
+                setShowError('Error while adding comment');
+                scrollToMessageView('error_alert');
             }
         }
         else {
@@ -186,6 +211,20 @@ const PostInfo = () => {
                                 {
                                     commentLoading &&
                                     <CircularLoading />
+                                }
+                                {
+                                    showSuccess &&
+                                    <div className="success_alert" id="success_alert">
+                                        {showSuccess}
+                                        <CancelIcon cssClass="alert_cancel" handleEvent={handleCloseSuccessMessage} />
+                                    </div>
+                                }
+                                {
+                                    showError &&
+                                    <div className="failure_alert" id="error_alert">
+                                        {showError}
+                                        <CancelIcon cssClass="alert_cancel" handleEvent={handleCloseErrorMessage} />
+                                    </div>
                                 }
                                 {
                                     commentData && commentData.getCommentByPostId &&
