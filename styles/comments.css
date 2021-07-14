@@ -77,7 +77,12 @@
 {
     background-color: var(--danger-color);
 }
+.comment_message
+{
+    margin-left: 48px !important;
+}
 
 @media(max-width: 765px) {
     .comment_text_area {margin-left: 0px; width: 100%;}
+    .comment_error_message{margin-left: 0px !important;}
 }
