@@ -2,7 +2,7 @@ import useForm from '../../hooks/useForm';
 
 const CommentTextArea = (props) => {
 
-    const { placeholder, cssClass, btnText, postid, loggedUserInfo, parentreplyinfo = null, cancelAction = false, showCancelBtn = false, addCommentLoading, handleAddComment } = props;
+    const { placeholder, cssClass, btnText, postid, loggedUserInfo, parentreplyinfo = null, cancelAction = false, showCancelBtn = false, addCommentLoading, handleAddComment, errorMessage } = props;
     const { handleFormField, postForm } = useForm();
 
     return (

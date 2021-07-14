@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import withApollo from '../../hoc/withApollo';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -18,9 +18,8 @@ import useModelControl from '../../hooks/useModelControl';
 import ConfirmModel from '../../components/models/ShowConfirmModel';
 import HeadTag from '../../components/HeadTag';
 import { prettyUserName } from '../../utils';
-import { CancelIcon } from '../../components/icons';
 import CircularLoading from '../../components/UI/CircularLoading';
-import React from 'react';
+import SuccessMessage from '../../components/UI/SuccessMessage';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -315,6 +314,14 @@ const UserPage = () => {
                 />
             }
         </React.Fragment>
+    );
+
+
+    const successMessage = () => (
+        <SuccessMessage
+            message={showSuccess}
+            handleCloseSuccessMessage={() => setShowSuccess(null)}
+        />
     )
 
 
@@ -351,10 +358,7 @@ const UserPage = () => {
                             <div className="col-md-9">
                                 {
                                     showSuccess &&
-                                    <div className="success_alert user_middle_post_success">
-                                        {showSuccess}
-                                        <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
-                                    </div>
+                                    successMessage()
                                 }
                                 <div className="user_middle_post_list_container">
                                     {

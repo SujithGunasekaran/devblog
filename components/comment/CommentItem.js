@@ -5,12 +5,13 @@ import { ReplyIcon } from '../icons';
 import CommentTextArea from './CommentTextArea';
 import withApollo from '../../hoc/withApollo';
 import { useAddComment } from '../../apollo/apolloActions';
-
+import ErrorMessage from '../UI/ErrorMessage';
 
 const CommentItem = (props) => {
 
     // state
     const [showReplyBox, setShowReplyBox] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(null);
 
     // query and mutation
     const [addComment, { loading, error }] = useAddComment();
@@ -32,6 +33,10 @@ const CommentItem = (props) => {
     const handleAddCommentToPost = async (e, content, commentIdsInfo) => {
         e.preventDefault();
         if (commentIdsInfo.userInfo) {
+            if (!content) {
+                setShowErrorMessage('Please Enter some content');
+                return;
+            }
             try {
                 const commentData = {
                     content: content,
@@ -40,12 +45,16 @@ const CommentItem = (props) => {
                     parentreplyinfo: commentIdsInfo.parentreplyinfo
                 };
                 await addComment({ variables: { ...commentData } })
-                setShowReplyBox(false)
+                setShowReplyBox(false);
             }
             catch (err) {
                 console.log(err);
             }
         }
+    }
+
+    const handleCloseErrorMessage = () => {
+        setShowErrorMessage(null);
     }
 
     return (
@@ -76,21 +85,31 @@ const CommentItem = (props) => {
             </div>
             {
                 showReplyBox &&
-                <div className="post_id_middle_comment_card_container">
-                    <img src={loggedUserInfo.userprofile} className="user_profile"></img>
-                    <CommentTextArea
-                        placeholder={`Replying to ${username}`}
-                        cssClass={"comment_text_area"}
-                        btnText={loading ? "Replying..." : "Reply"}
-                        showCancelBtn={true}
-                        cancelAction={() => setShowReplyBox(false)}
-                        postid={postid}
-                        loggedUserInfo={loggedUserInfo}
-                        parentreplyinfo={commentInfo._id}
-                        addCommentLoading={loading}
-                        handleAddComment={handleAddCommentToPost}
-                    />
-                </div>
+                <Fragment>
+                    {
+                        showErrorMessage &&
+                        <ErrorMessage
+                            message={showErrorMessage}
+                            cssClass="comment_message"
+                            handleCloseErrorMessage={handleCloseErrorMessage}
+                        />
+                    }
+                    <div className="post_id_middle_comment_card_container">
+                        <img src={loggedUserInfo.userprofile} className="user_profile"></img>
+                        <CommentTextArea
+                            placeholder={`Replying to ${username}`}
+                            cssClass={"comment_text_area"}
+                            btnText={loading ? "Replying..." : "Reply"}
+                            showCancelBtn={true}
+                            cancelAction={() => setShowReplyBox(false)}
+                            postid={postid}
+                            loggedUserInfo={loggedUserInfo}
+                            parentreplyinfo={commentInfo._id}
+                            addCommentLoading={loading}
+                            handleAddComment={handleAddCommentToPost}
+                        />
+                    </div>
+                </Fragment>
             }
             {!showReplyBox && loggedUserInfo && <button onClick={() => setShowReplyBox(true)} className="post_id_middle_comment_reply_btn">Reply <ReplyIcon cssClass={"post_id_middle_comment_reply_icon"} /></button>}
             {error && <div></div>}

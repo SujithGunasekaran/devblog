@@ -4,9 +4,11 @@ import HeaderTag from '../../components/HeadTag';
 import useForm from '../../hooks/useForm';
 import withApollo from '../../hoc/withApollo';
 import { useCreatePost } from '../../apollo/apolloActions';
-import { CancelIcon } from '../../components/icons';
 import useChangeView from '../../hooks/useChangeView';
 import HeaderTabs from '../../components/post/PostHeaderTabs';
+import SuccessMessage from '../../components/UI/SuccessMessage';
+import ErrorMessage from '../../components/UI/ErrorMessage';
+import { validateInputField } from '../../utils'
 
 const PostForm = dynamic(() => import('../../components/form/postForm'));
 const MarkdownGuide = dynamic(() => import('../../components/markdowns/MakrdownGuide'));
@@ -24,26 +26,9 @@ const CreatePost = () => {
     // query and action
     const [publishPost, { loading, error }] = useCreatePost();
 
-    const validateField = (formInfo) => {
-        const info = ['title', 'content'];
-        let result = true;
-        info.map(name => {
-            if (!formInfo[name]) {
-                setFormError((prevFormError) => {
-                    return [
-                        ...prevFormError,
-                        name
-                    ]
-                })
-                result = false;
-            }
-        })
-        return result;
-    }
-
     const handlePublishPost = async (e) => {
         e.preventDefault();
-        const isFormValid = validateField(postForm)
+        const isFormValid = validateInputField(['content', 'title'], postForm, setFormError);
         if (isFormValid) {
             let publishData = {
                 ...postForm
@@ -60,9 +45,30 @@ const CreatePost = () => {
             }
         }
         else {
+            const errorMessage = formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ');
+            setShowError(errorMessage);
             window.scrollTo({ top, behavior: 'smooth' });
         }
     }
+
+
+    // UI
+
+    const successMessage = () => (
+        <SuccessMessage
+            message={showSuccess}
+            handleCloseSuccessMessage={() => setShowSuccess(null)}
+        />
+    );
+
+
+    const errorMessage = (content) => (
+        <ErrorMessage
+            message={content ? content : showError}
+            handleCloseErrorMessage={() => { setShowError(null); setFormError([]) }}
+        />
+    );
+
 
     return (
         <div>
@@ -82,24 +88,15 @@ const CreatePost = () => {
                             </div>
                             {
                                 showSuccess &&
-                                <div className="success_alert">
-                                    {showSuccess}
-                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
-                                </div>
+                                successMessage()
                             }
                             {
                                 showError &&
-                                <div className="failure_alert">
-                                    {showError}
-                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
-                                </div>
+                                errorMessage()
                             }
                             {
                                 formError.length > 0 &&
-                                <div className="failure_alert">
-                                    {`Please Enter ${formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ')}`}
-                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
-                                </div>
+                                errorMessage(`Please Enter ${formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ')}`)
                             }
                             {
                                 currentView !== 'guide' &&

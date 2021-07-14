@@ -4,10 +4,12 @@ import { useRouter } from 'next/router';
 import withApollo from "../../../hoc/withApollo";
 import HeaderTag from "../../../components/HeadTag";
 import HeaderTabs from '../../../components/post/PostHeaderTabs';
-import { CancelIcon } from '../../../components/icons';
 import useForm from '../../../hooks/useForm';
 import useChangeView from '../../../hooks/useChangeView';
 import { useGetPostById, useEditPostInfo } from '../../../apollo/apolloActions';
+import SuccessMessage from '../../../components/UI/SuccessMessage';
+import ErrorMessage from '../../../components/UI/ErrorMessage';
+import { validateInputField } from '../../../utils';
 
 const PostForm = dynamic(() => import('../../../components/form/postForm'));
 const MarkdownGuide = dynamic(() => import('../../../components/markdowns/MakrdownGuide/index.js'));
@@ -19,7 +21,7 @@ const EditPost = () => {
     const [showError, setShowError] = useState(null);
 
     // hooks
-    const { postForm, handleFormField, setPostInfo } = useForm();
+    const { postForm, formError, handleFormField, setPostInfo, setFormError } = useForm();
     const { currentView, handleChangeView } = useChangeView('edit');
 
     // router
@@ -43,23 +45,48 @@ const EditPost = () => {
     // handle edit post
     const handleEditPost = async (e) => {
         e.preventDefault();
-        let publishData = {
-            ...postForm,
-            postid: postid,
-        };
-        try {
-            await editPostInfo({ variables: publishData });
-            setShowSuccess('Post successfully updated');
+        const isFormValid = validateInputField(['content', 'title'], postForm, setFormError);
+        if (isFormValid) {
+            let publishData = {
+                ...postForm,
+                postid: postid,
+            };
+            try {
+                await editPostInfo({ variables: publishData });
+                setShowSuccess('Post successfully updated');
+            }
+            catch (err) {
+                const parsedError = JSON.parse(JSON.stringify(err));
+                if (parsedError?.message.includes('User') ?? '') setShowError(parsedError.message);
+                if (parsedError?.message.includes('Response') ?? '') setShowError(parsedError.message);
+            }
+            finally {
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
         }
-        catch (err) {
-            const parsedError = JSON.parse(JSON.stringify(err));
-            if (parsedError?.message.includes('User') ?? '') setShowError(parsedError.message);
-            if (parsedError?.message.includes('Response') ?? '') setShowError(parsedError.message);
-        }
-        finally {
+        else {
             window.scrollTo({ top, behavior: 'smooth' });
         }
     }
+
+
+
+    // UI
+
+    const successMessage = () => (
+        <SuccessMessage
+            message={showSuccess}
+            handleCloseSuccessMessage={() => setShowSuccess(null)}
+        />
+    );
+
+    const errorMessage = (content) => (
+        <ErrorMessage
+            message={content ? content : showError}
+            handleCloseErrorMessage={() => { setShowError(null); setFormError([]) }}
+        />
+    )
+
 
     return (
         <div>
@@ -79,17 +106,15 @@ const EditPost = () => {
                             </div>
                             {
                                 showSuccess &&
-                                <div className="success_alert">
-                                    {showSuccess}
-                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowSuccess(null)} />
-                                </div>
+                                successMessage()
                             }
                             {
                                 showError &&
-                                <div className="failure_alert">
-                                    {showError}
-                                    <CancelIcon cssClass="alert_cancel" handleEvent={() => setShowError(null)} />
-                                </div>
+                                errorMessage()
+                            }
+                            {
+                                formError.length > 0 &&
+                                errorMessage(`Please Enter ${formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ')}`)
                             }
                             {
                                 currentView !== 'guide' &&

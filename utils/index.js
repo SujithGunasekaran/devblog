@@ -83,3 +83,32 @@ export const getCurrentDateByType = (type) => {
     return new Date(startDate);
 
 }
+
+/**
+ * validateInputField return boolean true ( If all values are present ) false ( If any one of the value is not there )
+ * filedNames => array
+ * values => object
+ * setState => callBack
+ * @param {*} fieldNames 
+ * @param {*} values 
+ * @param {*} setState 
+ */
+
+export const validateInputField = (fieldNames, values, setState) => {
+
+    const info = fieldNames;
+    let result = true;
+    info.map(name => {
+        if (!values[name]) {
+            setState((prevFormError) => {
+                return [
+                    ...prevFormError,
+                    name
+                ]
+            })
+            result = false;
+        }
+    })
+    return result;
+
+}

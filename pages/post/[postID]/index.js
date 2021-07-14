@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, Fragment } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import HeaderTag from '../../../components/HeadTag';
@@ -15,7 +15,8 @@ import {
 } from '../../../apollo/apolloActions';
 import useModelControl from '../../../hooks/useModelControl';
 import CircularLoading from '../../../components/UI/CircularLoading';
-import { CancelIcon } from '../../../components/icons'
+import SuccessMessage from '../../../components/UI/SuccessMessage';
+import ErrorMessage from '../../../components/UI/ErrorMessage';
 
 const PostDisplay = dynamic(() => import('../../../components/post/FullPostInfo'));
 const Reaction = dynamic(() => import('../../../components/panel/leftPanel/PostLeftPanel'));
@@ -134,11 +135,12 @@ const PostInfo = () => {
 
     const handleAddComment = async (e, content, commentIdsInfo) => {
         e.preventDefault();
-        if (!content) {
-            setShowError('Please enter some content...');
-            scrollToMessageView('error_alert');
-        }
         if (commentIdsInfo.userInfo) {
+            if (!content) {
+                setShowError('Please enter some content');
+                scrollToMessageView('error_alert');
+                return;
+            }
             try {
                 const addCommentData = {
                     content,
@@ -160,6 +162,26 @@ const PostInfo = () => {
             handleShowModel(true);
         }
     }
+
+
+    // UI
+
+    const successMessage = () => (
+        <SuccessMessage
+            message={showSuccess}
+            cssClass="comment_message"
+            handleCloseSuccessMessage={handleCloseSuccessMessage}
+        />
+    );
+
+    const errorMessage = () => (
+        <ErrorMessage
+            message={showError}
+            cssClass="comment_message"
+            handleCloseErrorMessage={handleCloseErrorMessage}
+        />
+    )
+
 
     return (
         <div>
@@ -213,23 +235,17 @@ const PostInfo = () => {
                                     <CircularLoading />
                                 }
                                 {
-                                    showSuccess &&
-                                    <div className="success_alert" id="success_alert">
-                                        {showSuccess}
-                                        <CancelIcon cssClass="alert_cancel" handleEvent={handleCloseSuccessMessage} />
-                                    </div>
-                                }
-                                {
-                                    showError &&
-                                    <div className="failure_alert" id="error_alert">
-                                        {showError}
-                                        <CancelIcon cssClass="alert_cancel" handleEvent={handleCloseErrorMessage} />
-                                    </div>
-                                }
-                                {
                                     commentData && commentData.getCommentByPostId &&
-                                    <>
+                                    <Fragment>
                                         <div className="post_id_middle_comment_heading">Discussion ({commentData.getCommentByPostId.commentCount})</div>
+                                        {
+                                            showError &&
+                                            errorMessage()
+                                        }
+                                        {
+                                            showSuccess &&
+                                            successMessage()
+                                        }
                                         <CommentList
                                             commentList={commentData.getCommentByPostId}
                                             loggedUserInfo={commentData.getCommentByPostId.loggedUserInfo ? commentData.getCommentByPostId.loggedUserInfo : null}
@@ -237,7 +253,7 @@ const PostInfo = () => {
                                             addCommentLoading={addCommentLoading}
                                             handleAddComment={handleAddComment}
                                         />
-                                    </>
+                                    </Fragment>
                                 }
                             </div>
                         </div>
@@ -256,7 +272,6 @@ const PostInfo = () => {
                                         handleRemoveFollowedUser={handleRemoveFollowedUser}
                                     />
                                 }
-
                             </div>
                         </div>
                     </div>
