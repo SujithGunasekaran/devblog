@@ -8,7 +8,8 @@ import useChangeView from '../../hooks/useChangeView';
 import HeaderTabs from '../../components/post/PostHeaderTabs';
 import SuccessMessage from '../../components/UI/SuccessMessage';
 import ErrorMessage from '../../components/UI/ErrorMessage';
-import { validateInputField } from '../../utils'
+import { validateInputField } from '../../utils';
+import IsUserAuthenticated from '../../hoc/withAuth';
 
 const PostForm = dynamic(() => import('../../components/form/postForm'));
 const MarkdownGuide = dynamic(() => import('../../components/markdowns/MakrdownGuide'));
@@ -132,4 +133,4 @@ const CreatePost = () => {
 
 }
 
-export default withApollo(CreatePost);
+export default withApollo(IsUserAuthenticated(CreatePost));

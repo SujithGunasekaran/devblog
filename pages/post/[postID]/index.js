@@ -38,7 +38,7 @@ const PostInfo = () => {
     const { postID } = router.query;
 
     // query and mutation
-    const { data, loading, error: postError } = useGetPostById(postID);
+    const { data, error: postError } = useGetPostById(postID);
     const [setLikeToPost, { error: likeError, loading: likeLoading }] = useSetLikeToPost();
     const [setSaveToPost, { error: saveError, loading: saveLoading }] = useSetSaveToPost();
     const [addUserToFollow, { error: followError, loading: followLoading }] = useAddUserToFollow();

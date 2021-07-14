@@ -10,6 +10,7 @@ import { useGetPostById, useEditPostInfo } from '../../../apollo/apolloActions';
 import SuccessMessage from '../../../components/UI/SuccessMessage';
 import ErrorMessage from '../../../components/UI/ErrorMessage';
 import { validateInputField } from '../../../utils';
+import IsUserAuthenticated from '../../../hoc/withAuth';
 
 const PostForm = dynamic(() => import('../../../components/form/postForm'));
 const MarkdownGuide = dynamic(() => import('../../../components/markdowns/MakrdownGuide/index.js'));
@@ -150,5 +151,5 @@ const EditPost = () => {
 
 };
 
-export default withApollo(EditPost);
+export default withApollo(IsUserAuthenticated(EditPost));
 

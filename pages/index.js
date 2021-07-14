@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Fragment } from 'react';
 import HeadTag from '../components/HeadTag';
 import withApollo from '../hoc/withApollo';
 import dynamic from 'next/dynamic';
@@ -118,14 +118,16 @@ const Home = () => {
             {
               post && post.getAllPost &&
               post.getAllPost.postList.map((postInfo, index) => (
-                <PostCard
-                  key={index}
-                  length={post.getAllPost.postList.length}
-                  index={index}
-                  postObserver={postObserver}
-                  postInfo={postInfo}
-                  loggedUserInfo={post.getAllPost.loggedUserInfo}
-                />
+                <Fragment key={index}>
+                  <PostCard
+                    key={index}
+                    length={post.getAllPost.postList.length}
+                    index={index}
+                    postObserver={postObserver}
+                    postInfo={postInfo}
+                    loggedUserInfo={post.getAllPost.loggedUserInfo}
+                  />
+                </Fragment>
               ))
             }
             {(loadingPost || postLoading) && <CircularLoading />}

@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { Fragment } from 'react';
 
 const PostCard = dynamic(() => import('../post/PostCard'));
 
@@ -14,15 +15,17 @@ const UserSavePost = (props) => {
                     userInfo.userData.usersavedpost.map((postData, index) => {
                         const isUserCanEdit = userInfo.loggedUserInfo ? userInfo.loggedUserInfo._id === postData.user._id ? true : false : false;
                         return (
-                            <PostCard
-                                key={index}
-                                postCreatedUser={postData?.user?._id ?? ''}
-                                postInfo={postData}
-                                handleDelete={handleDeletePost}
-                                handleEdit={handleEditPost}
-                                loggedUserInfo={userInfo.loggedUserInfo}
-                                isUserCanEdit={isUserCanEdit ? true : false}
-                            />
+                            <Fragment key={index}>
+                                <PostCard
+                                    key={index}
+                                    postCreatedUser={postData?.user?._id ?? ''}
+                                    postInfo={postData}
+                                    handleDelete={handleDeletePost}
+                                    handleEdit={handleEditPost}
+                                    loggedUserInfo={userInfo.loggedUserInfo}
+                                    isUserCanEdit={isUserCanEdit ? true : false}
+                                />
+                            </Fragment>
                         )
                     }) :
                     <div className="not_available_message">{emptyMessage}</div>

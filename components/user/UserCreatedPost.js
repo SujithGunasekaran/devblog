@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { isUserCanEditOrDelete } from '../../utils';
 
@@ -15,15 +16,17 @@ const UserCreatedPost = (props) => {
                     posts.postInfo.map((postData, index) => {
                         const isUserCanEdit = isUserCanEditOrDelete(posts.loggedUserInfo, postData.user);
                         return (
-                            <PostCard
-                                key={index}
-                                postCreatedUser={postData?.user?._id ?? ''}
-                                postInfo={postData}
-                                handleDelete={handleDeletePost}
-                                handleEdit={handleEditPost}
-                                loggedUserInfo={posts.loggedUserInfo}
-                                isUserCanEdit={isUserCanEdit ? true : false}
-                            />
+                            <Fragment key={index}>
+                                <PostCard
+                                    postCreatedUser={postData?.user?._id ?? ''}
+                                    postInfo={postData}
+                                    handleDelete={handleDeletePost}
+                                    handleEdit={handleEditPost}
+                                    loggedUserInfo={posts.loggedUserInfo}
+                                    isUserCanEdit={isUserCanEdit ? true : false}
+                                />
+                            </Fragment>
+
                         )
                     }) :
                     <div className="not_available_message">{emptyMessage}</div>

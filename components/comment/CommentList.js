@@ -23,9 +23,8 @@ const CommentList = (props) => {
             {
                 commentList.commentList.length > 0 &&
                 commentList.commentList.map((commentInfo, index) => (
-                    <Fragment>
+                    <Fragment key={index}>
                         <CommentItem
-                            key={index}
                             commentInfo={commentInfo}
                             loggedUserInfo={loggedUserInfo}
                             postid={postid}
