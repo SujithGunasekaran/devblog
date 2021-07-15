@@ -1,5 +1,10 @@
 /* home left panel */
 
+.home_main
+{
+    width: 100%;
+}
+
 .home_left_dev_main
 {
     display: flex;

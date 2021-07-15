@@ -82,6 +82,10 @@
 
 }
 
+body {
+  background-color: var(--body-bg) !important;
+}
+
 .main_page
 {
   background-color: var(--body-bg);
@@ -89,10 +93,12 @@
 }
 .main_body
 {
-  margin-top: 55px;
-  padding : 20px 10px;
+  margin-top: 60px;
+  padding : 20px 0px;
   min-height: 100vh !important;
+  background-color: var(--body-bg);
 }
+
 
 /* common css */
 
@@ -254,6 +260,13 @@ pre
   margin : 0px auto;
   text-align: center !important;
   color : var(--text-blue) !important;
+}
+
+.page_404_container
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media(max-width:750px)
