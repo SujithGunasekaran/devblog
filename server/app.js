@@ -19,6 +19,7 @@ mongodb.connect();
 
 const url = dev ? LOCAL_URL : PRODUCTION_URL;
 
+console.log(url);
 
 app.prepare().then(() => {
 
