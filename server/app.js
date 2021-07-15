@@ -6,7 +6,7 @@ const passport = require('passport');
 
 require('./passport/GoogleAuth');
 
-const { PORT, PRODUCTION_URL = '', LOCAL_URL = 'http://localhost:3000' } = config;
+const { PORT } = config;
 
 const port = process.env.PORT || PORT;
 const dev = process.env.NODE_ENV !== 'production';
@@ -19,7 +19,6 @@ mongodb.connect();
 
 app.prepare().then(() => {
 
-    const url = dev ? LOCAL_URL : PRODUCTION_URL;
     const server = express();
 
     server.use(cors());
@@ -35,13 +34,14 @@ app.prepare().then(() => {
 
     server.get('/google', passport.authenticate('google', { scope: ["profile", "email"] }));
 
-    server.get('/google/callback', passport.authenticate('google', { failureRedirect: `${url}/login` }), (req, res) => {
-        res.redirect(`${url}/`);
+    server.get('/google/callback', passport.authenticate('google', { failureRedirect: `${process.env.PRODUCTION_URL}login` }), (req, res) => {
+        res.redirect(`${process.env.PRODUCTION_URL}`);
     })
 
     const apolloServer = require('./graphql').createApolloServer();
     apolloServer.applyMiddleware({
-        app: server
+        app: server,
+        cors: { credentials: true, origin: `${process.env.PRODUCTION_URL}` }
     })
 
     server.all('*', (req, res) => {
