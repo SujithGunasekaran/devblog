@@ -80,7 +80,7 @@ const Home = () => {
   })
 
   return (
-    <div>
+    <div className="home_main">
       <HeadTag
         title="Home"
         description="devblog is an blog website people can publish their blog post"

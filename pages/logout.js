@@ -16,7 +16,20 @@ const Logout = (props) => {
         })
     }
 
-    return <div>Signing out..</div>
+    return (
+        <div>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-4 mx-auto">
+                        <div className="form_main">
+                            <div className="form_heading">Signing out from <span className="highlight">devBlog</span></div>
+                            <div className="form_intro">Please wait while we are signing out...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 
 }
 
