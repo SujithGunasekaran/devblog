@@ -15,6 +15,13 @@ exports.initMiddleWare = (server) => {
         store: initializeMongodbSession()
     };
 
+    if (process.env.NODE_ENV === 'production') {
+        server.set('trust proxy', 1);
+        sessionInfo.cookie.secure = true;
+        sessionInfo.cookie.httpOnly = true;
+        sessionInfo.cookie.sameSite = 'none';
+    }
+
     server.use(session(sessionInfo));
 
 }
