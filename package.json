@@ -8,7 +8,7 @@
     "insertSampleData": "node server/sampleData",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "node server/app.js"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",

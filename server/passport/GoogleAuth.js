@@ -7,7 +7,9 @@ const UserFollowModel = require('../mongodb/model/userFollowModel');
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET } = config;
+const { GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, LOCAL_CALLBACK_URL = 'http://localhost:3000/google/callback', PRODUCTION_CALLBACK_URL = '' } = config;
+
+const callBackURL = dev ? LOCAL_CALLBACK_URL : PRODUCTION_CALLBACK_URL;
 
 passport.serializeUser((user, done) => {
     done(null, user._id);
@@ -22,7 +24,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: `${GOOGLE_CLIENTID}`,
     clientSecret: `${GOOGLE_CLIENTSECRET}`,
-    callbackURL: `${process.env.PRODUCTION_CALLBACK_URL}`
+    callbackURL: `${callBackURL}`
 },
     async (accessToken, refreshToken, profile, done) => {
 
