@@ -8,7 +8,7 @@ require('./passport/GoogleAuth');
 
 const { PORT, PRODUCTION_URL = '', LOCAL_URL = 'http://localhost:3000' } = config;
 
-const port = PORT || 3000;
+const port = process.env.PORT || PORT;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -51,7 +51,7 @@ app.prepare().then(() => {
     })
 
     server.listen(port, () => {
-        console.log(`Server is running on PORT : ${PORT}`);
+        console.log(`Server is running on PORT : ${port}`);
     })
 
 
