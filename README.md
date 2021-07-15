@@ -21,6 +21,10 @@
           GOOGLE_CLIENTSECRET: Your Google client screct code,
           MONGO_URI: Your mongo uri,
           SESSION_SECRET: your session secret
+          LOCAL_URL = http://localhost:3000/
+          PRODUCTION_URL = Your Production URL
+          LOCAL_CALLBACK_URL = Your local callback URL
+          PRODUCTION_CALLBACK_URL = Your Production callback URL
       </code>
      </pre>
      
