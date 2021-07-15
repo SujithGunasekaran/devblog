@@ -17,12 +17,9 @@ const handle = app.getRequestHandler();
 const mongodb = require('./mongodb')
 mongodb.connect();
 
-const url = dev ? LOCAL_URL : PRODUCTION_URL;
-
-console.log(url);
-
 app.prepare().then(() => {
 
+    const url = dev ? LOCAL_URL : PRODUCTION_URL;
     const server = express();
 
     server.use(cors());
