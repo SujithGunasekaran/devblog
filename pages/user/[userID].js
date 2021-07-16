@@ -20,6 +20,7 @@ import HeadTag from '../../components/HeadTag';
 import { prettyUserName } from '../../utils';
 import CircularLoading from '../../components/UI/CircularLoading';
 import SuccessMessage from '../../components/UI/SuccessMessage';
+import ShowEditFormModel from '../../components/models/showEditFormMode';
 
 const UserInfoBanner = dynamic(() => import('../../components/user/UserInfoBanner'));
 const UserProfileLeftPanel = dynamic(() => import('../../components/panel/leftPanel/UserProfileLeftPanel'));
@@ -33,6 +34,7 @@ const UserPage = () => {
     const [postActionInfo, setPostActionInfo] = useState({});
     const [showSuccess, setShowSuccess] = useState(null);
     const [loggedUserFollowingList, setLoggedUserFollowingList] = useState(new Set());
+    const [showEditModel, setShowEditModel] = useState(false);
 
     // hooks
     const { currentView, handleChangeView } = useChangeView('publish');
@@ -235,6 +237,15 @@ const UserPage = () => {
     }, [loggedUserFollowingList, currentView, userID])
 
 
+    const handleShowEditModel = (value) => {
+        setShowEditModel(value);
+    }
+
+    const handleCloseEditModel = () => {
+        setShowEditModel(false);
+    }
+
+
     // UI
 
     const conditionalRendering = (currentView) => (
@@ -309,6 +320,7 @@ const UserPage = () => {
                     userFollowInfo={visitingUserInfo?.getUserFollowFollowing ?? ''}
                     handleFollowUser={handleFollowUser}
                     handleRemoveFollowedUser={handleRemoveFollowedUser}
+                    handleShowEditModel={handleShowEditModel}
                     removeUserLoading={removeUserLoading}
                     followUserLoading={followUserLoading}
                 />
@@ -386,6 +398,21 @@ const UserPage = () => {
                                     confirmBtnText="Delete Post"
                                     confirm={handleDeletePost}
                                     cancel={hideConfirmModel}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            {
+                showEditModel &&
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-8 mx-auto">
+                            <div className="model_overlay">
+                                <ShowEditFormModel
+                                    userInfo={userInfo}
+                                    handleCloseEditModel={handleCloseEditModel}
                                 />
                             </div>
                         </div>

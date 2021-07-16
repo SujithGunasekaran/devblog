@@ -86,7 +86,7 @@ const EditPost = () => {
             message={content ? content : showError}
             handleCloseErrorMessage={() => { setShowError(null); setFormError([]) }}
         />
-    )
+    );
 
 
     return (
