@@ -24,14 +24,33 @@
     z-index: 30;
     transform: translate(-50%, -50%);
 }
+.user_top_info_userinfo_container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding : 0px 0px 15px 0px;
+}
 .user_top_info_username
 {
-    padding : 0px 0px 15px 0px;
     font-size: 1.7rem;
     font-family: var(--ff-san);
     font-weight: 700;
     text-align: center;
     color : var(--black-050);
+}
+.user_top_info_username_edit_icon
+{
+    width: 17px;
+    height: 17px;
+    margin-left: 14px;
+    color : var(--black-100);
+    transition: 0.4s all ease-in-out;
+}
+.user_top_info_username_edit_icon:hover
+{
+    color : var(--text-blue);
+    cursor: pointer;
 }
 .user_top_info_follow_btn
 {

@@ -131,6 +131,99 @@
     outline: none;
 }
 
+.model_form_container
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-height: 500px;
+    overflow-y: scroll;
+    border-radius: 8px;
+    padding: 20px 20px;
+    background-color: var(--header-bg);
+}
+
+.model_form_container::-webkit-scrollbar 
+{
+    width: 4px;
+    border-radius: 0px;
+    background-color: var(--header-bg);
+}
+
+.model_form_container::-webkit-scrollbar-track 
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.model_form_container::-webkit-scrollbar-thumb 
+{
+    -webkit-border-radius: 10px;
+    border-radius: 20px;
+    background: var(--black-600); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.model_form_heading
+{
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: var(--inter-text);
+    color : var(--text-white);
+}
+.model_form_input_container
+{
+    width: 100%;
+}
+.model_form_input_label
+{
+    padding: 10px 0px;
+    font-size: .9rem;
+    font-weight: 400;
+    letter-spacing: 0.010rem;
+    font-family: var(--inter-text);
+    color: var(--black-300);
+}
+.model_form_input_field
+{
+    margin: 5px 0px;
+    padding: 10px 8px;
+    border: none;
+    background-color: var(--header-bg);
+    border-radius: 6px;
+    font-family: var(--inter-text);
+    font-size: .930rem;
+    letter-spacing: 0.015rem;
+    color: var(--black-100);
+    border: 1px solid var(--black-600);
+    width: 100%;
+}
+.model_form_input_field:focus
+{
+    outline: none;
+    border : 1px solid var(--text-blue)
+}
+.model_form_edit_btn
+{
+    margin: 25px 0px 15px 0px;
+    border: none;
+    border-radius: 6px;
+    padding : 6px 15px;
+    font-family: var(--inter-text);
+    font-size: 1rem; 
+    letter-spacing: 0.015rem;
+    display: flex;
+    margin-left: auto;
+    background-color: var(--btn-blue-bg);
+    color: var(--text-white);
+}
+
 @media(max-width : 600px) {
     .model_container{width : 90%}
+    .model_form_container{width : 90%; top : 50%; left : 50%; transform: translate(-50%, -50%); padding: 20px 10px;}
 }
