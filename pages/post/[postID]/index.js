@@ -103,21 +103,31 @@ const PostInfo = () => {
     }, [showModel]);
 
 
-    const handleFollowUser = async (visitorUserId) => {
-        try {
-            await addUserToFollow({ variables: { loggedUser: data.getPostById.loggedUserid, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+    const handleFollowUser = async (visitorUserId, loggedUserId) => {
+        if (visitorUserId && loggedUserId) {
+            try {
+                await addUserToFollow({ variables: { loggedUser: loggedUserId, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
-        catch (err) {
-            console.log(err);
+        else {
+            handleShowModel(true);
         }
     }
 
-    const handleRemoveFollowedUser = async (visitorUserId) => {
-        try {
-            await removeFollowedUser({ variables: { loggedUser: data.getPostById.loggedUserid, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+    const handleRemoveFollowedUser = async (visitorUserId, loggedUserId) => {
+        if (visitorUserId, loggedUserId) {
+            try {
+                await removeFollowedUser({ variables: { loggedUser: loggedUserId, followUser: visitorUserId, postId: data.getPostById.postInfo._id } });
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
-        catch (err) {
-            console.log(err);
+        else {
+            handleShowModel(true);
         }
     }
 

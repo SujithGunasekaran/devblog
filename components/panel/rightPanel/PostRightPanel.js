@@ -23,8 +23,8 @@ const PostRightPanel = (props) => {
                     {
                         loggedUserId !== userInfo._id ?
                             isLoggedInUserFollowing ?
-                                <button disabled={unFollowLoading} onClick={() => handleRemoveFollowedUser(userInfo._id)} className="post_id_right_body_unfollow_btn">{unFollowLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
-                                <button disabled={followLoading} onClick={() => handleFollowUser(userInfo._id)} className="post_id_right_body_btn">{followLoading ? 'Following...' : 'Follow'}</button>
+                                <button disabled={unFollowLoading} onClick={() => handleRemoveFollowedUser(userInfo._id, loggedUserId)} className="post_id_right_body_unfollow_btn">{unFollowLoading ? 'UnFollowing...' : 'UnFollow'}</button> :
+                                <button disabled={followLoading} onClick={() => handleFollowUser(userInfo._id, loggedUserId)} className="post_id_right_body_btn">{followLoading ? 'Following...' : 'Follow'}</button>
                             : null
                     }
                     <div className="post_id_right_body_info_container">
