@@ -1,5 +1,5 @@
 import { prettyUserName, convertFullDateToLong } from '../../utils';
-import { CalenderIcon, EditSquareIcon } from '../icons';
+import { CalenderIcon, EditSquareIcon, BuildingIcon } from '../icons';
 
 const UserInfoBanner = (props) => {
 
@@ -30,6 +30,13 @@ const UserInfoBanner = (props) => {
                     <CalenderIcon cssClass="user_top_info_highlight_icon" />
                     <div className="user_top_info_highlight_text">Joined on {convertFullDateToLong(userInfo?.userData?.joined ?? '')}</div>
                 </div>
+                {
+                    userInfo?.userData.usercompany &&
+                    <div className="user_top_info_highlight_info">
+                        <BuildingIcon cssClass="user_top_info_highlight_icon" />
+                        <div className="user_top_info_highlight_text">{userInfo?.userData?.usercompany ?? ''}</div>
+                    </div>
+                }
             </div>
         </div>
     )

@@ -31,6 +31,13 @@ const PostRightPanel = (props) => {
                         <div className="post_id_right_body_info_heading">Joined</div>
                         <div className="post_id_right_body_info_content">{convertFullDateToLong(userInfo.joined)}</div>
                     </div>
+                    {
+                        userInfo.usercompany &&
+                        <div className="post_id_right_body_info_container">
+                            <div className="post_id_right_body_info_heading">Company</div>
+                            <div className="post_id_right_body_info_content">{userInfo.usercompany}</div>
+                        </div>
+                    }
                 </div>
             </div>
             <div className="post_id_right_user_post_container">

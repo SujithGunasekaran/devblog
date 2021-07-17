@@ -21,6 +21,7 @@ const CommentItem = (props) => {
 
     useEffect(() => {
         const childElement = document.querySelector('#childID');
+        if (!childElement) return;
         childElement.addEventListener('click', function (e) {
             if (e.target.closest('.post_id_middle_comment_parent_container')) {
                 e.preventDefault();

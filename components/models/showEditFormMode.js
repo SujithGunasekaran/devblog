@@ -1,16 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import withApollo from '../../hoc/withApollo';
 import useForm from '../../hooks/useForm';
 import { CancelIcon } from '../icons';
 import { validateInputField } from '../../utils';
 import ErrorMessage from '../UI/ErrorMessage';
+import SuccessMessage from '../UI/SuccessMessage';
+import { useUpdateuserInfo } from '../../apollo/apolloActions';
 
 const showEditFormModel = (props) => {
+
+    // states
+    const [showSuccess, setShowSuccess] = useState(null);
 
     //props
     const { userInfo, handleCloseEditModel } = props;
 
     // hooks
     const { postForm, handleFormField, formError, setFormError, setPostInfo } = useForm();
+
+    // mutatios
+    const [updateUserInfo, { error, loading }] = useUpdateuserInfo();
 
     useEffect(() => {
         if (userInfo.getUserById) {
@@ -23,14 +32,34 @@ const showEditFormModel = (props) => {
         }
     }, [])
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const isFormValid = validateInputField(['username', 'description', 'company'], postForm, setFormError);
+        const { userData = {} } = userInfo.getUserById;
+        const isFormValid = validateInputField(['username', 'description'], postForm, setFormError);
         if (isFormValid) {
-
+            try {
+                const variables = {
+                    id: userData._id,
+                    username: postForm.username,
+                    userdescription: postForm.description,
+                    usercompany: postForm.company
+                };
+                await updateUserInfo({ variables });
+                setShowSuccess('Info updated Successfully');
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
     }
 
+
+    const successMessage = () => (
+        <SuccessMessage
+            message={showSuccess}
+            handleCloseSuccessMessage={() => setShowSuccess(null)}
+        />
+    )
 
     const errorMessage = (content) => (
         <ErrorMessage
@@ -46,6 +75,14 @@ const showEditFormModel = (props) => {
                     <div className="model_head_heading">Edit Profile</div>
                     <CancelIcon cssClass={"model_head_cancel_icon"} handleEvent={handleCloseEditModel} />
                 </div>
+                {
+                    showSuccess &&
+                    successMessage()
+                }
+                {
+                    error &&
+                    errorMessage('Error while updating userInfo')
+                }
                 {
                     formError.length > 0 &&
                     errorMessage(`Please Enter ${formError.map(name => `${name[0].toUpperCase()}${name.slice(1)}`).join(', ')}`)
@@ -81,7 +118,7 @@ const showEditFormModel = (props) => {
                             onChange={handleFormField}
                         />
                     </div>
-                    <button type="submit" className="model_form_edit_btn">Save</button>
+                    <button disabled={loading} type="submit" className="model_form_edit_btn">{loading ? 'updating...' : 'save'}</button>
                 </form>
             </div>
         </div>
@@ -89,4 +126,4 @@ const showEditFormModel = (props) => {
 
 };
 
-export default showEditFormModel;
+export default withApollo(showEditFormModel);

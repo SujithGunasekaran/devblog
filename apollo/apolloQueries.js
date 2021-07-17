@@ -13,6 +13,28 @@ export const GET_USER_INFO = gql`
     }
 `;
 
+export const UPDTAE_USER_INFO = gql`
+    mutation UpdateUserInfo(
+        $id : ID
+        $username : String
+        $userdescription : String
+        $usercompany : String
+    ){
+        editUserInfo(input : {
+            id : $id
+            username : $username
+            userdescription : $userdescription
+            usercompany : $usercompany
+        }){
+            _id
+            username
+            userdescription
+            userprofile
+            usercompany
+        }
+    }
+`
+
 export const GET_USER_INFO_BY_ID = gql`
     query GetUserInfoById($userid : ID) {
         getUserById(userid : $userid) {
@@ -21,6 +43,7 @@ export const GET_USER_INFO_BY_ID = gql`
                 username
                 userprofile
                 userdescription
+                usercompany
                 joined
                 usersavedpost {
                     _id
@@ -303,6 +326,7 @@ export const GET_POST_BY_ID = gql`
                     username
                     userprofile
                     userdescription
+                    usercompany
                     joined
                 }
             }

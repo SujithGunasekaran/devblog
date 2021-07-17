@@ -1,6 +1,7 @@
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import {
     GET_USER_INFO,
+    UPDTAE_USER_INFO,
     GET_USER_INFO_BY_ID,
     GET_USER_POST_LIST,
     GET_VISITOR_USER_INFO,
@@ -27,6 +28,34 @@ import {
 // auth actions start
 
 export const useGetUserInfo = () => useLazyQuery(GET_USER_INFO);
+
+export const useUpdateuserInfo = () => useMutation(UPDTAE_USER_INFO, {
+    update(cache, { data: { editUserInfo } }) {
+        const userInfoById = cache.readQuery({
+            query: GET_USER_INFO_BY_ID,
+            variables: { userid: editUserInfo._id }
+        })
+        if (userInfoById) {
+            try {
+                const userInfo = JSON.parse(JSON.stringify(userInfoById));
+                cache.writeQuery({
+                    query: GET_USER_INFO_BY_ID,
+                    variables: { userid: editUserInfo._id },
+                    data: {
+                        getUserById: {
+                            ...userInfo.getUserById,
+                            userData: {
+                                ...userInfo.getUserById.userData,
+                                ...editUserInfo
+                            }
+                        }
+                    }
+                })
+            }
+            catch (err) { }
+        }
+    }
+})
 
 export const useGetUserInfoById = (userid) => useQuery(GET_USER_INFO_BY_ID, { variables: { userid }, fetchPolicy: 'network-only' });
 
