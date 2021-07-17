@@ -149,8 +149,8 @@
 }
 .post_form_publish_btn:disabled
 {
-    background-color: var(--black-100) !important;
-    color : var(--black-400) !important;
+    background-color: var(--black-200) !important;
+    color: var(--black-900) !important;
 }
 .post_form_publish_btn:focus
 {
@@ -675,7 +675,7 @@
 }
 .post_id_right_body_info_container
 {
-    padding: 10px 0px 25px 0px;
+    padding: 10px 0px 15px 0px;
     display: flex;
     flex-direction: column;
 }

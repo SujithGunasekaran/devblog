@@ -222,6 +222,11 @@
     background-color: var(--btn-blue-bg);
     color: var(--text-white);
 }
+.model_form_edit_btn:disabled
+{
+    background-color: var(--black-200) !important;
+    color: var(--black-900) !important;
+}
 
 @media(max-width : 600px) {
     .model_container{width : 90%}
