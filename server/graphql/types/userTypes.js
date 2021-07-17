@@ -16,6 +16,7 @@ exports.userTypes = `
         username : String
         userprofile : String
         userdescription : String
+        usercompany : String
         joined : String
         usersavedpost : [postid]
     }
@@ -87,6 +88,13 @@ exports.userTypes = `
     input userFollowing {
         loggedUser : ID,
         followUser : ID
+    }
+
+    input editUserInput {
+        id : ID
+        username : String
+        userdescription : String
+        usercompany : String
     }
 
 `;

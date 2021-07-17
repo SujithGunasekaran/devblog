@@ -24,5 +24,9 @@ exports.userMutation = {
     deleteUserPosts: async (root, { input }, context) => {
         const postList = await context.model.userModel.deleteUserCreatedPost(input, context);
         return postList;
+    },
+    editUserInfo: async (root, { input }, context) => {
+        const userInfo = await context.model.userModel.updateUserInfo(input);
+        return userInfo;
     }
 }

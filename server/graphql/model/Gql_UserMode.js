@@ -9,27 +9,23 @@ class userModel {
 
     _getAuthUserID() {
         let userID;
-
         if (!this.request.isAuthenticated()) {
             return null;
         }
         else {
             userID = this.request.user._id;
         }
-
         return userID;
     }
 
     _getAuthUserInfo() {
         let userInfo;
-
         if (!this.request.isAuthenticated()) {
             return null;
         }
         else {
             userInfo = this.request.user;
         }
-
         return userInfo;
     }
 
@@ -50,6 +46,41 @@ class userModel {
             throw new Error('user not loggedin');
         }
     }
+
+    // function used to edit userInput 
+
+    async updateUserInfo(input) {
+
+        const userID = this._getAuthUserID();
+        if (!userID) throw new Error('User not authenticated');
+        const { id, username, userdescription, usercompany } = input;
+
+        try {
+            const updatedUserInfo = await this.model.findOneAndUpdate(
+                {
+                    _id: id
+                },
+                {
+                    $set: {
+                        username,
+                        userdescription,
+                        usercompany
+                    }
+                },
+                {
+                    new: true,
+                    runValidators: true
+                }
+            );
+            if (!updatedUserInfo) throw new Error('Error While updating the userInfo');
+            return updatedUserInfo;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+    }
+
 
     // function used to get user info by user id
 
