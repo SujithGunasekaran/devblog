@@ -12,6 +12,7 @@ import {
     REMOVE_FOLLOW_USER,
     DELETE_USER_CREATED_POST,
     USER_LOGOUT,
+    SEARCH_POST,
     GET_POST_LIST,
     SET_POST_LIKE,
     SET_POST_SAVE,
@@ -377,6 +378,8 @@ export const useLogout = () => useQuery(USER_LOGOUT);
 
 // post actions start
 
+export const useSearchPost = () => useMutation(SEARCH_POST);
+
 export const useGetAllPost = () => useLazyQuery(GET_POST_LIST, { fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-first' });
 
 export const useGetTagList = () => useQuery(GET_TAG_LIST);
@@ -385,33 +388,7 @@ export const useGetPostById = (postid) => useQuery(GET_POST_BY_ID, { variables: 
 
 export const useGetPostByUser = (postid) => useQuery(GET_POST_BY_USER, { variables: { postid } });
 
-export const useCreatePost = () => useMutation(CREATE_POST, {
-    update(cache, { data: { createPost } }) {
-        // const postListData = cache.readQuery({
-        //     query: GET_POST_LIST,
-        //     variables: { startDate: '' }
-        // });
-        // if (postListData) {
-        //     try {
-        //         const { getAllPost } = postListData;
-        //         cache.writeQuery({
-        //             query: GET_POST_LIST,
-        //             data: {
-        //                 getAllPost: {
-        //                     ...getAllPost,
-        //                     postList: [
-        //                         ...getAllPost.postList,
-        //                         createPost
-        //                     ]
-        //                 }
-        //             },
-        //             variables: { startDate: '' }
-        //         })
-        //     }
-        //     catch (err) { }
-        // }
-    }
-});
+export const useCreatePost = () => useMutation(CREATE_POST);
 
 export const useEditPostInfo = () => useMutation(EDIT_POST_INFO);
 

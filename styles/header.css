@@ -36,6 +36,111 @@
     color: var(--text-white);
 }
 
+
+/* search field */
+
+.header_search_container
+{
+    display: flex;
+    align-items: center;   
+    margin-left: auto;
+}
+.header_search_input_container
+{
+    border-radius: 6px;
+    width: 500px;
+    background-color: var(--body-bg);
+}
+.header_search_input_icon
+{
+    width: 35px;
+    height: 16px;
+    color : var(--black-300);
+}
+.header_search_input_field
+{
+    border: none;
+    padding: 8px 10px;
+    width: 465px;
+    border: 1px solid var(--body-bg);
+    color: var(--black-100);
+    font-family: var(--inter-text);
+    font-weight: 400;
+    border-radius: 6px 6px 6px 6px;
+    font-size: .9rem;
+    letter-spacing: 0.010rem;
+    background-color: var(--body-bg);
+}
+.header_search_input_field:focus 
+{
+    outline: none;
+}
+.header_search_result_container
+{
+    position: absolute;
+    top : 50px;
+    width: 500px;
+    max-height: 350px;
+    overflow-y: scroll;
+    background-color: var(--body-bg);
+    transition: display 0.4s all ease-in-out 0.4s all ease-in-out;
+}
+.header_search_result_container a
+{
+    text-decoration: none;
+}
+
+.header_search_result_container::-webkit-scrollbar 
+{
+    width: 4px;
+    border-radius: 0px;
+    background-color: var(--header-bg);
+}
+
+.header_search_result_container::-webkit-scrollbar-track 
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.header_search_result_container::-webkit-scrollbar-thumb 
+{
+    -webkit-border-radius: 10px;
+    border-radius: 20px;
+    background: var(--black-600); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.header_search_result_post_container
+{
+    padding : 8px 0px;
+    cursor: pointer;
+    transition: 0.4s all ease-in-out;
+}
+.header_search_result_post_container:hover
+{
+    background-color: var(--box-bg);
+}
+.header_search_result_post_container:hover .header_search_result_post_name
+{
+    color : var(--text-blue);
+}
+.header_search_result_post_name
+{
+    padding : 4px 10px;
+    font-family: var(--inter-text);
+    font-size: .940rem;
+    letter-spacing: 0.010rem;
+    color : var(--black-100);
+    transition: 0.4s all ease-in-out;
+}
+
+
+/* search filed */
+
+
 /* mobile header */
 
 .header_mobile_model_container

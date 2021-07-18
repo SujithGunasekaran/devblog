@@ -1,17 +1,22 @@
-import { useEffect, useRef, Fragment } from 'react';
+import { useEffect, useRef, Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import withApollo from '../hoc/withApollo';
 import PageLink from '../components/PageLink';
-import { useGetUserInfo } from '../apollo/apolloActions';
+import { useGetUserInfo, useSearchPost } from '../apollo/apolloActions';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import useModelControl from '../hooks/useModelControl';
 import { HamburgerIcon, CloseIcon } from './icons';
+import { SearchIcon } from './icons';
 
 const LogoutModel = dynamic(() => import('./models/ShowConfirmModel'));
 
 const Header = () => {
+
+    // state
+    const [searchInput, setSearchInput] = useState(null);
+    const [searchResult, setSearchResult] = useState([]);
 
     // hooks
     const { showModel, handleShowModel } = useModelControl(false);
@@ -25,10 +30,39 @@ const Header = () => {
     const router = useRouter();
 
     const [getUserInfo, { data: user, error }] = useGetUserInfo();
+    const [getPostBySearchText, { loading, error: searchError }] = useSearchPost();
 
     useEffect(() => {
         getUserInfo()
     }, [])
+
+    useEffect(() => {
+
+        const searchPost = async () => {
+            try {
+                const { data } = await getPostBySearchText({ variables: { text: searchInput ? searchInput : '' } });
+                if (data && data.postSearch.postResult.length > 0) {
+                    setSearchResult(data.postSearch.postResult);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+
+        const timerID = setTimeout(() => {
+            if (searchInput) {
+                searchPost();
+            } else {
+                setSearchResult([]);
+            }
+        }, 700)
+
+        return () => {
+            clearTimeout(timerID);
+        };
+
+    }, [searchInput])
 
     useEffect(() => {
 
@@ -97,7 +131,6 @@ const Header = () => {
         handleShowModel(false);
     }
 
-
     const mobileHeaderModel = () => (
         <Fragment>
             <div className="header_mobile_model_overlay hidden" id="header-model-overlay" ref={mobileModelOverlay}>
@@ -109,6 +142,38 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+        </Fragment>
+    );
+
+
+    const searchFiled = () => (
+        <Fragment>
+            <div className="header_search_input_container">
+                <SearchIcon cssClass="header_search_input_icon" />
+                <input
+                    className="header_search_input_field"
+                    value={searchInput || ''}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                />
+            </div>
+            {
+                searchResult.length > 0 &&
+                <div className="header_search_result_container">
+                    {
+                        searchResult.map((postInfo, index) => (
+                            <Fragment key={index}>
+                                <PageLink href={'/post/[postID]'} as={`/post/${postInfo._id}`}>
+                                    <a>
+                                        <div className="header_search_result_post_container">
+                                            <div className="header_search_result_post_name">{postInfo.title}</div>
+                                        </div>
+                                    </a>
+                                </PageLink>
+                            </Fragment>
+                        ))
+                    }
+                </div>
+            }
         </Fragment>
     )
 
@@ -135,6 +200,9 @@ const Header = () => {
                             </PageLink>
                         </div>
                     }
+                    <div className="header_search_container">
+                        {searchFiled()}
+                    </div>
                     {
                         (!user || (user && !user.getUserInfo)) &&
                         <div className="header_auth_container">
@@ -186,7 +254,7 @@ const Header = () => {
                 </div>
             }
             {
-                error && <div></div>
+                (error || searchError) && <div></div>
             }
         </div>
     )

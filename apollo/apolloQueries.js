@@ -265,6 +265,18 @@ export const USER_LOGOUT = gql`
 // post queries start
 
 
+export const SEARCH_POST = gql`
+    mutation PostSearch($text : String) {
+        postSearch(text : $text) {
+            postResult {
+                _id
+                title
+            }
+        }
+    }
+`
+
+
 export const GET_POST_LIST = gql`
     query GetPostList(
         $startDate : String
