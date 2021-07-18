@@ -57,6 +57,7 @@ exports.createApolloServer = () => {
 
             editUserInfo(input : editUserInput) : userInfo
 
+            postSearch(text : String) : postSearchResult
             createPost(input : createPostInput) : post
             editPost(input : editPostInfo) : post
             addLikeToPost(input : likeToPost) : likeToPostResult

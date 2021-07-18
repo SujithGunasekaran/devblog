@@ -33,5 +33,9 @@ exports.postMutation = {
     addSaveToPost: async (root, { input }, context) => {
         const postList = await context.model.postModel.createNewSaveToPost(input, context);
         return postList;
+    },
+    postSearch: async (root, { text }, context) => {
+        const searchResult = await context.model.postModel.getPostNameByText(text);
+        return searchResult;
     }
 }

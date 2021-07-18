@@ -7,40 +7,52 @@ class postModel {
     }
 
     _getAuthUserID() {
-
         let userID;
-
         if (!this.request.isAuthenticated()) {
             return null;
         }
         else {
             userID = this.request.user._id;
         }
-
         return userID;
-
     }
 
     _getAuthUserInfo() {
-
         let userInfo;
-
         if (!this.request.isAuthenticated()) {
             return null;
         }
         else {
             userInfo = this.request.user;
         }
-
         return userInfo;
-
     }
 
     async _createPost(post) {
-
         return await this.model.create(post);
-
     }
+
+    // function used to search post 
+
+    async getPostNameByText(text) {
+        try {
+            if (!text) {
+                return {
+                    postResult: []
+                }
+            }
+            const searchResult = await this.model.find({ title: { $regex: text } }, { title: 1 });
+            if (!searchResult) throw new Error('Error while searching the post');
+            const result = {
+                postResult: searchResult
+            }
+            return result;
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
 
     // function used to get all post list 
 

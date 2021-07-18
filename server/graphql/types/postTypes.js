@@ -63,6 +63,15 @@ exports.postTypes = `
         postList : [post]
     }
 
+    type result {
+        _id : ID
+        title : String
+    }
+
+    type postSearchResult {
+        postResult : [result]
+    }
+
     input likeToPost {
         type : String
         postid : ID
